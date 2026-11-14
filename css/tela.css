@@ -5,11 +5,13 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .t-topo .esq { display: flex; align-items: center; gap: 20px; min-width: 0; }
 .t-topo .marca { border: 2px solid rgba(167, 227, 177, .55); color: #a7e3b1; border-radius: 8px; padding: 2px 11px; font-size: 16px; font-weight: 800; letter-spacing: .12em; }
 .t-topo .bloco b { color: #a7e3b1; margin-right: 12px; }
-.t-topo .dir { display: flex; gap: 28px; align-items: center; font-variant-numeric: tabular-nums; }
+.t-topo .dir { display: flex; gap: 22px; align-items: center; font-variant-numeric: tabular-nums; }
 .t-topo .teste { background: var(--ambar); padding: 4px 12px; border-radius: 8px; font-size: 15px; font-weight: 700; letter-spacing: .1em; }
 /* ritmo da oficina: discreto, só muda de cor quando atrasa */
 .t-topo .ritmo { font-size: 15px; padding: 2px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,.2); color: #b9d6c0; }
 .t-topo .ritmo:empty { display: none; }
+.t-topo .fim { font-size: 15px; color: #9ec4a7; }
+.t-topo .fim:empty { display: none; }
 .t-topo .ritmo.atencao { color: #ffd98a; border-color: rgba(255,217,138,.5); }
 .t-topo .ritmo.atraso { color: #ffb3b3; border-color: rgba(255,179,179,.6); }
 .caixa .ritmo-detalhe { background: var(--papel); border-radius: 10px; padding: 10px 12px; font-size: 14px; color: var(--cinza); line-height: 1.5; }

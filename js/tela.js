@@ -27,13 +27,19 @@
     if (!estado || !estado.iniciado_em) return null;
     return (Date.now() - desvio - Date.parse(estado.iniciado_em)) / 60000;
   }
+  // Término projetado: agora + o que falta do plano, já embutindo o atraso ou o adiantamento.
+  function projetado() {
+    if (decorrido() === null) return null;
+    return new Date(Date.now() + (PLANO.total - PLANO.inicio[passo]) * 60000);
+  }
   function mostrarRitmo() {
-    const el = $('t-ritmo'); if (!el) return;
+    const el = $('t-ritmo'), fim = $('t-fim'); if (!el) return;
     const d = decorrido();
-    if (d === null) { el.textContent = ''; el.className = 'ritmo'; return; }
+    if (d === null) { el.textContent = ''; el.className = 'ritmo'; if (fim) fim.textContent = ''; return; }
     const dif = Math.round(d - PLANO.inicio[passo]);
     el.className = 'ritmo' + (dif > 6 ? ' atraso' : dif > 1 ? ' atencao' : '');
     el.textContent = dif > 1 ? '+' + dif + ' min' : dif < -1 ? '\u2212' + (-dif) + ' min' : 'no tempo';
+    if (fim) fim.textContent = 'fim ~' + projetado().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   }
   const CH = 'ofc_pin_' + cfg.amb;
   let pin = null;
@@ -230,7 +236,8 @@
       : '<div class="ritmo-detalhe">Início às <b>' + hhmm(new Date(Date.parse(estado.iniciado_em) + desvio)) + '</b> · '
         + 'decorridos <b>' + Math.round(d) + ' min</b>, previstos <b>' + Math.round(PLANO.inicio[passo]) + ' min</b><br>'
         + 'Plano total: <b>' + Math.round(PLANO.total) + ' min</b> · término projetado às '
-        + '<b>' + hhmm(new Date(Date.now() + (PLANO.total - PLANO.inicio[passo]) * 60000)) + '</b></div>';
+        + '<b>' + hhmm(projetado()) + '</b><br>'
+        + 'O ritmo é acumulado: tempo ganho num bloco continua valendo nos seguintes.</div>';
     sobre.innerHTML = '<div class="vel"><div class="caixa larga"><h2>Menu do apresentador</h2>' + detalhe + '<div class="acoes">' +
       '<button class="btn sec" id="m-exp">Exportar resultados</button><button class="btn sec" id="m-cheia">Tela cheia</button><button class="btn perigo" id="m-zera">Zerar dados</button></div>' +
       '<div class="passos">' + R.map((p, i) => '<button data-i="' + i + '" class="' + (i === passo ? 'atual' : '') + '">' + esc(nome(p, i)) + '</button>').join('') + '</div>' +
