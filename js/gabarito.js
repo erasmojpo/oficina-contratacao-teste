@@ -34,7 +34,7 @@ window.OFC_GABARITO = {
     { correta: 'v', tempo: 30, pontua: true, comentario: 'IN 1/2021, art. 32, § 3º.' }
   ],
   caso: [{ correta: { modalidade: 'sub', hipotese: 'pos', ato: 'port', regime: '40', periodo: 'p1', provimento: 'proprio' }, tempo: 480, pontua: true,
-    comentario: 'O contrato inicial é de até 1 ano, prorrogável até 2. Havendo lista de espera válida no próprio campus, ela vem primeiro.' }],
+    comentario: 'O contrato acompanha o afastamento do titular desde 01/03: não se espera o início das aulas, porque antes delas há planejamento. O contrato inicial é de até 1 ano, prorrogável até 2, e a lista de espera do próprio campus vem primeiro.' }],
   sugestao: [{ correta: null, tempo: 180, pontua: false, comentario: '' }],
   aval: [
     { correta: null, tempo: 60, pontua: false, comentario: '' },

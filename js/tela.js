@@ -51,6 +51,16 @@
     $('t-barra').style.width = pct(passo + 1, R.length) + '%';
     $('t-part').textContent = participantes + ' participante' + (participantes === 1 ? '' : 's');
   }
+  // Slides curtos recebem tipografia maior, desde que continuem cabendo na tela.
+  function ajustarDensidade() {
+    const caixa = corpo.querySelector('.s-corpo'), fit = corpo.querySelector('.s-fit');
+    if (!caixa || !fit) return;
+    caixa.classList.remove('folgado');
+    if (fit.offsetHeight > caixa.clientHeight * 0.74) return;
+    caixa.classList.add('folgado');
+    if (fit.offsetHeight > caixa.clientHeight) caixa.classList.remove('folgado');
+  }
+
   function desenhar() {
     const p = R[passo];
     moldura();
@@ -60,12 +70,14 @@
       corpo.innerHTML = '<div class="capa"><div class="sup">Obrigado pela participação</div><h1>Na dúvida, consulte a DIDEPE antes de contratar.</h1><p>didepe@ifrn.edu.br</p></div>';
     } else if (p.tipo === 'slide') {
       const h = '<div class="s-titulo">' + esc(p.titulo) + '</div>';
-      corpo.innerHTML = p.qr ? h + '<div class="com-qr"><div>' + p.html + '</div>' + caixaQr(BASE + p.qr, p.qrRotulo) + '</div>' : h + p.html;
+      const miolo = p.qr ? '<div class="com-qr"><div>' + p.html + '</div>' + caixaQr(BASE + p.qr, p.qrRotulo) + '</div>' : p.html;
+      corpo.innerHTML = h + '<div class="s-corpo"><div class="s-fit">' + miolo + '</div></div>';
+      ajustarDensidade();
     } else if (p.tipo === 'cadastro') {
       corpo.innerHTML = '<div class="cad">' + caixaQr(BASE, 'Aponte a câmera para entrar') +
         '<div><h2>Entre com seu primeiro nome e campus</h2><div class="total" id="c-total">0</div><div style="font-size:24px;color:var(--cinza)">participantes conectados</div><div class="chips" id="c-chips"></div></div></div>';
     } else if (p.tipo === 'mural') {
-      corpo.innerHTML = '<div class="atv"><div class="esq"><div class="rot">Mural de dúvidas</div><div class="perg">As mais votadas</div><div class="mural-t" id="m-lista"></div></div>' +
+      corpo.innerHTML = '<div class="atv"><div class="esq mural-bloco"><div class="rot">Mural de dúvidas</div><div class="perg">As mais votadas</div><div class="mural-t" id="m-lista"></div></div>' +
         '<div class="dir">' + caixaQr(BASE + '?t=mural', 'Envie e vote') + '</div></div>';
     } else if (p.tipo === 'ranking') {
       corpo.innerHTML = '<div class="rank"><div class="col"><h3>Participantes</h3><div id="r-ind"></div></div><div class="col"><h3>Campi, pela média de pontos</h3><div id="r-cam"></div></div></div>';

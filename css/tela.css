@@ -8,10 +8,26 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .t-rodape { display: flex; align-items: center; gap: 20px; padding: 0 40px; color: var(--cinza); font-size: 15px; background: #ebe8df; }
 .t-rodape .barra { flex: 1; height: 6px; background: #d5d2c7; border-radius: 3px; overflow: hidden; }
 .t-rodape .barra i { display: block; height: 100%; background: var(--verde); }
-.t-corpo { padding: 40px 56px; overflow: hidden; position: relative; }
+.t-corpo { padding: 38px 56px 34px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.s-corpo { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+.s-fit { display: flex; flex-direction: column; gap: 26px; }
+/* slides com pouco conteúdo ocupam melhor a tela */
+.s-corpo.folgado .s-fit { gap: 34px; }
+.s-corpo.folgado .pontos { font-size: 38px; gap: 26px; }
+.s-corpo.folgado .pontos.compacto { font-size: 31px; gap: 18px; }
+.s-corpo.folgado .pontos li::before { width: 18px; height: 18px; }
+.s-corpo.folgado .pontos.num li::before { width: 50px; height: 50px; font-size: 26px; }
+.s-corpo.folgado .pontos.num li { padding-left: 70px; }
+.s-corpo.folgado .tb { font-size: 29px; }
+.s-corpo.folgado .tb th { font-size: 24px; padding: 18px 22px; }
+.s-corpo.folgado .tb td { padding: 22px 22px; }
+.s-corpo.folgado .nota { font-size: 26px; }
+.s-corpo.folgado .numero { padding: 46px 20px; }
+.s-corpo.folgado .numero b { font-size: 104px; }
+.s-corpo.folgado .numero span { font-size: 27px; }
 
 /* slides */
-.s-titulo { font-size: 50px; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; color: var(--verde-esc); margin-bottom: 30px; }
+.s-titulo { font-size: 50px; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; color: var(--verde-esc); margin-bottom: 26px; flex: 0 0 auto; }
 .pontos { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 20px; font-size: 32px; line-height: 1.3; }
 .pontos li { padding-left: 40px; position: relative; }
 .pontos li::before { content: ''; position: absolute; left: 4px; top: .48em; width: 16px; height: 16px; border-radius: 4px; background: var(--verde); }
@@ -22,15 +38,16 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .tb { width: 100%; border-collapse: collapse; font-size: 25px; background: #fff; border-radius: var(--raio); overflow: hidden; }
 .tb th { background: var(--verde-esc); color: #fff; text-align: left; padding: 14px 20px; font-size: 21px; letter-spacing: .03em; }
 .tb td { padding: 16px 20px; border-top: 1px solid var(--linha); vertical-align: top; }
-.nota { margin-top: 26px; font-size: 23px; color: var(--cinza); border-left: 6px solid var(--verde); padding-left: 18px; }
+.nota { margin: 0; font-size: 23px; color: var(--cinza); border-left: 6px solid var(--verde); padding-left: 18px; }
 .numeros { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 24px; }
 .numero { background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 34px 20px; text-align: center; }
 .numero b { display: block; font-size: 88px; line-height: 1; color: var(--verde-esc); letter-spacing: -.02em; }
 .numero span { display: block; margin-top: 12px; font-size: 24px; color: var(--cinza); }
-.com-qr { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start; }
+.com-qr { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: center; }
+.com-qr > div { display: flex; flex-direction: column; gap: 26px; }
 
 /* capa e fim */
-.capa { height: 100%; display: grid; place-content: center; text-align: center; gap: 22px; }
+.capa { flex: 1; min-height: 0; display: grid; place-content: center; text-align: center; gap: 22px; }
 .capa .sup { font-size: 24px; letter-spacing: .2em; text-transform: uppercase; color: var(--verde); font-weight: 700; }
 .capa h1 { font-size: 78px; line-height: 1.05; color: var(--verde-esc); letter-spacing: -.02em; max-width: 1300px; }
 .capa p { font-size: 28px; color: var(--cinza); }
@@ -42,7 +59,7 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .qr-caixa .url { font-size: 13px; color: var(--cinza); word-break: break-all; margin-top: 4px; }
 
 /* cadastro */
-.cad { display: grid; grid-template-columns: 460px 1fr; gap: 56px; height: 100%; align-items: center; }
+.cad { display: grid; grid-template-columns: 460px 1fr; gap: 56px; flex: 1; min-height: 0; align-items: center; }
 .cad h2 { font-size: 46px; color: var(--verde-esc); line-height: 1.1; }
 .cad .total { font-size: 120px; font-weight: 800; color: var(--verde); line-height: 1; margin: 18px 0 4px; font-variant-numeric: tabular-nums; }
 .chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 22px; }
@@ -50,12 +67,12 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .chip b { color: var(--verde-esc); }
 
 /* atividade */
-.atv { display: grid; grid-template-columns: 1fr 330px; gap: 44px; height: 100%; }
-.atv .esq { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.atv { display: grid; grid-template-columns: 1fr 330px; gap: 44px; flex: 1; min-height: 0; }
+.atv .esq { display: flex; flex-direction: column; justify-content: center; gap: 16px; min-width: 0; }
 .atv .rot { font-size: 21px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--verde); }
 .atv .perg { font-size: 34px; font-weight: 700; line-height: 1.22; }
 .atv .perg.longa { font-size: 26px; font-weight: 600; }
-.atv .dir { display: flex; flex-direction: column; gap: 16px; }
+.atv .dir { display: flex; flex-direction: column; justify-content: center; gap: 16px; }
 .cont { background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 16px; text-align: center; }
 .cont b { display: block; font-size: 52px; line-height: 1; color: var(--verde-esc); font-variant-numeric: tabular-nums; }
 .cont span { font-size: 17px; color: var(--cinza); }
@@ -74,13 +91,14 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .coment { background: var(--verde-esc); color: #fff; border-radius: 12px; padding: 14px 22px; font-size: 23px; line-height: 1.3; }
 .caso-t { background: var(--ambar-cl); border-radius: 12px; padding: 18px 22px; font-size: 24px; line-height: 1.35; }
 .mural-t { display: flex; flex-direction: column; gap: 12px; }
+.atv .esq.mural-bloco { justify-content: flex-start; padding-top: 10px; }
 .mural-t .m { background: #fff; border: 1px solid var(--linha); border-radius: 12px; padding: 14px 20px; font-size: 25px; display: grid; grid-template-columns: 70px 1fr; gap: 16px; align-items: center; }
 .mural-t .m b { font-size: 30px; color: var(--verde-esc); text-align: center; }
 .parede { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .parede div { background: #fff; border: 1px solid var(--linha); border-radius: 12px; padding: 12px 16px; font-size: 21px; }
 
 /* ranking */
-.rank { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; height: 100%; }
+.rank { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; flex: 1; min-height: 0; }
 .rank .col { background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px 28px; display: flex; flex-direction: column; }
 .rank h3 { font-size: 28px; color: var(--verde-esc); margin-bottom: 14px; }
 .rank .l { display: grid; grid-template-columns: 50px 1fr auto; gap: 12px; font-size: 25px; padding: 9px 0; border-top: 1px solid var(--linha); align-items: baseline; }

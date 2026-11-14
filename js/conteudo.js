@@ -107,7 +107,7 @@
     ] },
 
     sugestao: { titulo: 'Sua contribuição', itens: [
-      { tipo: 'texto', pergunta: 'Que campo falta ou sobra nos formulários? Sua sugestão fica registrada para a versão final.' }
+      { tipo: 'texto', pergunta: 'Os formulários ainda estão em elaboração. Que campo falta ou sobra? Sua sugestão fica registrada para análise da DIDEPE.' }
     ] },
 
     aval: { titulo: 'Avaliação da oficina', itens: [

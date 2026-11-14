@@ -33,7 +33,7 @@
     <h1 style="font-size:22px;margin-top:6px">Solicitação de contratação temporária de professor</h1>
     <p class="dica" style="margin-top:6px">Preenchida pela Diretoria Acadêmica. Abre todo processo de contratação ou prorrogação.</p>
   </div>
-  <div class="modelo nao-imp"><b>Modelo em validação.</b> Esta página demonstra o formulário que será instituído como modelo de documento no SUAP. Nada do que você digitar aqui é enviado ou gravado.</div>
+  <div class="modelo nao-imp"><b>Modelo em elaboração.</b> A auditoria recomendou que o IFRN criasse um formulário padrão para iniciar os processos de contratação. Esta página demonstra os dois modelos em estudo pela DIDEPE; eles ainda não estão instituídos. Nada do que você digitar aqui é enviado ou gravado — envie suas sugestões pela atividade da oficina.</div>
   <div class="abas nao-imp"><button id="ab-a" class="ativo">A · Professor substituto</button><button id="ab-b">B · Professor visitante</button></div>
 
   <form id="f" class="nao-imp" style="display:flex;flex-direction:column;gap:14px" novalidate></form>
@@ -84,7 +84,7 @@
       '<div class="duas">' + dt('af-ini', 'Início do afastamento') + dt('af-fim', 'Término do afastamento', 'Deixe em branco em caso de vacância') + '</div>') +
     fs('3. Necessidade', ar('disc', 'Disciplinas e cursos atendidos') +
       '<div class="duas">' + tx('ch', 'Carga horária semanal em sala') + sl('regime', 'Regime de trabalho', ['20 horas', '40 horas']) + '</div>' +
-      '<div class="duas">' + dt('ini', 'Início pretendido do contrato') + dt('fim', 'Término pretendido do contrato', 'Até 1 ano e nunca além do afastamento') + '</div>' +
+      '<div class="duas">' + dt('ini', 'Início pretendido do contrato', 'Pode coincidir com o início do afastamento; não espere o início das aulas') + dt('fim', 'Término pretendido do contrato', 'Até 1 ano e nunca além do afastamento') + '</div>' +
       tx('cal', 'Referência ao calendário acadêmico', '', 'Ex.: 2027.1, aulas a partir de 08/03/2027')) +
     fs('4. Forma de provimento sugerida', sl('prov', 'Provimento', PROV, 'A decisão sobre aproveitamento ou novo PSS só ocorre depois de autorizada a contratação. Não faça contato com candidatos.')) +
     fs('5. Dados para novo PSS', ar('prog', 'Programa do processo seletivo e temas da prova didática', 'Elaborados por docentes efetivos da área') +

@@ -13,12 +13,17 @@
 
   window.OFC_BLOCOS = B;
   window.OFC_ROTEIRO = [].concat(
-    [{ tipo: 'capa', bloco: 1 }, { tipo: 'cadastro', bloco: 1 }],
+    [{ tipo: 'capa', bloco: 1 }, { tipo: 'cadastro', bloco: 1 },
+      S(1, 'Por que estamos aqui', ul([
+        'A oficina nasce do <b>Relatório de Auditoria 8/2026</b> e do compromisso de capacitação periódica firmado com a Auditoria Interna.',
+        'A auditoria <b>não encontrou contratação fora das hipóteses legais</b>. O problema está na instrução dos processos.',
+        'Ao longo da manhã vocês vão responder pelo celular: cada atividade abre com um QR code na tela.',
+        'Ao final, todos terão testado os <b>formulários padrão</b> que vão passar a iniciar os processos.'])),
+      S(1, 'Antes de começar, uma estimativa', ul([
+        'A auditoria examinou os contratos de professor substituto de 2025, em todos os campi.',
+        'A primeira pergunta é só para aquecer: <b>não vale pontos</b>.',
+        'Leia o QR code da próxima tela e responda no celular.']))],
     A(1, 'aquec', 1),
-    [S(1, 'Por que estamos aqui', ul([
-      'A oficina nasce do <b>Relatório de Auditoria 8/2026</b> e do compromisso de capacitação periódica firmado com a Auditoria Interna.',
-      'A auditoria <b>não encontrou contratação fora das hipóteses legais</b>. O problema está na instrução dos processos.',
-      'Ao final, todos terão testado o <b>formulário padrão</b> que passará a iniciar os processos.']))],
 
     // ----- bloco 2
     [S(2, 'A auditoria em números', nums([['226', 'contratos no universo'], ['113', 'processos examinados'], ['22', 'campi na amostra'], ['0', 'contratações fora da lei']]) +
@@ -96,7 +101,12 @@
     A(4, 'ordem', 1), A(4, 'falta', 3), A(4, 'relampago', 2),
 
     // ----- bloco 5
-    [S(5, 'Reserva de vagas hoje', nums([['25%', 'pessoas negras'], ['3%', 'indígenas'], ['2%', 'quilombolas'], ['5%+', 'pessoas com deficiência']]) +
+    [S(5, 'Quando o campus realiza um processo seletivo', ul([
+      'Sem lista de espera válida, o provimento se dá por <b>PSS</b>: prova de desempenho didático e análise de títulos.',
+      'É na condução do PSS que a auditoria mais encontrou falhas.',
+      'Quatro pontos concentram o risco: <b>reserva de vagas</b>, <b>banca examinadora</b>, <b>publicidade e convocação</b> e <b>pagamento de banca</b>.',
+      'Vamos a cada um deles.'])),
+      S(5, 'Reserva de vagas hoje', nums([['25%', 'pessoas negras'], ['3%', 'indígenas'], ['2%', 'quilombolas'], ['5%+', 'pessoas com deficiência']]) +
         nota('Editais com duas ou mais vagas · Lei 15.142/2025 e Decreto 12.536/2025. O art. 22 da IN 1/2021 ainda fala em 20% e está superado. A DIDEPE enviará ofício circular a todos os campi.')),
       S(5, 'Cotas na prática', ul([
         'O cotista concorre <b>também</b> na ampla concorrência.',
@@ -119,16 +129,21 @@
     A(5, 'vf', 8),
 
     // ----- bloco 6
-    [S(6, 'Dois formulários, um para cada modalidade', ul([
-      'A auditoria encontrou solicitações sem disciplina, motivo da vaga, prazo ou calendário acadêmico.',
-      'Cada formulário só oferece as situações que a <b>lei autoriza</b>. Não há campo "outros".',
-      'A <b>DIAC</b> preenche; o formulário abre todo processo de contratação ou prorrogação.'])),
+    [S(6, 'De onde vem o formulário padrão', ul([
+      'A <b>Constatação 1</b> encontrou solicitações sem disciplina, sem motivo da vaga, sem prazo e sem referência ao calendário acadêmico.',
+      'A auditoria recomendou que o IFRN criasse um <b>modelo padronizado de solicitação</b> no SUAP, para corrigir a falha <b>na origem</b> do processo.',
+      'A DIDEPE está elaborando esse modelo. Ele <b>ainda não está instituído</b>.',
+      'Hoje vocês veem os dois modelos e enviam sugestões, que ficam <b>registradas para análise da DIDEPE</b>.'])),
+      S(6, 'Dois formulários, um para cada modalidade', ul([
+        'Cada formulário só oferece as situações que a <b>lei autoriza</b>. Não há campo "outros".',
+        'A <b>DIAC</b> preenche; o formulário abre todo processo de contratação ou prorrogação.',
+        'Campos obrigatórios impedem que a omissão chegue à COGPE.'])),
       S(6, 'Formulário A — professor substituto', tb(['Parte', 'O que a DIAC informa'], [
         ['Motivo da vaga', 'Hipótese (lista fechada), docente efetivo ou código de vaga, ato e período do afastamento'],
         ['Necessidade', 'Disciplinas, carga horária, regime, início e término, calendário acadêmico'],
         ['Provimento', 'Lista de espera do campus, de outro campus, de outra instituição ou novo PSS'],
         ['Novo PSS', 'Programa, temas da prova didática, indicação de banca com suplentes e perfil técnico']]) +
-        nota('O motivo é sempre a falta de um docente efetivo identificado.')),
+        nota('O motivo é sempre a falta de um docente efetivo identificado. O contrato pode começar <b>junto com o afastamento do titular</b>: não é preciso esperar o início das aulas, porque antes delas há planejamento.')),
       { tipo: 'slide', bloco: 6, titulo: 'Formulário B — professor visitante', qr: 'formulario.html', qrRotulo: 'Veja os dois modelos', html: tb(['Parte', 'O que a DIAC informa'], [
         ['Finalidade', 'Lista fechada da Lei 8.745, art. 2º, § 5º. Falta de docente efetivo nunca aparece'],
         ['Atuação', 'Qualquer oferta educativa do campus (Res. 35/2022, art. 2º)'],
@@ -138,7 +153,12 @@
     A(6, 'caso', 1), A(6, 'sugestao', 1),
 
     // ----- bloco 7
-    [{ tipo: 'mural', bloco: 7 },
+    [S(7, 'As dúvidas de vocês', ul([
+      'Ao longo da manhã vocês enviaram dúvidas pelo celular e votaram nas dos colegas.',
+      'Vamos responder agora as <b>mais votadas</b>.',
+      'As demais ficam registradas e serão respondidas por escrito pela DIDEPE.',
+      'Ainda dá tempo de enviar: aba <b>Dúvidas</b> no celular, ou o QR code da próxima tela.'])),
+      { tipo: 'mural', bloco: 7 },
       S(7, 'O que a DIGPE e a DIDEPE entregam', ul([
         '<b>Formulários padrão</b> como modelo de documento no SUAP, com as sugestões de hoje.',
         '<b>Checklist</b> de instrução processual por etapa.',
