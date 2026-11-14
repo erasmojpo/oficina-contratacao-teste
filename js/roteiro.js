@@ -157,7 +157,7 @@
         'E uma obrigação <b>condicionada</b>: adotar <b>edital sempre que possível</b>, com transparência, impessoalidade e isonomia, e no mínimo <b>15 dias</b> entre a divulgação e o início das inscrições.',
         'Hoje, no IFRN, a escolha é por <b>indicação</b>. O edital é o caminho que a norma prefere — e, não havendo edital, a inviabilidade precisa estar <b>registrada nos autos</b>.',
         'O edital pode ser <b>por unidade</b>: cada campus e cada diretoria sistêmica abre o seu. A <b>DITIC</b>, por exemplo, cujo pessoal não está no campus quando o certame é montado, publicaria o dela para as indicações da área.']) +
-        nota('Um edital por unidade formaria um cadastro de servidores habilitados, permitindo compor bancas e comissões ao longo de todo o ano, em vez de refazer a busca a cada certame. É uma possibilidade em estudo, não uma regra posta.'))],
+        nota('Um edital por unidade formaria um cadastro de servidores habilitados, permitindo compor bancas e comissões ao longo de todo o ano, em vez de refazer a busca a cada certame. Se essa for a decisão das unidades, a DIDEPE abrirá diálogo com a DIADPE sobre a melhor forma de orientar a construção desses editais. Até lá, atenção: mesmo as indicações que vêm ocorrendo precisam estar alinhadas às diretrizes da IN.'))],
     A(5, 'vf', 8),
 
     // ----- bloco 6
