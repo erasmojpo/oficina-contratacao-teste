@@ -150,8 +150,14 @@
         'A auditoria apontou que a IN 1/2021 ainda exigia consulta orçamentária e CDO para GECC, à época <b>vedada</b> em processo seletivo pelo art. 4º da IN SGP/MGI 33/2023.',
         'A <b>IN CGDEP/MGI 487, de 17/11/2025</b> (DOU de 19/11/2025) alterou esse artigo: voltou a ser <b>permitido</b> pagar GECC por atividades de processo seletivo simplificado da Lei 8.745.',
         'Condições: atividade <b>eventual</b>, fora das atribuições permanentes, e apenas para <b>servidor efetivo ou em comissão</b> — contratado temporário não recebe GECC.',
-        'Na escolha de quem trabalha no certame, o art. 18-A manda <b>buscar diversidade</b> e <b>garantir acessibilidade</b>, e adotar <b>edital sempre que possível</b>: transparência, impessoalidade, isonomia e 15 dias entre a divulgação e as inscrições.']) +
-        nota('"Sempre que possível" não é "se quiser": não havendo edital, registre nos autos por que não foi viável. Havendo GECC, a consulta orçamentária e o CDO voltam a fazer sentido, e o CDO permanece obrigatório para qualquer despesa do certame. A DIADPE disciplinará o procedimento.'))],
+        'Havendo GECC, a consulta orçamentária e o CDO voltam a fazer sentido — e o CDO permanece obrigatório para <b>qualquer despesa</b> do certame, como requisito do empenho.']) +
+        nota('A DIADPE disciplinará o procedimento em norma própria.')),
+      S(5, 'Quem trabalha no certame', ul([
+        'O art. 18-A traz duas obrigações <b>incondicionadas</b> na formação das equipes: <b>buscar diversidade</b> e <b>garantir acessibilidade</b> aos servidores com deficiência.',
+        'E uma obrigação <b>condicionada</b>: adotar <b>edital sempre que possível</b>, com transparência, impessoalidade e isonomia, e no mínimo <b>15 dias</b> entre a divulgação e o início das inscrições.',
+        'Hoje, no IFRN, a escolha é por <b>indicação</b>. O edital é o caminho que a norma prefere — e, não havendo edital, a inviabilidade precisa estar <b>registrada nos autos</b>.',
+        'O edital pode ser <b>por unidade</b>: cada campus e cada diretoria sistêmica abre o seu. A <b>DITIC</b>, por exemplo, cujo pessoal não está no campus quando o certame é montado, publicaria o dela para as indicações da área.']) +
+        nota('Um edital por unidade formaria um cadastro de servidores habilitados, permitindo compor bancas e comissões ao longo de todo o ano, em vez de refazer a busca a cada certame. É uma possibilidade em estudo, não uma regra posta.'))],
     A(5, 'vf', 8),
 
     // ----- bloco 6
