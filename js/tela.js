@@ -65,9 +65,16 @@
     const p = R[passo];
     moldura();
     if (p.tipo === 'capa') {
-      corpo.innerHTML = '<div class="capa"><div class="sup">Encontro de Gestão de Pessoas · IFRN</div><h1>Contratação de professores substitutos e visitantes</h1><p>Oficina · DIDEPE / DIGPE · 17 de novembro de 2026</p></div>';
+      corpo.innerHTML = '<div class="capa"><div class="sup">Encontro de Gestão de Pessoas · IFRN</div>' +
+        '<h1>Contratação de professores substitutos e visitantes</h1>' +
+        '<p class="promo">Oficina promovida pela <b>Diretoria de Desenvolvimento de Pessoal — DIDEPE/DIGPE/RE</b></p>' +
+        '<p class="cond">Condução: <b>Erasmo José Pereira de Oliveira</b><br>Diretor de Desenvolvimento de Pessoal</p>' +
+        '<p class="data">17 de novembro de 2026</p></div>';
     } else if (p.tipo === 'fim') {
-      corpo.innerHTML = '<div class="capa"><div class="sup">Obrigado pela participação</div><h1>Na dúvida, consulte a DIDEPE antes de contratar.</h1><p>didepe@ifrn.edu.br</p></div>';
+      corpo.innerHTML = '<div class="capa"><div class="sup">Obrigado pela participação</div>' +
+        '<h1>Na dúvida, consulte a DIDEPE antes de contratar.</h1>' +
+        '<p class="promo">Diretoria de Desenvolvimento de Pessoal — DIDEPE/DIGPE/RE</p>' +
+        '<p class="data">didepe@ifrn.edu.br</p></div>';
     } else if (p.tipo === 'slide') {
       const h = '<div class="s-titulo">' + esc(p.titulo) + '</div>';
       const miolo = p.qr ? '<div class="com-qr"><div>' + p.html + '</div>' + caixaQr(BASE + p.qr, p.qrRotulo) + '</div>' : p.html;

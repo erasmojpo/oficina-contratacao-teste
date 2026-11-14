@@ -2,12 +2,15 @@
 html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 #palco { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center center; background: var(--papel); display: grid; grid-template-rows: 72px 1fr 40px; overflow: hidden; }
 .t-topo { background: var(--verde-esc); color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; font-size: 22px; }
+.t-topo .esq { display: flex; align-items: center; gap: 20px; min-width: 0; }
+.t-topo .marca { border: 2px solid rgba(167, 227, 177, .55); color: #a7e3b1; border-radius: 8px; padding: 2px 11px; font-size: 16px; font-weight: 800; letter-spacing: .12em; }
 .t-topo .bloco b { color: #a7e3b1; margin-right: 12px; }
 .t-topo .dir { display: flex; gap: 28px; align-items: center; font-variant-numeric: tabular-nums; }
 .t-topo .teste { background: var(--ambar); padding: 4px 12px; border-radius: 8px; font-size: 15px; font-weight: 700; letter-spacing: .1em; }
 .t-rodape { display: flex; align-items: center; gap: 20px; padding: 0 40px; color: var(--cinza); font-size: 15px; background: #ebe8df; }
 .t-rodape .barra { flex: 1; height: 6px; background: #d5d2c7; border-radius: 3px; overflow: hidden; }
 .t-rodape .barra i { display: block; height: 100%; background: var(--verde); }
+.t-rodape .autoria { font-size: 14px; color: #8d978f; white-space: nowrap; }
 .t-corpo { padding: 38px 56px 34px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
 .s-corpo { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
 .s-fit { display: flex; flex-direction: column; gap: 26px; }
@@ -50,6 +53,11 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .capa { flex: 1; min-height: 0; display: grid; place-content: center; text-align: center; gap: 22px; }
 .capa .sup { font-size: 24px; letter-spacing: .2em; text-transform: uppercase; color: var(--verde); font-weight: 700; }
 .capa h1 { font-size: 78px; line-height: 1.05; color: var(--verde-esc); letter-spacing: -.02em; max-width: 1300px; }
+.capa .promo { font-size: 28px; color: var(--tinta); }
+.capa .promo b { color: var(--verde-esc); }
+.capa .cond { font-size: 26px; color: var(--cinza); line-height: 1.35; margin-top: 4px; }
+.capa .cond b { color: var(--tinta); font-size: 30px; }
+.capa .data { font-size: 24px; color: var(--cinza); letter-spacing: .04em; margin-top: 8px; }
 .capa p { font-size: 28px; color: var(--cinza); }
 
 /* QR */
@@ -121,3 +129,4 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .ctl { position: fixed; right: 14px; bottom: 14px; display: flex; gap: 8px; z-index: 10; opacity: .25; transition: opacity .2s; }
 .ctl:hover { opacity: 1; }
 .ctl button { border: 0; border-radius: 10px; background: #fff; padding: 10px 14px; font-weight: 700; font-size: 15px; }
+.ctl .ajuda { background: #fff; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: var(--cinza); align-self: center; }

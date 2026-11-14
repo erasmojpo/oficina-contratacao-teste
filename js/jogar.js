@@ -24,9 +24,10 @@
     vista = 'cadastro';
     $('topo').hidden = true; $('nav').hidden = true;
     app.innerHTML =
-      '<div class="cartao"><div class="rotulo">Encontro de Gestão de Pessoas · IFRN</div>' +
+      '<div class="cartao"><div class="rotulo">DIDEPE · Encontro de Gestão de Pessoas</div>' +
       '<h1 style="font-size:24px;margin-top:6px">Oficina: contratação de professores substitutos e visitantes</h1>' +
-      '<p style="color:var(--cinza);margin-top:8px">Informe seu primeiro nome e seu campus para participar.</p></div>' +
+      '<p style="color:var(--cinza);margin-top:8px">Diretoria de Desenvolvimento de Pessoal · Condução: Erasmo José Pereira de Oliveira</p>' +
+      '<p style="color:var(--cinza);margin-top:10px">Informe seu primeiro nome e seu campus para participar.</p></div>' +
       '<div class="campo"><label for="nome">Primeiro nome</label><input id="nome" maxlength="30" autocomplete="given-name" autocapitalize="words"></div>' +
       '<div class="campo"><label for="campus">Campus</label><select id="campus"><option value="">Selecione</option>' +
       window.OFC_CAMPI.map(c => '<option>' + esc(c) + '</option>').join('') + '</select></div>' +
