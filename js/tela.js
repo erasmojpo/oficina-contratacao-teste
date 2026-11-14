@@ -129,7 +129,7 @@
     } else if (p.tipo === 'ranking') {
       corpo.innerHTML = (p.titulo ? '<div class="s-titulo">' + esc(p.titulo) + '</div>' : '') +
         '<div class="rank' + (p.top ? ' curto' : '') + '"><div class="col"><h3>' + (p.top ? 'Os ' + p.top + ' primeiros' : 'Participantes') + '</h3><div id="r-ind"></div></div>' +
-        '<div class="col"><h3>Campi, pela média de pontos</h3><div id="r-cam"></div></div></div>' +
+        '<div class="col"><h3>Campi, pela média por participante</h3><div id="r-cam"></div></div></div>' +
         (p.nota ? '<div class="rank-nota">' + esc(p.nota) + '</div>' : '');
     } else if (p.tipo === 'atividade') {
       desenharAtividade(p);
@@ -204,7 +204,7 @@
           $('c-chips').innerHTML = r.por_campus.slice(0, 24).map(c => '<div class="chip"><span>' + esc(c.campus) + '</span><b>' + c.n + '</b></div>').join('');
         } else if (p.tipo === 'ranking') {
           $('r-ind').innerHTML = r.individual.slice(0, p.top || 10).map((x, i) => '<div class="l"><span class="p">' + (i + 1) + 'º</span><span>' + esc(x.nome) + '<small>' + esc(x.campus) + '</small></span><b>' + x.pontos + '</b></div>').join('');
-          $('r-cam').innerHTML = r.campi.slice(0, p.top || 10).map((x, i) => '<div class="l"><span class="p">' + (i + 1) + 'º</span><span>' + esc(x.campus) + '<small>' + x.n + ' part.</small></span><b>' + x.media + '</b></div>').join('');
+          $('r-cam').innerHTML = r.campi.slice(0, p.top || 10).map((x, i) => '<div class="l"><span class="p">' + (i + 1) + 'º</span><span>' + esc(x.campus) + '<small>média de ' + x.n + (x.n === 1 ? ' participante' : ' participantes') + '</small></span><b>' + x.media + '</b></div>').join('');
         }
       }
       moldura();

@@ -223,7 +223,9 @@ language sql stable security definer set search_path = public, pg_temp as $$
                    from (select campus, count(*) n from tot group by campus) c),
     'individual', (select coalesce(json_agg(json_build_object('nome', nome, 'campus', campus, 'pontos', pontos) order by pontos desc, ms, nome), '[]'::json)
                    from (select * from tot order by pontos desc, ms, nome limit 10) i),
-    'campi', (select coalesce(json_agg(json_build_object('campus', campus, 'media', media, 'n', n) order by media desc, campus), '[]'::json)
+    -- Campi pela média por participante. Empate: na mesma média, o campus com mais
+    -- participantes vem antes, porque a média de um grupo maior é menos sujeita ao acaso.
+    'campi', (select coalesce(json_agg(json_build_object('campus', campus, 'media', media, 'n', n) order by media desc, n desc, campus), '[]'::json)
               from (select campus, round(avg(pontos))::int media, count(*) n from tot group by campus) m));
 $$;
 
