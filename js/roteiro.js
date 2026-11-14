@@ -171,9 +171,9 @@
       { tipo: 'slide', bloco: 6, titulo: 'Formulário B — professor visitante', qr: 'formulario.html', qrRotulo: 'Veja os dois modelos', html: tb(['Parte', 'O que a DIAC informa'], [
         ['Finalidade', 'Lista fechada da Lei 8.745, art. 2º, § 5º. Falta de docente efetivo nunca aparece'],
         ['Atuação', 'Qualquer oferta educativa do campus (Res. 35/2022, art. 2º)'],
-        ['Plano de trabalho', 'Vínculo a programa ou projeto, eixo, justificativa, atividades, metas e cronograma'],
+        ['Plano de trabalho', 'Vínculo a programa ou projeto, eixo, aprimoramento pretendido, atividades, metas e cronograma'],
         ['Perfil e prazo', 'Titulação exigida, regime e período']]) +
-        nota('O plano de trabalho faz parte do formulário.') }],
+        nota('O plano de trabalho faz parte do formulário. Na justificativa, escreva o <b>aprimoramento pretendido</b> na área, nunca que falta docente nela: carência de docente é motivo de substituto, não de visitante.') }],
     A(6, 'caso', 1), A(6, 'sugestao', 1),
 
     // ----- bloco 7

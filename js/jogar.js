@@ -30,15 +30,22 @@
       '<p style="color:var(--cinza);margin-top:10px">Informe seu primeiro nome e seu campus para participar.</p></div>' +
       '<div class="campo"><label for="nome">Primeiro nome</label><input id="nome" maxlength="30" autocomplete="given-name" autocapitalize="words"></div>' +
       '<div class="campo"><label for="campus">Campus</label><select id="campus"><option value="">Selecione</option>' +
-      window.OFC_CAMPI.map(c => '<option>' + esc(c) + '</option>').join('') + '</select></div>' +
+      window.OFC_CAMPI.map(c => '<option>' + esc(c) + '</option>').join('') + '</select>' +
+      '<span class="ajuda">Quem é da CIS/PCCTAE ou da CPPD escolhe Reitoria.</span></div>' +
+      '<div class="campo" id="box-setor" hidden><label for="setor">Setor na Reitoria</label>' +
+      '<input id="setor" maxlength="40" autocapitalize="characters" placeholder="Ex.: DIGPE, DIDEPE, DIADPE, DGPREV, COGLEG, CIS/PCCTAE, CPPD">' +
+      '<span class="ajuda">Sigla do setor ou da comissão.</span></div>' +
       '<div class="erro" id="erro">' + esc(msg || '') + '</div>' +
       '<button class="btn" id="entrar">Entrar</button>';
+    $('campus').onchange = () => { $('box-setor').hidden = $('campus').value !== 'Reitoria' };
     $('entrar').onclick = async () => {
       const nome = $('nome').value.trim().split(/\s+/)[0] || '', campus = $('campus').value;
+      const setor = campus === 'Reitoria' ? $('setor').value.trim() : '';
       if (!nome || !campus) { $('erro').textContent = 'Preencha o nome e o campus.'; return; }
+      if (campus === 'Reitoria' && !setor) { $('erro').textContent = 'Informe o setor na Reitoria.'; return; }
       $('entrar').disabled = true;
       try {
-        salvarPid(await rpc('ofc_entrar', { p_nome: nome, p_campus: campus }));
+        salvarPid(await rpc('ofc_entrar', { p_nome: nome, p_campus: campus, p_setor: setor }));
         vista = ''; await ciclo(true);
       } catch (e) { $('erro').textContent = 'Não foi possível entrar. Tente de novo.'; $('entrar').disabled = false; }
     };

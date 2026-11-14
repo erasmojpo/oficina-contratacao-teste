@@ -74,9 +74,10 @@ padding:14px 20px;min-height:52px;flex:1}
 .doc-cab div{font-size:12px;letter-spacing:.04em;text-transform:uppercase}
 .doc-cab div.org{font-weight:700}
 #doc h2{text-align:center;font-size:16px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 22px}
-#doc section{margin-bottom:18px;break-inside:avoid}
+#doc section{margin-bottom:18px}
 #doc h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--verde-esc);
-border-bottom:1px solid var(--linha);padding-bottom:4px;margin:0 0 8px}
+border-bottom:1px solid var(--linha);padding-bottom:4px;margin:0 0 8px;break-after:avoid}
+#doc dt,#doc dd{break-inside:avoid}
 #doc dl{margin:0;display:grid;grid-template-columns:minmax(150px,32%) 1fr;gap:6px 16px;font-size:14px}
 #doc dt{color:var(--cinza)}
 #doc dd{margin:0;white-space:pre-wrap}
@@ -213,8 +214,8 @@ var MODELOS={
    {t:'Plano de trabalho',campos:[
      {k:'vinc',rot:'Programa, curso ou projeto a que se vincula',tipo:'texto',ob:1,dica:'Nome do programa, curso ou projeto, com o respectivo processo quando houver.'},
      {k:'eixo',rot:'Eixo',tipo:'multi',ops:['Ensino','Pesquisa','Extensão'],ob:1,dica:'Pode marcar mais de um.'},
-     {k:'just',rot:'Justificativa',tipo:'area',ob:1,
-      dica:'Que contribuição o visitante traz que o quadro atual do campus não oferece.'},
+     {k:'just',rot:'Justificativa: aprimoramento pretendido',tipo:'area',ob:1,
+      dica:'Descreva o que a contratação acrescenta ao programa, projeto ou área — o aprimoramento em ensino, pesquisa ou extensão, nos termos do art. 2º, § 5º, da Lei 8.745/1993. Não escreva que falta docente na área: carência de docente é motivo de professor substituto, não de visitante.'},
      {k:'ativ',rot:'Atividades previstas',tipo:'area',ob:1,dica:'Uma por linha, com a carga horária semanal de cada uma.'},
      {k:'metas',rot:'Metas e produtos esperados',tipo:'area',ob:1,
       dica:'Servem de base ao relatório de atividades e a eventual prorrogação.'},
@@ -411,7 +412,7 @@ function documento(){
   } else {
     h+=sec('Objetivo', li('Finalidade',d.fin)+li('Atuação',(d.atu||[]).join('; ')));
     h+=sec('Plano de trabalho', li('Vínculo',d.vinc)+li('Eixo',(d.eixo||[]).join(', '))+
-      li('Justificativa',d.just)+li('Atividades previstas',d.ativ)+
+      li('Aprimoramento pretendido',d.just)+li('Atividades previstas',d.ativ)+
       li('Metas e produtos esperados',d.metas)+li('Cronograma',d.crono));
     h+=sec('Perfil e prazo', li('Titulação exigida',d.tit)+li('Área de conhecimento',d.area)+
       li('Regime de trabalho',d.regime)+li('Período pretendido',dataBR(d.ini)+' a '+dataBR(d.fim)));
