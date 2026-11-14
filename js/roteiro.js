@@ -63,10 +63,12 @@
         'Identifique a situação: contrato encerrado (interstício) ou contrato vigente (acumulação).',
         '<b>Registre a análise nos autos.</b>']))],
     A(3, 'quiz', 8),
-    [S(3, 'O que muda na prática', ul([
-      'A declaração do Anexo VII da IN 1/2021 pergunta apenas se houve contrato nos últimos 24 meses.',
-      'Ela não capta a <b>duração</b> do contrato anterior, a <b>entidade</b> contratante nem <b>vínculo vigente</b>.',
-      'Será substituída por modelo novo.']))],
+    [S(3, 'Como isso chega ao processo', ul([
+      'Na convocação, a COGPE colhe do candidato a <b>declaração de contratos temporários anteriores</b> (Anexo VII da IN 1/2021). É o documento que permite verificar tudo o que acabamos de ver.',
+      'Hoje ela faz uma única pergunta: <i>houve contrato com fundamento na Lei 8.745 nos últimos 24 meses?</i>',
+      'Depois da Lei 15.367/2026, um <b>sim</b> ou um <b>não</b> não resolve: é preciso saber a <b>duração</b> do contrato anterior, <b>qual entidade</b> contratou e se o vínculo <b>ainda está vigente</b>.',
+      'Sem esses três dados, a COGPE não consegue dizer se o caso é interstício ou acumulação.']) +
+      nota('A DIDEPE substituirá o Anexo VII por um modelo que pergunte as três coisas. Enquanto isso, peça esses dados ao candidato e registre a análise nos autos.'))],
 
     // ----- bloco 4
     [S(4, 'Quatro fases, nesta ordem', tb(['Fase', 'O que se decide', 'Só começa quando'], [
