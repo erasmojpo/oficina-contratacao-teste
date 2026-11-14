@@ -71,7 +71,12 @@ padding:14px 20px;min-height:52px;flex:1}
 /* documento gerado */
 #doc{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:40px}
 #doc tr{break-inside:avoid}
-#suap{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+#suap{display:flex;flex-direction:column;gap:16px}
+#suap .intro{font-size:15px;color:var(--cinza)}
+#suap .opcao{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+#suap .cabo{display:flex;gap:14px;align-items:flex-start}
+#suap .num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--verde);color:#fff;font-weight:800;display:grid;place-items:center;font-size:17px}
+#suap .sub{display:block;font-size:14px;color:var(--cinza);margin-top:3px}
 #suap h3{font-size:17px;color:var(--verde-esc);margin:0}
 #suap ol{margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:6px}
 #suap a{color:var(--verde-esc)}
@@ -82,6 +87,7 @@ padding:14px 20px;min-height:52px;flex:1}
 #suap textarea.codigo{min-height:150px}
 #suap .conta{font-size:12px;color:var(--cinza)}
 #suap .copiar{align-self:flex-start;border:2px solid var(--verde);background:#fff;color:var(--verde-esc);font-weight:700;border-radius:10px;padding:9px 16px;min-height:42px}
+#suap .copiar.larga{align-self:stretch;background:var(--verde);color:#fff;border-color:var(--verde);font-size:16px;min-height:52px}
 #suap .copiar.ok{background:var(--verde-cl)}
 #doc p{break-after:avoid}
 @media print{
@@ -385,10 +391,8 @@ function desenhaConferencia(){
   desenhaSuap();
   $('nav2').hidden=false;
   $('nav2').innerHTML='<button class="btn sec" id="voltaC">Voltar e editar</button>'+
-    '<button class="btn" id="imp">Imprimir ou salvar em PDF</button>'+
     '<button class="btn fraco" id="limpa">Limpar formulário</button>';
   $('voltaC').onclick=function(){ passo=ps.length-1; tudo(); window.scrollTo(0,0) };
-  $('imp').onclick=function(){ window.print() };
   $('limpa').onclick=function(){
     if(!confirm('Apagar tudo o que foi preenchido neste navegador?')) return;
     dados={}; passo=0; conferido=false; salvar(); tudo(); window.scrollTo(0,0);
@@ -459,7 +463,7 @@ function documento(paraSuap){
     h+='<div class="assina" style="margin-top:8px;text-align:center;font-size:10pt">'+
       '<div class="risco" style="width:280px;border-top:1px solid '+V.tinta+';margin:24px auto 6px"></div>'+
       esc(d.resp||'')+'<br><span style="color:'+V.cinza+'">Diretor(a) Acadêmico(a) · Campus '+esc(d.campus||'')+
-      '<br>Documento assinado eletronicamente no SUAP</span></div>';
+      '</span></div>';
   }
   h+='<p style="margin:16px 0 0;font-size:8pt;letter-spacing:.8px;color:'+V.cinza+';text-align:center">'+
     'MODELO PADRÃO · DIDEPE/DIGPE/RE · IFRN</p>';
@@ -498,7 +502,11 @@ function desenhaSuap(){
   var a=assunto(), cod=documento(true);
   $('suap').hidden=false;
   $('suap').innerHTML=
-    '<h3>Levar este documento para o SUAP</h3>'+
+    '<p class="intro">O documento está pronto. Escolha por onde ele vai ser assinado.</p>'+
+
+    '<div class="opcao"><div class="cabo"><span class="num">1</span>'+
+    '<div><h3>Criar o documento dentro do SUAP</h3>'+
+    '<span class="sub">O documento nasce no SUAP e é assinado lá mesmo. É o caminho indicado.</span></div></div>'+
     '<ol>'+
     '<li>Abra <a href="https://suap.ifrn.edu.br/admin/documento_eletronico/documentotexto/add/" target="_blank" rel="noopener">Adicionar Documento de Texto</a> no SUAP.</li>'+
     '<li>Em <b>Tipo do Documento</b> escolha <b>Formulário</b> e em <b>Modelo</b>, <b>Formulário Simples</b>.</li>'+
@@ -512,11 +520,22 @@ function desenhaSuap(){
     '<span class="conta">'+a.length+' de 255 caracteres</span>'+
     '<button class="copiar" id="s-ca" data-rot="Copiar assunto">Copiar assunto</button></div>'+
     '<div class="bloco"><span class="rotb">Código do documento</span>'+
-    '<span class="conta">Cole no editor do SUAP, dentro do botão &lt;&gt;. O cabeçalho com o brasão o SUAP acrescenta sozinho, e a assinatura também.</span>'+
+    '<span class="conta">Cole no editor do SUAP, dentro do botão &lt;&gt;. O cabeçalho com o brasão e a assinatura o SUAP acrescenta sozinho.</span>'+
     '<textarea class="codigo" id="s-cod" readonly>'+esc(cod)+'</textarea>'+
-    '<button class="copiar" id="s-cc" data-rot="Copiar código">Copiar código</button></div>';
+    '<button class="copiar" id="s-cc" data-rot="Copiar código">Copiar código</button></div></div>'+
+
+    '<div class="opcao"><div class="cabo"><span class="num">2</span>'+
+    '<div><h3>Gerar o PDF e assinar no gov.br</h3>'+
+    '<span class="sub">Use quando preferir assinar fora do SUAP. O PDF já sai com cabeçalho institucional e linha de assinatura.</span></div></div>'+
+    '<ol>'+
+    '<li>Gere o arquivo no botão abaixo: na janela de impressão, escolha <b>Salvar como PDF</b>.</li>'+
+    '<li>Assine o PDF no <a href="https://assinador.iti.br" target="_blank" rel="noopener">assinador do gov.br</a>, com conta nível prata ou ouro.</li>'+
+    '<li>No processo do SUAP, faça o <b>upload do PDF assinado</b> como documento externo.</li>'+
+    '</ol>'+
+    '<button class="copiar larga" id="s-pdf" data-rot="Gerar PDF para assinar">Gerar PDF para assinar</button></div>';
   copiador($('s-ca'), $('s-assunto'));
   copiador($('s-cc'), $('s-cod'));
+  $('s-pdf').onclick=function(){ window.print() };
 }
 function tudo(){ desenhaModelos(); desenhaEtapas(); desenhaPainel() }
 carregar(); tudo();
