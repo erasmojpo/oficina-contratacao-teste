@@ -5,6 +5,36 @@
   const $ = id => document.getElementById(id);
   const corpo = $('corpo'), sobre = $('sobre');
   const BASE = new URL('./', location.href).href;
+
+  // ---------- plano de tempo ----------
+  // Cada passo recebe um peso; os minutos do bloco se repartem entre os passos dele.
+  function peso(p) {
+    if (p.tipo === 'capa' || p.tipo === 'fim') return 0.5;
+    if (p.tipo === 'cadastro' || p.tipo === 'mural') return 2.5;
+    if (p.tipo === 'ranking') return 1.5;
+    if (p.tipo === 'slide') return 1;
+    const t = ATV[p.atividade].itens[p.item].tipo;
+    return { escolha: 1, multi: 1.3, ordem: 2, campos: 5, texto: 2 }[t] || 1;
+  }
+  const PLANO = (() => {
+    const soma = {};
+    R.forEach(p => { soma[p.bloco] = (soma[p.bloco] || 0) + peso(p); });
+    const inicio = []; let acc = 0;
+    R.forEach(p => { inicio.push(acc); acc += (window.OFC_MINUTOS[p.bloco] || 0) * peso(p) / soma[p.bloco]; });
+    return { inicio, total: acc };
+  })();
+  function decorrido() {
+    if (!estado || !estado.iniciado_em) return null;
+    return (Date.now() - desvio - Date.parse(estado.iniciado_em)) / 60000;
+  }
+  function mostrarRitmo() {
+    const el = $('t-ritmo'); if (!el) return;
+    const d = decorrido();
+    if (d === null) { el.textContent = ''; el.className = 'ritmo'; return; }
+    const dif = Math.round(d - PLANO.inicio[passo]);
+    el.className = 'ritmo' + (dif > 6 ? ' atraso' : dif > 1 ? ' atencao' : '');
+    el.textContent = dif > 1 ? '+' + dif + ' min' : dif < -1 ? '\u2212' + (-dif) + ' min' : 'no tempo';
+  }
   const CH = 'ofc_pin_' + cfg.amb;
   let pin = null;
   try { pin = sessionStorage.getItem(CH); } catch (e) { pin = null; }
@@ -17,7 +47,10 @@
   }
   addEventListener('resize', escalar); escalar();
   if (cfg.rotulo) $('t-teste').innerHTML = '<span class="teste">' + esc(cfg.rotulo) + '</span>';
-  setInterval(() => { $('t-hora').textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); }, 1000);
+  setInterval(() => {
+    $('t-hora').textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    mostrarRitmo();
+  }, 1000);
 
   const caixaQr = (url, leg) => '<div class="qr-caixa">' + qr(url) + '<div class="leg">' + esc(leg) + '</div><div class="url">' + esc(url.replace(/^https?:\/\//, '')) + '</div></div>';
   const pct = (n, t) => t ? Math.round(100 * n / t) : 0;
@@ -50,6 +83,7 @@
     $('t-pos').textContent = (passo + 1) + ' / ' + R.length;
     $('t-barra').style.width = pct(passo + 1, R.length) + '%';
     $('t-part').textContent = participantes + ' participante' + (participantes === 1 ? '' : 's');
+    mostrarRitmo();
   }
   // Slides curtos recebem tipografia maior, desde que continuem cabendo na tela.
   function ajustarDensidade() {
@@ -191,7 +225,13 @@
     if (sobre.innerHTML) { sobre.innerHTML = ''; return; }
     const nome = (p, i) => (i + 1) + '. ' + (p.tipo === 'slide' ? p.titulo : p.tipo === 'atividade' ? '▶ ' + ATV[p.atividade].titulo + (ATV[p.atividade].itens.length > 1 ? ' (' + (p.item + 1) + ')' : '') :
       { capa: 'Capa', cadastro: '▶ Cadastro', mural: '▶ Mural de dúvidas', ranking: 'Ranking final', fim: 'Encerramento' }[p.tipo]);
-    sobre.innerHTML = '<div class="vel"><div class="caixa larga"><h2>Menu do apresentador</h2><div class="acoes">' +
+    const d = decorrido(), hhmm = t => t.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const detalhe = d === null ? '<div class="ritmo-detalhe">A contagem de tempo começa quando você sair da capa.</div>'
+      : '<div class="ritmo-detalhe">Início às <b>' + hhmm(new Date(Date.parse(estado.iniciado_em) + desvio)) + '</b> · '
+        + 'decorridos <b>' + Math.round(d) + ' min</b>, previstos <b>' + Math.round(PLANO.inicio[passo]) + ' min</b><br>'
+        + 'Plano total: <b>' + Math.round(PLANO.total) + ' min</b> · término projetado às '
+        + '<b>' + hhmm(new Date(Date.now() + (PLANO.total - PLANO.inicio[passo]) * 60000)) + '</b></div>';
+    sobre.innerHTML = '<div class="vel"><div class="caixa larga"><h2>Menu do apresentador</h2>' + detalhe + '<div class="acoes">' +
       '<button class="btn sec" id="m-exp">Exportar resultados</button><button class="btn sec" id="m-cheia">Tela cheia</button><button class="btn perigo" id="m-zera">Zerar dados</button></div>' +
       '<div class="passos">' + R.map((p, i) => '<button data-i="' + i + '" class="' + (i === passo ? 'atual' : '') + '">' + esc(nome(p, i)) + '</button>').join('') + '</div>' +
       '<button class="btn" id="m-fecha">Fechar</button></div></div>';

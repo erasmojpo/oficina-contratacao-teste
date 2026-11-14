@@ -12,6 +12,8 @@
   const nota = t => '<p class="nota">' + t + '</p>';
 
   window.OFC_BLOCOS = B;
+  // Orçamento de minutos por bloco. Soma 125, para terminar 15 minutos antes das 10h20.
+  window.OFC_MINUTOS = [0, 10, 12, 24, 26, 20, 20, 13];
   window.OFC_ROTEIRO = [].concat(
     [{ tipo: 'capa', bloco: 1 }, { tipo: 'cadastro', bloco: 1 },
       S(1, 'Por que estamos aqui', ul([
