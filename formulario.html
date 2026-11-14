@@ -70,32 +70,27 @@ padding:14px 20px;min-height:52px;flex:1}
 .resumo ul{margin:8px 0 0;padding-left:20px;font-weight:400}
 /* documento gerado */
 #doc{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:40px}
-.doc-cab{text-align:center;border-bottom:2px solid var(--tinta);padding-bottom:12px;margin-bottom:22px}
-.doc-cab div{font-size:12px;letter-spacing:.04em;text-transform:uppercase}
-.doc-cab div.org{font-weight:700}
-#doc h2{text-align:center;font-size:16px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 22px}
-#doc section{margin-bottom:18px}
-#doc h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--verde-esc);
-border-bottom:1px solid var(--linha);padding-bottom:4px;margin:0 0 8px;break-after:avoid}
-#doc dt,#doc dd{break-inside:avoid}
-#doc dl{margin:0;display:grid;grid-template-columns:minmax(150px,32%) 1fr;gap:6px 16px;font-size:14px}
-#doc dt{color:var(--cinza)}
-#doc dd{margin:0;white-space:pre-wrap}
-.assina{margin-top:40px;text-align:center;font-size:14px;break-inside:avoid}
-.assina .risco{width:280px;border-top:1px solid var(--tinta);margin:48px auto 6px}
-.assina small{color:var(--cinza)}
+#doc tr{break-inside:avoid}
+#suap{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+#suap h3{font-size:17px;color:var(--verde-esc);margin:0}
+#suap ol{margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+#suap a{color:var(--verde-esc)}
+#suap .bloco{display:flex;flex-direction:column;gap:6px}
+#suap .rotb{font-weight:700;font-size:14px}
+#suap textarea{font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:12px;border:2px solid var(--linha);border-radius:12px;background:var(--papel);width:100%;resize:vertical;color:var(--tinta)}
+#suap textarea.assunto{min-height:74px;font-family:inherit;font-size:15px}
+#suap textarea.codigo{min-height:150px}
+#suap .conta{font-size:12px;color:var(--cinza)}
+#suap .copiar{align-self:flex-start;border:2px solid var(--verde);background:#fff;color:var(--verde-esc);font-weight:700;border-radius:10px;padding:9px 16px;min-height:42px}
+#suap .copiar.ok{background:var(--verde-cl)}
+#doc p{break-after:avoid}
 @media print{
   @page{size:A4;margin:18mm 16mm}
   body{background:#fff}
   .env{max-width:none;padding:0;gap:0}
   .nao-imp{display:none !important}
   #doc{border:0;border-radius:0;padding:0}
-  #doc dl{font-size:11pt}
-  .doc-cab{margin-bottom:16px}
-  #doc h2{margin-bottom:16px}
-  #doc section{margin-bottom:11px}
-  .assina{margin-top:8px}
-  .assina .risco{margin:24px auto 6px}
+  #doc{font-size:11pt}
 }
 </style>
 </head>
@@ -113,6 +108,7 @@ border-bottom:1px solid var(--linha);padding-bottom:4px;margin:0 0 8px;break-aft
   <div id="resumo" class="resumo nao-imp" hidden></div>
   <div class="nav nao-imp" id="nav"></div>
   <div id="doc" hidden></div>
+  <div id="suap" class="nao-imp" hidden></div>
   <div class="nav nao-imp" id="nav2" hidden></div>
 </div>
 <script>
@@ -326,7 +322,7 @@ function campoHTML(c){
 function desenhaPainel(){
   var ps=MODELOS[modelo].passos;
   if(passo>=ps.length) return desenhaConferencia();
-  $('f').hidden=false; $('doc').hidden=true; $('nav2').hidden=true;
+  $('f').hidden=false; $('doc').hidden=true; $('nav2').hidden=true; $('suap').hidden=true;
   var p=ps[passo];
   $('f').innerHTML='<h2>Etapa '+(passo+1)+' · '+esc(p.t)+'</h2>'+
     p.campos.filter(vis).map(campoHTML).join('');
@@ -368,7 +364,7 @@ function desenhaConferencia(){
   ps.forEach(function(p,i){ faltantes(i).forEach(function(c){ pend.push('Etapa '+(i+1)+' · '+p.t+': '+c.rot) }) });
   var crit=criticas();
   if(pend.length||crit.length){
-    $('doc').hidden=true; $('nav2').hidden=true;
+    $('doc').hidden=true; $('nav2').hidden=true; $('suap').hidden=true;
     $('resumo').hidden=false;
     $('resumo').innerHTML='Faltam informações para gerar o documento.'+
       '<ul>'+pend.concat(crit).map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>';
@@ -378,7 +374,8 @@ function desenhaConferencia(){
     return;
   }
   $('resumo').hidden=true;
-  $('doc').hidden=false; $('doc').innerHTML=documento();
+  $('doc').hidden=false; $('doc').innerHTML=documento(false);
+  desenhaSuap();
   $('nav2').hidden=false;
   $('nav2').innerHTML='<button class="btn sec" id="voltaC">Voltar e editar</button>'+
     '<button class="btn" id="imp">Imprimir ou salvar em PDF</button>'+
@@ -390,16 +387,37 @@ function desenhaConferencia(){
     dados={}; passo=0; conferido=false; salvar(); tudo(); window.scrollTo(0,0);
   };
 }
-function documento(){
+// Documento em HTML com estilo embutido: serve para a tela, para o PDF e para colar no SUAP.
+// Identidade DIDEPE: verde institucional, filete de destaque, rótulos em caixa-alta espaçada.
+var V={esc:'#14532d',ver:'#2f9e41',tinta:'#14201a',cinza:'#5d6b63',linha:'#d9ddd4'};
+function documento(paraSuap){
   var M=MODELOS[modelo], d=dados;
-  function li(rot,v){ return v? '<dt>'+esc(rot)+'</dt><dd>'+esc(v)+'</dd>' : '' }
-  function sec(t,corpo){ return corpo? '<section><h3>'+esc(t)+'</h3><dl>'+corpo+'</dl></section>' : '' }
-  var h='<div class="doc-cab"><div>Ministério da Educação</div>'+
-    '<div class="org">Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte</div>'+
-    '<div>Campus '+esc(d.campus)+' · '+esc(d.diac)+'</div></div>'+
-    '<h2>'+esc(M.titulo)+(ehProrr(d)?' — prorrogação':'')+'</h2>';
-  h+=sec('Identificação', li('Campus',d.campus)+li('Diretoria Acadêmica',d.diac)+
-    li('Responsável',d.resp)+li('Tipo de pedido',d.pedido)+li('Modalidade',d.mod));
+  var fonte=paraSuap?'Calibri,Carlito,Arial,sans-serif':'inherit';
+  function li(rot,v){
+    if(!v) return '';
+    return '<tr>'+
+      '<td style="width:31%;padding:5px 14px 5px 0;color:'+V.cinza+';vertical-align:top">'+esc(rot)+'</td>'+
+      '<td style="padding:5px 0;vertical-align:top">'+esc(v).replace(/\n/g,'<br>')+'</td></tr>';
+  }
+  function sec(t,corpo){
+    if(!corpo) return '';
+    return '<p style="margin:18px 0 6px;font-size:10pt;font-weight:bold;letter-spacing:1.2px;color:'+V.esc+';'+
+      'border-bottom:1px solid '+V.linha+';padding-bottom:4px">'+esc(t.toUpperCase())+'</p>'+
+      '<table style="width:100%;border-collapse:collapse">'+corpo+'</table>';
+  }
+  var h='<div style="font-family:'+fonte+';color:'+V.tinta+';font-size:11pt;line-height:1.45">';
+  if(!paraSuap){
+    h+='<div style="text-align:center;font-size:9pt;letter-spacing:.6px;text-transform:uppercase;line-height:1.5">'+
+      '<div>Ministério da Educação</div>'+
+      '<div style="font-weight:bold">Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte</div></div>'+
+      '<div style="border-top:2px solid '+V.tinta+';margin:10px 0 18px"></div>';
+  }
+  h+='<p style="margin:0 0 3px;font-size:9pt;font-weight:bold;letter-spacing:1.4px;color:'+V.ver+'">'+
+    esc(('Campus '+(d.campus||'')+' · '+(d.diac||'')).toUpperCase())+'</p>'+
+    '<h2 style="margin:0 0 8px;font-size:15pt;line-height:1.25;color:'+V.esc+'">'+
+    esc(M.titulo)+(ehProrr(d)?' — prorrogação':'')+'</h2>'+
+    '<hr style="border:0;border-top:3px solid '+V.ver+';width:64px;margin:0 0 4px">';
+  h+=sec('Identificação', li('Responsável',d.resp)+li('Tipo de pedido',d.pedido)+li('Modalidade',d.mod));
   if(modelo==='sub'){
     h+=sec('Motivo da vaga', li('Hipótese legal',d.hip)+li('Docente efetivo substituído',d.efetivo)+
       li('Código de vaga',d.vaga)+li('Ato que gerou o motivo',d.ato)+
@@ -420,11 +438,70 @@ function documento(){
   if(ehProrr(d)) h+=sec('Prorrogação', li('Contrato',d.contrato)+li('Vigência original e aditivos',d.vig)+
     li('Relatório de atividades',d.rel));
   h+=sec('Observações', li('Observações',d.obs));
-  h+='<section><h3>Encaminhamento</h3><dl><dt>À</dt><dd>Coordenação de Gestão de Pessoas do campus, para análise do motivo da vaga, '+
-    'juntada do relatório de contratos vigentes e manifestação.</dd></dl></section>';
-  h+='<div class="assina"><div class="risco"></div>'+esc(d.resp)+'<br><small>Diretor(a) Acadêmico(a) · Campus '+esc(d.campus)+
-    '<br>Documento assinado eletronicamente no SUAP</small></div>';
+  h+=sec('Encaminhamento', li('À','Coordenação de Gestão de Pessoas do campus, para análise do motivo da vaga, '+
+    'juntada do relatório de contratos vigentes e manifestação.'));
+  if(!paraSuap){
+    h+='<div style="margin-top:8px;text-align:center;font-size:10pt">'+
+      '<div style="width:280px;border-top:1px solid '+V.tinta+';margin:24px auto 6px"></div>'+
+      esc(d.resp||'')+'<br><span style="color:'+V.cinza+'">Diretor(a) Acadêmico(a) · Campus '+esc(d.campus||'')+
+      '<br>Documento assinado eletronicamente no SUAP</span></div>';
+  }
+  h+='<p style="margin:22px 0 0;font-size:8pt;letter-spacing:.8px;color:'+V.cinza+'">'+
+    'MODELO PADRÃO · DIDEPE/DIGPE/RE · IFRN</p>';
+  h+='</div>';
   return h;
+}
+// Assunto sugerido para o campo do SUAP, limitado a 255 caracteres.
+function assunto(){
+  var d=dados, t;
+  if(modelo==='sub'){
+    t='Solicitação de contratação de professor substituto para o Campus '+(d.campus||'')+
+      ', regime de '+(d.regime||'')+', no período de '+dataBR(d.ini)+' a '+dataBR(d.fim)+
+      (d.hip?', em razão de: '+d.hip.charAt(0).toLowerCase()+d.hip.slice(1):'')+'.';
+  } else {
+    t='Solicitação de contratação de '+((d.mod||'professor visitante').replace(/\s*\(P?VE?\)\s*$/,'').toLowerCase())+
+      ' para o Campus '+(d.campus||'')+', regime de '+(d.regime||'')+
+      ', no período de '+dataBR(d.ini)+' a '+dataBR(d.fim)+
+      (d.vinc?', vinculado a: '+d.vinc:'')+'.';
+  }
+  if(ehProrr(d)) t='Prorrogação — '+t.charAt(0).toLowerCase()+t.slice(1);
+  t=t.replace(/\s+/g,' ').trim();
+  return t.length>255 ? t.slice(0,254).replace(/[\s,;.]+$/,'')+'…' : t;
+}
+function copiador(btn, el){
+  btn.onclick=function(){
+    var txt=el.value, pronto=function(){
+      btn.textContent='Copiado ✓'; btn.classList.add('ok');
+      setTimeout(function(){ btn.textContent=btn.dataset.rot; btn.classList.remove('ok') },2200);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(pronto, function(){ el.select(); document.execCommand('copy'); pronto() });
+    } else { el.select(); document.execCommand('copy'); pronto() }
+  };
+}
+function desenhaSuap(){
+  var a=assunto(), cod=documento(true);
+  $('suap').hidden=false;
+  $('suap').innerHTML=
+    '<h3>Levar este documento para o SUAP</h3>'+
+    '<ol>'+
+    '<li>Abra <a href="https://suap.ifrn.edu.br/admin/documento_eletronico/documentotexto/add/" target="_blank" rel="noopener">Adicionar Documento de Texto</a> no SUAP.</li>'+
+    '<li>Em <b>Tipo do Documento</b> escolha <b>Formulário</b> e em <b>Modelo</b>, <b>Formulário Simples</b>.</li>'+
+    '<li>Cole o <b>assunto</b> abaixo no campo <b>Assunto</b>, escolha o <b>Setor Dono</b> e salve.</li>'+
+    '<li>No documento criado, clique em <b>Editar &gt; Texto</b>.</li>'+
+    '<li>No editor, clique no botão <b>&lt;&gt;</b> (código-fonte) e cole o <b>código</b> abaixo. Salve.</li>'+
+    '<li>Confira a visualização, clique em <b>Concluir</b> e assine eletronicamente.</li>'+
+    '</ol>'+
+    '<div class="bloco"><span class="rotb">Assunto</span>'+
+    '<textarea class="assunto" id="s-assunto" readonly>'+esc(a)+'</textarea>'+
+    '<span class="conta">'+a.length+' de 255 caracteres</span>'+
+    '<button class="copiar" id="s-ca" data-rot="Copiar assunto">Copiar assunto</button></div>'+
+    '<div class="bloco"><span class="rotb">Código do documento</span>'+
+    '<span class="conta">Cole no editor do SUAP, dentro do botão &lt;&gt;. O cabeçalho com o brasão o SUAP acrescenta sozinho, e a assinatura também.</span>'+
+    '<textarea class="codigo" id="s-cod" readonly>'+esc(cod)+'</textarea>'+
+    '<button class="copiar" id="s-cc" data-rot="Copiar código">Copiar código</button></div>';
+  copiador($('s-ca'), $('s-assunto'));
+  copiador($('s-cc'), $('s-cod'));
 }
 function tudo(){ desenhaModelos(); desenhaEtapas(); desenhaPainel() }
 carregar(); tudo();
