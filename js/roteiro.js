@@ -100,7 +100,8 @@
         'Ninguém da DIAC, da Direção-Geral ou da COGPE telefona, manda mensagem ou sonda candidato.',
         'O contato informal cria <b>expectativa</b> que pode não se confirmar.',
         'Depois, o candidato leva essa expectativa ao <b>Judiciário</b>.',
-        'O único canal é a <b>convocação formal da COGPE</b>, por e-mail, juntada aos autos.'])),
+        'O único canal é a <b>convocação formal da COGPE</b>, por e-mail, juntada aos autos.',
+        'Depois da convocação, é outra coisa: ligar para <b>confirmar o recebimento</b> é diligência, e deve ser registrada nos autos.'])),
       S(4, 'O que muda no professor visitante', ul([
         'A solicitação da DIAC já vem com o <b>plano de trabalho</b>.',
         'O processo passa pela Direção-Geral e pela <b>PROEN</b>, que autoriza.',
@@ -132,8 +133,10 @@
         'Impedido sai; entra o suplente.']) + nota('IN 1/2021, arts. 25 e 26 · Res. 35/2022, art. 23')),
       S(5, 'Publicidade e convocação', ul([
         'Extrato do edital e homologação no <b>DOU</b>, com os comprovantes juntados.',
-        'Convocação por <b>e-mail</b>, juntada aos autos.',
-        'O próximo candidato só é chamado após a recusa documentada ou o silêncio por <b>5 dias úteis</b>.'])),
+        'Convocação por <b>e-mail</b>, juntada aos autos, com o comprovante de envio.',
+        'O próximo candidato só é chamado após a recusa documentada ou o silêncio por <b>5 dias úteis</b>.',
+        'Antes de passar ao próximo, <b>certifique-se de que a convocação chegou</b>: tente contato telefônico e registre a tentativa nos autos.']) +
+        nota('O prazo protege a Administração, mas não impede o questionamento de quem não viu o e-mail ou errou o endereço na inscrição. O telefonema é diligência <b>depois</b> da convocação formal, não sondagem antes dela.')),
       S(5, 'GECC: a regra mudou', ul([
         'A auditoria apontou que a IN 1/2021 ainda exigia consulta orçamentária e CDO para GECC, à época <b>vedada</b> em processo seletivo pelo art. 4º da IN SGP/MGI 33/2023.',
         'A <b>IN CGDEP/MGI 487, de 17/11/2025</b> (DOU de 19/11/2025) alterou esse artigo: voltou a ser <b>permitido</b> pagar GECC por atividades de processo seletivo simplificado da Lei 8.745.',

@@ -31,7 +31,7 @@ window.OFC_GABARITO = {
     { correta: 'f', tempo: 30, pontua: true, comentario: 'Coautoria é impedimento. Sai o membro, entra o suplente.' },
     { correta: 'v', tempo: 30, pontua: true, comentario: 'Só então o membro conhece a relação nominal dos candidatos (IN 1/2021, art. 26, § 1º).' },
     { correta: 'f', tempo: 30, pontua: true, comentario: 'Sem o comprovante, os autos não demonstram a publicação.' },
-    { correta: 'v', tempo: 30, pontua: true, comentario: 'IN 1/2021, art. 32, § 3º.' }
+    { correta: 'v', tempo: 30, pontua: true, comentario: 'IN 1/2021, art. 32, § 3º. Ainda assim, aja com cautela: antes de passar ao próximo, tente contato telefônico, registre a tentativa e guarde o comprovante de envio do e-mail. Quem não viu a mensagem, ou errou o endereço na inscrição, costuma questionar depois.' }
   ],
   caso: [{ correta: { modalidade: 'sub', hipotese: 'pos', ato: 'port', regime: '40', periodo: 'p1', provimento: 'proprio' }, tempo: 480, pontua: true,
     comentario: 'O contrato acompanha o afastamento do titular desde 01/03: não se espera o início das aulas, porque antes delas há planejamento. O contrato inicial é de até 1 ano, prorrogável até 2, e o aproveitamento da lista do próprio campus vem antes de um processo seletivo próprio.' }],
