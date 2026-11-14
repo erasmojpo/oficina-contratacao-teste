@@ -150,8 +150,8 @@
         'A auditoria apontou que a IN 1/2021 ainda exigia consulta orçamentária e CDO para GECC, à época <b>vedada</b> em processo seletivo pelo art. 4º da IN SGP/MGI 33/2023.',
         'A <b>IN CGDEP/MGI 487, de 17/11/2025</b> (DOU de 19/11/2025) alterou esse artigo: voltou a ser <b>permitido</b> pagar GECC por atividades de processo seletivo simplificado da Lei 8.745.',
         'Condições: atividade <b>eventual</b>, fora das atribuições permanentes, e apenas para <b>servidor efetivo ou em comissão</b> — contratado temporário não recebe GECC.',
-        'A escolha dos servidores para essas atividades passa a exigir <b>edital</b>, com no mínimo 15 dias entre a divulgação e o início das inscrições (art. 18-A).']) +
-        nota('Havendo GECC, a consulta orçamentária e o CDO voltam a fazer sentido. E o CDO permanece obrigatório para qualquer despesa do certame, como requisito do empenho. A DIADPE disciplinará o procedimento.'))],
+        'Na escolha de quem trabalha no certame, o art. 18-A manda <b>buscar diversidade</b> e <b>garantir acessibilidade</b>, e adotar <b>edital sempre que possível</b>: transparência, impessoalidade, isonomia e 15 dias entre a divulgação e as inscrições.']) +
+        nota('"Sempre que possível" não é "se quiser": não havendo edital, registre nos autos por que não foi viável. Havendo GECC, a consulta orçamentária e o CDO voltam a fazer sentido, e o CDO permanece obrigatório para qualquer despesa do certame. A DIADPE disciplinará o procedimento.'))],
     A(5, 'vf', 8),
 
     // ----- bloco 6
