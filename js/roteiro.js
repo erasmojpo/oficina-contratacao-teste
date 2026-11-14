@@ -28,10 +28,17 @@
         ['<b>6</b>', 'Formulário padrão', 'Preencher um caso e sugerir'],
         ['<b>7</b>', 'Dúvidas e compromissos', 'Mural de dúvidas e avaliação']]) +
         nota('Duas horas e vinte. Cada atividade abre com um QR code na tela, e os blocos 3 a 6 valem pontos: há ranking individual e por campus.')),
+      { tipo: 'slide', bloco: 1, titulo: 'Dúvidas: envie e vote quando quiser', qr: '?t=mural', qrRotulo: 'Abrir o mural', html: ol([
+        'No celular, toque na aba <b>Dúvidas</b>, no rodapé da tela.',
+        'Escreva sua pergunta e toque em <b>Enviar dúvida</b>. Ela aparece para todos, <b>sem o seu nome</b>.',
+        'Nas dúvidas dos colegas, toque no <b>▲</b> ao lado para votar. Toque de novo para retirar o voto.',
+        'No fim da oficina respondemos as <b>mais votadas</b>.']) +
+        nota('Não espere o final: assim que surgir uma pergunta, envie. Quanto mais cedo ela estiver no mural, mais gente vota nela.') },
       S(1, 'Antes de começar, uma estimativa', ul([
         'A auditoria examinou os contratos de professor substituto de 2025, em todos os campi.',
         'A primeira pergunta é só para aquecer: <b>não vale pontos</b>.',
         'Leia o QR code da próxima tela e responda no celular.']))],
+
     A(1, 'aquec', 1),
 
     // ----- bloco 2
@@ -170,17 +177,17 @@
     A(6, 'caso', 1), A(6, 'sugestao', 1),
 
     // ----- bloco 7
-    [S(7, 'As dúvidas de vocês', ul([
-      'Ao longo da manhã vocês enviaram dúvidas pelo celular e votaram nas dos colegas.',
-      'Vamos responder agora as <b>mais votadas</b>.',
-      'As demais ficam registradas e serão respondidas por escrito pela DIDEPE.',
-      'Ainda dá tempo de enviar: aba <b>Dúvidas</b> no celular, ou o QR code da próxima tela.'])),
+    [{ tipo: 'slide', bloco: 7, titulo: 'Agora, vote nas dúvidas', qr: '?t=mural', qrRotulo: 'Abra e vote agora', html: ol([
+      'Abra a aba <b>Dúvidas</b> no celular, ou leia o QR code ao lado.',
+      'Toque no <b>▲</b> das perguntas que você também quer ver respondidas. Pode votar em quantas quiser.',
+      'Quem ainda não enviou a sua pergunta, ainda dá tempo.']) +
+      nota('Dois minutos para votar. Em seguida vamos à tela com as mais votadas; as demais serão respondidas por escrito pela DIDEPE.') },
       { tipo: 'mural', bloco: 7 },
       S(7, 'O que a DIGPE e a DIDEPE entregam', ul([
         '<b>Formulários padrão</b> como modelo de documento no SUAP, com as sugestões de hoje.',
         '<b>Checklist</b> de instrução processual por etapa.',
         '<b>Nova IN</b>: fluxo de autorização mais claro, cotas, interstício e nova declaração de vínculos.',
-        '<b>Autodeclaração eletrônica</b> de ausência de impedimento para comissões e bancas.',
+        '<b>Autodeclaração de ausência de impedimento</b> para comissões e bancas: será solicitada à DTI dentro do sistema de processos seletivos. Até lá, permanece a declaração em uso hoje.',
         '<b>Calendário</b> das próximas capacitações.'])),
       S(7, 'O que cada campus leva', ol([
         'Usar o formulário padrão a partir de já.',

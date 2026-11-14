@@ -3,185 +3,430 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#14532d">
-<title>Formulário padrão de solicitação · IFRN</title>
-<link rel="stylesheet" href="css/base.css">
+<title>Solicitação de contratação temporária de professor · IFRN</title>
+<!-- Arquivo único: funciona offline, basta abrir no navegador. Nada é enviado nem gravado em servidor. -->
 <style>
-  .fm { max-width: 760px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-  .abas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .abas button { border: 2px solid var(--linha); background: #fff; border-radius: var(--raio); padding: 14px 10px; font-weight: 700; min-height: 54px; }
-  .abas button.ativo { border-color: var(--verde); background: var(--verde-cl); color: var(--verde-esc); }
-  fieldset { border: 1px solid var(--linha); border-radius: var(--raio); background: #fff; padding: 16px; margin: 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-  legend { font-weight: 800; color: var(--verde-esc); padding: 0 6px; }
-  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 520px) { .duas { grid-template-columns: 1fr; } }
-  .marcas { display: flex; flex-direction: column; gap: 8px; }
-  .marcas label { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
-  .marcas input { width: 20px; height: 20px; margin-top: 2px; flex: 0 0 20px; }
-  .dica { font-size: 13px; color: var(--cinza); }
-  .modelo { background: var(--ambar-cl); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
-  #saida { background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; }
-  #saida h2 { font-size: 18px; margin-bottom: 4px; } #saida h3 { font-size: 14px; color: var(--verde-esc); margin: 14px 0 4px; text-transform: uppercase; letter-spacing: .06em; }
-  #saida dl { margin: 0; display: grid; grid-template-columns: minmax(120px, 34%) 1fr; gap: 4px 12px; font-size: 14px; } #saida dt { color: var(--cinza); } #saida dd { margin: 0; white-space: pre-wrap; }
-  @media print { .nao-imp { display: none !important; } body { background: #fff; } #saida { border: 0; padding: 0; } }
+:root{--verde:#2f9e41;--verde-esc:#14532d;--verde-cl:#e3f3e5;--tinta:#14201a;--cinza:#5d6b63;
+--linha:#d9ddd4;--papel:#f6f4ee;--vermelho:#cd191e;--vermelho-cl:#fbe6e6;--ambar:#b77700;--ambar-cl:#fdf1d3;--raio:14px}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+color:var(--tinta);background:var(--papel);line-height:1.45;-webkit-text-size-adjust:100%}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+.env{max-width:860px;margin:0 auto;padding:16px 16px 40px;display:flex;flex-direction:column;gap:16px}
+.cab{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:18px 20px}
+.cab .rot{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--verde)}
+.cab h1{font-size:22px;margin-top:6px;line-height:1.25}
+.cab p{color:var(--cinza);font-size:14px;margin-top:8px}
+.aviso{background:var(--ambar-cl);border-radius:12px;padding:12px 16px;font-size:14px}
+/* seletor de modelo */
+.modelos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modelos button{border:2px solid var(--linha);background:#fff;border-radius:var(--raio);padding:14px 16px;
+text-align:left;min-height:76px;display:flex;flex-direction:column;gap:4px;justify-content:center}
+.modelos button b{font-size:16px}
+.modelos button span{font-size:13px;color:var(--cinza);font-weight:400}
+.modelos button.on{border-color:var(--verde);background:var(--verde-cl)}
+.modelos button.on b{color:var(--verde-esc)}
+/* etapas */
+.etapas{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.etapas button{flex:1 0 auto;min-width:112px;border:2px solid var(--linha);background:#fff;border-radius:12px;
+padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px;position:relative}
+.etapas button em{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--cinza)}
+.etapas button b{font-size:14px;font-weight:600}
+.etapas button.on{border-color:var(--verde);background:var(--verde-cl)}
+.etapas button.on b,.etapas button.on em{color:var(--verde-esc)}
+.etapas button.ok em::after{content:" ✓";color:var(--verde)}
+.etapas button.falta em::after{content:" !";color:var(--vermelho)}
+.painel{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:18px 20px;
+display:flex;flex-direction:column;gap:18px}
+.painel h2{font-size:18px;color:var(--verde-esc)}
+.campo{display:flex;flex-direction:column;gap:6px}
+.campo .lin{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.campo label{font-weight:600;font-size:15px}
+.marca{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:2px 8px}
+.marca.ob{background:var(--verde-cl);color:var(--verde-esc)}
+.marca.op{background:#eceae3;color:var(--cinza)}
+.dica{font-size:13px;color:var(--cinza)}
+.campo input,.campo select,.campo textarea{font:inherit;font-size:16px;padding:12px;border:2px solid var(--linha);
+border-radius:12px;background:#fff;width:100%;color:var(--tinta)}
+.campo textarea{min-height:104px;resize:vertical}
+.campo input:focus,.campo select:focus,.campo textarea:focus{outline:none;border-color:var(--verde)}
+.campo.erro input,.campo.erro select,.campo.erro textarea,.campo.erro .marcas{border-color:var(--vermelho);background:var(--vermelho-cl)}
+.campo .msg{font-size:13px;color:var(--vermelho);font-weight:600}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:560px){.duas{grid-template-columns:1fr}.modelos{grid-template-columns:1fr}}
+.marcas{display:flex;flex-direction:column;gap:8px;border:2px solid transparent;border-radius:12px}
+.marcas label{display:flex;gap:10px;align-items:flex-start;font-size:15px;font-weight:400}
+.marcas input{width:20px;height:20px;margin-top:2px;flex:0 0 20px}
+.nav{display:flex;gap:12px}
+.btn{border:0;background:var(--verde);color:#fff;font-weight:700;font-size:16px;border-radius:12px;
+padding:14px 20px;min-height:52px;flex:1}
+.btn.sec{background:#fff;color:var(--verde-esc);border:2px solid var(--verde)}
+.btn.fraco{background:#fff;color:var(--cinza);border:2px solid var(--linha);font-weight:600}
+.btn:disabled{opacity:.5}
+.resumo{background:var(--vermelho-cl);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--vermelho);font-weight:600}
+.resumo ul{margin:8px 0 0;padding-left:20px;font-weight:400}
+/* documento gerado */
+#doc{background:#fff;border:1px solid var(--linha);border-radius:var(--raio);padding:40px}
+.doc-cab{text-align:center;border-bottom:2px solid var(--tinta);padding-bottom:12px;margin-bottom:22px}
+.doc-cab div{font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.doc-cab div.org{font-weight:700}
+#doc h2{text-align:center;font-size:16px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 22px}
+#doc section{margin-bottom:18px;break-inside:avoid}
+#doc h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--verde-esc);
+border-bottom:1px solid var(--linha);padding-bottom:4px;margin:0 0 8px}
+#doc dl{margin:0;display:grid;grid-template-columns:minmax(150px,32%) 1fr;gap:6px 16px;font-size:14px}
+#doc dt{color:var(--cinza)}
+#doc dd{margin:0;white-space:pre-wrap}
+.assina{margin-top:40px;text-align:center;font-size:14px;break-inside:avoid}
+.assina .risco{width:280px;border-top:1px solid var(--tinta);margin:48px auto 6px}
+.assina small{color:var(--cinza)}
+@media print{
+  @page{size:A4;margin:18mm 16mm}
+  body{background:#fff}
+  .env{max-width:none;padding:0;gap:0}
+  .nao-imp{display:none !important}
+  #doc{border:0;border-radius:0;padding:0}
+  #doc dl{font-size:11pt}
+  .doc-cab{margin-bottom:16px}
+  #doc h2{margin-bottom:16px}
+  #doc section{margin-bottom:11px}
+  .assina{margin-top:8px}
+  .assina .risco{margin:24px auto 6px}
+}
 </style>
 </head>
 <body>
-<div class="fm">
-  <div class="cartao nao-imp">
-    <div class="rotulo">DIDEPE / DIGPE · IFRN</div>
-    <h1 style="font-size:22px;margin-top:6px">Solicitação de contratação temporária de professor</h1>
-    <p class="dica" style="margin-top:6px">Preenchida pela Diretoria Acadêmica. Abre todo processo de contratação ou prorrogação.</p>
+<div class="env">
+  <div class="cab nao-imp">
+    <div class="rot">DIDEPE · Diretoria de Desenvolvimento de Pessoal · IFRN</div>
+    <h1>Solicitação de contratação temporária de professor</h1>
+    <p>Preenchida pela Diretoria Acadêmica. Abre todo processo de contratação ou prorrogação de professor substituto ou visitante.</p>
   </div>
-  <div class="modelo nao-imp"><b>Modelo em elaboração.</b> A auditoria recomendou que o IFRN criasse um formulário padrão para iniciar os processos de contratação. Esta página demonstra os dois modelos em estudo pela DIDEPE; eles ainda não estão instituídos. Nada do que você digitar aqui é enviado ou gravado — envie suas sugestões pela atividade da oficina.</div>
-  <div class="abas nao-imp"><button id="ab-a" class="ativo">A · Professor substituto</button><button id="ab-b">B · Professor visitante</button></div>
-
-  <form id="f" class="nao-imp" style="display:flex;flex-direction:column;gap:14px" novalidate></form>
-  <div class="erro nao-imp" id="erros"></div>
-  <button class="btn nao-imp" id="gerar">Conferir e gerar solicitação</button>
-  <div id="saida" hidden></div>
-  <button class="btn sec nao-imp" id="imprimir" hidden>Imprimir ou salvar em PDF</button>
+  <div class="aviso nao-imp"><b>Modelo em elaboração.</b> A auditoria recomendou que o IFRN criasse um formulário padrão para iniciar os processos de contratação. Este é o modelo em estudo pela DIDEPE, ainda não instituído. Nada do que você digitar é enviado: o preenchimento fica apenas neste navegador, e o documento é gerado para impressão ou PDF.</div>
+  <div class="modelos nao-imp" id="modelos"></div>
+  <div class="etapas nao-imp" id="etapas"></div>
+  <form id="f" class="painel nao-imp" novalidate></form>
+  <div id="resumo" class="resumo nao-imp" hidden></div>
+  <div class="nav nao-imp" id="nav"></div>
+  <div id="doc" hidden></div>
+  <div class="nav nao-imp" id="nav2" hidden></div>
 </div>
-<script src="js/conteudo.js"></script>
 <script>
-(function () {
-  const $ = id => document.getElementById(id);
-  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const CAMPI = window.OFC_CAMPI.filter(c => c !== 'Outro');
-  // Hipóteses do art. 2º da IN 1/2021-DIGPE (Lei 8.745/1993, art. 2º, § 1º). Lista fechada.
-  const HIP = ['Vacância do cargo (exoneração, demissão, posse em cargo inacumulável, falecimento ou aposentadoria)',
-    'Nomeação para cargo de reitor, vice-reitor, pró-reitor ou diretor de campus',
-    'Afastamento para participação em programa de pós-graduação stricto sensu',
-    'Afastamento para tratamento da própria saúde, superior a 60 dias',
-    'Afastamento para estudo ou missão no exterior', 'Licença gestante ou adotante',
-    'Afastamento para servir a organismo internacional', 'Afastamento para exercício de mandato eletivo',
-    'Afastamento para servir a outro órgão ou entidade', 'Licença para acompanhamento de cônjuge ou companheiro',
-    'Licença para desempenho de mandato classista', 'Licença para o serviço militar', 'Licença para tratar de assuntos particulares'];
-  // Finalidades do art. 2º, § 5º, da Lei 8.745/1993. Falta de docente efetivo não é finalidade de visitante.
-  const FIN = ['Apoiar a execução de programa de pós-graduação stricto sensu', 'Contribuir para o aprimoramento de programas de ensino, pesquisa e extensão',
-    'Contribuir para a execução de programa de capacitação docente', 'Viabilizar intercâmbio científico e tecnológico'];
-  // Art. 2º da Resolução 35/2022-CONSUP: o visitante pode atuar em todas as ofertas educativas.
-  const ATU = ['Programas de pós-graduação stricto sensu', 'Cursos de pós-graduação lato sensu', 'Cursos técnicos e de graduação',
-    'Programas e projetos de ensino, pesquisa e extensão', 'Programas de capacitação', 'Intercâmbio científico e tecnológico e parcerias institucionais',
-    'Editoração e qualificação de periódicos científicos do IFRN'];
-  // Formas de contratação: aproveitamento de lista de espera vigente ou processo seletivo próprio.
-  const PROV = ['Aproveitamento de lista de espera do próprio campus', 'Aproveitamento de lista de espera de outro campus do IFRN',
-    'Aproveitamento de lista de espera de outra instituição federal de educação profissional e tecnológica', 'Realização de processo seletivo próprio'];
+(function(){
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 
-  const cp = (id, rot, html, dica) => '<div class="campo"><label for="' + id + '">' + rot + '</label>' + html + (dica ? '<span class="dica">' + dica + '</span>' : '') + '</div>';
-  const tx = (id, rot, dica, ph) => cp(id, rot, '<input id="' + id + '" placeholder="' + esc(ph || '') + '">', dica);
-  const dt = (id, rot, dica) => cp(id, rot, '<input type="date" id="' + id + '">', dica);
-  const ar = (id, rot, dica) => cp(id, rot, '<textarea id="' + id + '"></textarea>', dica);
-  const sl = (id, rot, ops, dica) => cp(id, rot, '<select id="' + id + '"><option value="">Selecione</option>' + ops.map(o => '<option>' + esc(o) + '</option>').join('') + '</select>', dica);
-  const mk = (nome, ops) => '<div class="marcas">' + ops.map((o, i) => '<label><input type="checkbox" name="' + nome + '" value="' + esc(o) + '"><span>' + esc(o) + '</span></label>').join('') + '</div>';
-  const fs = (leg, html, id) => '<fieldset' + (id ? ' id="' + id + '"' : '') + '><legend>' + leg + '</legend>' + html + '</fieldset>';
-  const ident = fs('1. Identificação', '<div class="duas">' + sl('campus', 'Campus', CAMPI) + tx('diac', 'Diretoria Acadêmica', '', 'Ex.: DIAC') + '</div>' +
-    tx('resp', 'Diretor(a) Acadêmico(a) responsável') + sl('pedido', 'Tipo de pedido', ['Nova contratação', 'Prorrogação de contrato']));
+var CAMPI=['Apodi','Caicó','Canguaretama','Ceará-Mirim','Currais Novos','Ipanguaçu','João Câmara','Jucurutu',
+'Lajes','Macau','Mossoró','Natal - Central','Natal - Cidade Alta','Natal - Zona Leste','Natal - Zona Norte',
+'Nova Cruz','Parelhas','Parnamirim','Pau dos Ferros','Santa Cruz','São Gonçalo do Amarante','São Paulo do Potengi'];
 
-  const formA = () => ident +
-    fs('2. Motivo da vaga', sl('hip', 'Hipótese legal', HIP, 'Lista fechada. A contratação de substituto supre sempre a falta de um docente efetivo identificado.') +
-      '<div class="duas">' + tx('efetivo', 'Docente efetivo substituído', 'Nome e matrícula SIAPE') + tx('vaga', 'Código de vaga', 'Obrigatório em caso de vacância') + '</div>' +
-      tx('ato', 'Ato que gerou o motivo', 'Portaria ou processo. Anexe o documento ao processo.', 'Ex.: Portaria 100/2027-RE/IFRN') +
-      '<div class="duas">' + dt('af-ini', 'Início do afastamento') + dt('af-fim', 'Término do afastamento', 'Deixe em branco em caso de vacância') + '</div>') +
-    fs('3. Necessidade', ar('disc', 'Disciplinas e cursos atendidos') +
-      '<div class="duas">' + tx('ch', 'Carga horária semanal em sala') + sl('regime', 'Regime de trabalho', ['20 horas', '40 horas']) + '</div>' +
-      '<div class="duas">' + dt('ini', 'Início pretendido do contrato', 'Pode coincidir com o início do afastamento; não espere o início das aulas') + dt('fim', 'Término pretendido do contrato', 'Até 1 ano e nunca além do afastamento') + '</div>' +
-      tx('cal', 'Referência ao calendário acadêmico', '', 'Ex.: 2027.1, aulas a partir de 08/03/2027')) +
-    fs('4. Forma de contratação sugerida', sl('prov', 'Forma de contratação', PROV, 'A escolha entre aproveitamento e processo seletivo próprio só ocorre depois de autorizada a contratação. Não faça contato com candidatos.')) +
-    fs('5. Dados do processo seletivo próprio', ar('prog', 'Programa do processo seletivo e temas da prova didática', 'Elaborados por docentes efetivos da área') +
-      ar('banca', 'Indicação de banca', 'Três titulares e suplentes, com titulação e justificativa do perfil técnico de cada um'), 'sec-pss') +
-    fs('6. Dados da prorrogação', '<div class="duas">' + tx('contrato', 'Número do contrato') + tx('vig', 'Vigência original e aditivos') + '</div>', 'sec-pro');
+// Hipóteses do art. 2º da IN 1/2021-DIGPE (Lei 8.745/1993, art. 2º, § 1º). Lista fechada.
+var HIP=['Vacância do cargo (exoneração, demissão, posse em cargo inacumulável, falecimento ou aposentadoria)',
+'Nomeação para cargo de reitor, vice-reitor, pró-reitor ou diretor de campus',
+'Afastamento para participação em programa de pós-graduação stricto sensu',
+'Afastamento para tratamento da própria saúde, superior a 60 dias',
+'Afastamento para estudo ou missão no exterior','Licença gestante ou adotante',
+'Afastamento para servir a organismo internacional','Afastamento para exercício de mandato eletivo',
+'Afastamento para servir a outro órgão ou entidade','Licença para acompanhamento de cônjuge ou companheiro',
+'Licença para desempenho de mandato classista','Licença para o serviço militar',
+'Licença para tratar de assuntos particulares'];
+// Finalidades do art. 2º, § 5º, da Lei 8.745/1993. Falta de docente efetivo não é finalidade de visitante.
+var FIN=['Apoiar a execução de programa de pós-graduação stricto sensu',
+'Contribuir para o aprimoramento de programas de ensino, pesquisa e extensão',
+'Contribuir para a execução de programa de capacitação docente',
+'Viabilizar intercâmbio científico e tecnológico'];
+// Art. 2º da Resolução 35/2022-CONSUP: o visitante pode atuar em todas as ofertas educativas.
+var ATU=['Programas de pós-graduação stricto sensu','Cursos de pós-graduação lato sensu',
+'Cursos técnicos e de graduação','Programas e projetos de ensino, pesquisa e extensão',
+'Programas de capacitação','Intercâmbio científico e tecnológico e parcerias institucionais',
+'Editoração e qualificação de periódicos científicos do IFRN'];
+var CONTRAT=['Aproveitamento de lista de espera do próprio campus',
+'Aproveitamento de lista de espera de outro campus do IFRN',
+'Aproveitamento de lista de espera de outra instituição federal de educação profissional e tecnológica',
+'Realização de processo seletivo próprio'];
+var PEDIDO=['Nova contratação','Prorrogação de contrato'];
 
-  const formB = () => ident.replace('</select></div></fieldset>', '</select></div>' + sl('mod', 'Modalidade', ['Professor visitante (PV)', 'Professor visitante estrangeiro (PVE)']) + '</fieldset>') +
-    fs('2. Objetivo da contratação', sl('fin', 'Finalidade', FIN, 'Lista fechada da Lei 8.745/1993, art. 2º, § 5º. Falta de docente efetivo não é motivo para contratar visitante.') +
-      '<div class="campo"><label>Onde o visitante atuará</label>' + mk('atu', ATU) + '<span class="dica">Marque todas as ofertas previstas. Não há restrição de oferta.</span></div>') +
-    fs('3. Plano de trabalho', tx('vinc', 'Programa, curso ou projeto a que se vincula') +
-      '<div class="campo"><label>Eixo</label>' + mk('eixo', ['Ensino', 'Pesquisa', 'Extensão']) + '</div>' +
-      ar('just', 'Justificativa', 'Que contribuição o visitante traz que o quadro atual não oferece') +
-      ar('ativ', 'Atividades previstas', 'Uma por linha, com a carga horária semanal de cada uma') +
-      ar('metas', 'Metas e produtos esperados', 'Servem de base ao relatório de atividades e à eventual prorrogação') +
-      ar('crono', 'Cronograma', 'Por mês ou por semestre')) +
-    fs('4. Perfil e prazo', sl('tit', 'Titulação exigida', ['Doutor há pelo menos 2 anos', 'Exceção do art. 6º da Res. 35/2022 (somente se não houver doutor aprovado no certame)']) +
-      tx('area', 'Área de conhecimento') + '<div class="duas">' + sl('regime', 'Regime de trabalho', ['20 horas', '40 horas']) + '<span></span></div>' +
-      '<div class="duas">' + dt('ini', 'Início pretendido do contrato') + dt('fim', 'Término pretendido do contrato', 'PV: até 1 ano. PVE: até 2 anos') + '</div>') +
-    fs('5. Dados da prorrogação', '<div class="duas">' + tx('contrato', 'Número do contrato') + tx('vig', 'Vigência original e aditivos') + '</div>' +
-      ar('rel', 'Relatório de atividades', 'Informe o documento do relatório aprovado pela Diretoria Acadêmica'), 'sec-pro');
+var ehProrr=function(d){return d.pedido===PEDIDO[1]};
+var ehVac=function(d){return d.hip===HIP[0]};
+var ehProprio=function(d){return d.contratacao===CONTRAT[3]};
 
-  let aba = 'a';
-  const v = id => ($(id) ? $(id).value.trim() : '');
-  const marcados = n => Array.from(document.querySelectorAll('input[name="' + n + '"]:checked')).map(i => i.value);
-  const dias = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5);
-  function condicionais() {
-    if ($('sec-pss')) $('sec-pss').hidden = v('prov') !== PROV[3];
-    if ($('sec-pro')) $('sec-pro').hidden = v('pedido') !== 'Prorrogação de contrato';
-  }
-  function montar() {
-    $('f').innerHTML = aba === 'a' ? formA() : formB();
-    $('ab-a').className = aba === 'a' ? 'ativo' : ''; $('ab-b').className = aba === 'b' ? 'ativo' : '';
-    $('saida').hidden = true; $('imprimir').hidden = true; $('erros').textContent = '';
-    $('f').onchange = condicionais; condicionais();
-  }
-  function validar() {
-    const e = [], falta = (id, nome) => { if (!v(id)) e.push(nome); };
-    falta('campus', 'Campus'); falta('diac', 'Diretoria Acadêmica'); falta('resp', 'Responsável'); falta('pedido', 'Tipo de pedido');
-    const erros = [];
-    if (aba === 'a') {
-      falta('hip', 'Hipótese legal'); falta('ato', 'Ato que gerou o motivo'); falta('af-ini', 'Início do afastamento');
-      falta('disc', 'Disciplinas'); falta('regime', 'Regime'); falta('ini', 'Início do contrato'); falta('fim', 'Término do contrato'); falta('cal', 'Calendário acadêmico'); falta('prov', 'Forma de contratação');
-      const vac = v('hip') === HIP[0];
-      if (vac) falta('vaga', 'Código de vaga'); else { falta('efetivo', 'Docente efetivo substituído'); falta('af-fim', 'Término do afastamento'); }
-      if (v('prov') === PROV[3]) { falta('prog', 'Programa e temas do processo seletivo'); falta('banca', 'Indicação de banca'); }
-      if (v('ini') && v('fim')) {
-        if (dias(v('ini'), v('fim')) <= 0) erros.push('O término do contrato deve ser posterior ao início.');
-        if (dias(v('ini'), v('fim')) > 366) erros.push('O contrato inicial de substituto é de até 1 ano (Lei 8.745/1993, art. 4º, II). A prorrogação é pedida depois.');
-        if (v('af-ini') && dias(v('af-ini'), v('ini')) < 0) erros.push('O contrato não pode começar antes do afastamento do docente efetivo.');
-        if (!vac && v('af-fim') && dias(v('fim'), v('af-fim')) < 0) erros.push('O contrato não pode ultrapassar o término do afastamento (IN 1/2021, art. 4º, § 1º).');
-      }
-    } else {
-      falta('mod', 'Modalidade'); falta('fin', 'Finalidade'); falta('vinc', 'Vínculo do plano de trabalho'); falta('just', 'Justificativa');
-      falta('ativ', 'Atividades previstas'); falta('metas', 'Metas e produtos'); falta('crono', 'Cronograma'); falta('tit', 'Titulação exigida'); falta('area', 'Área');
-      falta('regime', 'Regime'); falta('ini', 'Início do contrato'); falta('fim', 'Término do contrato');
-      if (!marcados('atu').length) e.push('Onde o visitante atuará'); if (!marcados('eixo').length) e.push('Eixo');
-      if (v('ini') && v('fim')) {
-        const max = /PVE/.test(v('mod')) ? 731 : 366;
-        if (dias(v('ini'), v('fim')) <= 0) erros.push('O término do contrato deve ser posterior ao início.');
-        if (dias(v('ini'), v('fim')) > max) erros.push('Prazo inicial acima do permitido: PV até 1 ano, PVE até 2 anos (Res. 35/2022, art. 4º).');
-      }
-      if (v('pedido') === 'Prorrogação de contrato') falta('rel', 'Relatório de atividades');
+var ident=[
+ {k:'campus',rot:'Campus',tipo:'sel',ops:CAMPI,ob:1,dica:'Campus onde o professor vai atuar.'},
+ {k:'diac',rot:'Diretoria Acadêmica solicitante',tipo:'texto',ob:1,dica:'Nome da diretoria como consta no SUAP. Ex.: Diretoria Acadêmica de Recursos Naturais.'},
+ {k:'resp',rot:'Diretor(a) Acadêmico(a) responsável',tipo:'texto',ob:1,dica:'Quem assina a solicitação.'},
+ {k:'pedido',rot:'Tipo de pedido',tipo:'sel',ops:PEDIDO,ob:1,dica:'A prorrogação pede os dados do contrato atual mais adiante.'}];
+
+var MODELOS={
+ sub:{nome:'Professor substituto',chamada:'Supre a falta de um docente efetivo identificado.',
+  titulo:'Solicitação de contratação de professor substituto',
+  passos:[
+   {t:'Identificação',campos:ident},
+   {t:'Motivo da vaga',campos:[
+     {k:'hip',rot:'Hipótese legal',tipo:'sel',ops:HIP,ob:1,
+      dica:'Situação prevista no art. 2º da IN 1/2021. Só constam as hipóteses que a lei autoriza; não há campo "outros".'},
+     {k:'efetivo',rot:'Docente efetivo substituído',tipo:'texto',ob:function(d){return !ehVac(d)},oculto:ehVac,
+      dica:'Nome completo e matrícula SIAPE de quem se afastou.'},
+     {k:'vaga',rot:'Código de vaga',tipo:'texto',ob:ehVac,quando:ehVac,
+      dica:'Código da vaga que ficou livre com a vacância.'},
+     {k:'ato',rot:'Ato que gerou o motivo',tipo:'texto',ob:1,
+      dica:'Portaria, processo ou ato que formalizou o afastamento ou a vacância. Anexe o documento ao processo. Ex.: Portaria 100/2027-RE/IFRN.'},
+     {k:'afIni',rot:'Início do afastamento ou da vacância',tipo:'data',ob:1,dica:'Data em que a vaga ficou disponível.'},
+     {k:'afFim',rot:'Término do afastamento',tipo:'data',ob:function(d){return !ehVac(d)},oculto:ehVac,
+      dica:'Data prevista de retorno do docente. O contrato não pode ultrapassá-la.'}]},
+   {t:'Necessidade',campos:[
+     {k:'disc',rot:'Disciplinas e cursos atendidos',tipo:'area',ob:1,
+      dica:'Liste as disciplinas e os cursos em que o contratado vai atuar.'},
+     {k:'ch',rot:'Carga horária semanal em sala',tipo:'texto',dica:'Aulas por semana. Ajuda a justificar o regime pedido.'},
+     {k:'regime',rot:'Regime de trabalho',tipo:'sel',ops:['20 horas','40 horas'],ob:1,dica:'Conforme a necessidade da diretoria.'},
+     {k:'ini',rot:'Início pretendido do contrato',tipo:'data',ob:1,
+      dica:'Pode coincidir com o início do afastamento. Não espere o início das aulas: antes delas há planejamento.'},
+     {k:'fim',rot:'Término pretendido do contrato',tipo:'data',ob:1,
+      dica:'Até 1 ano e nunca além do término do afastamento. A prorrogação é pedida depois, em novo documento.'},
+     {k:'cal',rot:'Referência ao calendário acadêmico',tipo:'texto',ob:1,
+      dica:'Semestre letivo e data de início das aulas. Ex.: 2027.1, aulas a partir de 08/03/2027.'}]},
+   {t:'Contratação',campos:[
+     {k:'contratacao',rot:'Forma de contratação sugerida',tipo:'sel',ops:CONTRAT,ob:1,
+      dica:'A escolha entre aproveitamento e processo seletivo próprio só se concretiza depois de autorizada a contratação. Não faça contato com candidatos antes da convocação formal.'},
+     {k:'prog',rot:'Programa e temas da prova de desempenho didático',tipo:'area',ob:ehProprio,quando:ehProprio,
+      dica:'Elaborados por docentes efetivos da área.'},
+     {k:'banca',rot:'Indicação da banca examinadora',tipo:'area',ob:ehProprio,quando:ehProprio,
+      dica:'Três titulares e respectivos suplentes, com nome, titulação e justificativa do perfil técnico de cada um.'},
+     {k:'contrato',rot:'Número do contrato a prorrogar',tipo:'texto',ob:ehProrr,quando:ehProrr,dica:'Como registrado no SUAP.'},
+     {k:'vig',rot:'Vigência original e aditivos',tipo:'texto',ob:ehProrr,quando:ehProrr,dica:'Períodos já cumpridos, para conferência do limite de 2 anos.'},
+     {k:'obs',rot:'Observações',tipo:'area',dica:'Qualquer informação que ajude a COGPE e a Direção-Geral a analisar o pedido.'}]}]},
+
+ vis:{nome:'Professor visitante',chamada:'Apoia programa, projeto ou capacitação. O plano de trabalho faz parte do formulário.',
+  titulo:'Solicitação de contratação de professor visitante',
+  passos:[
+   {t:'Identificação',campos:ident.concat([
+     {k:'mod',rot:'Modalidade',tipo:'sel',ops:['Professor visitante (PV)','Professor visitante estrangeiro (PVE)'],ob:1,
+      dica:'O PVE admite prazo inicial maior.'}])},
+   {t:'Objetivo',campos:[
+     {k:'fin',rot:'Finalidade da contratação',tipo:'sel',ops:FIN,ob:1,
+      dica:'Lista fechada do art. 2º, § 5º, da Lei 8.745/1993. Falta de docente efetivo não é motivo para contratar visitante.'},
+     {k:'atu',rot:'Onde o visitante vai atuar',tipo:'multi',ops:ATU,ob:1,
+      dica:'Marque todas as ofertas previstas. Não há restrição de oferta educativa (Res. 35/2022, art. 2º).'}]},
+   {t:'Plano de trabalho',campos:[
+     {k:'vinc',rot:'Programa, curso ou projeto a que se vincula',tipo:'texto',ob:1,dica:'Nome do programa, curso ou projeto, com o respectivo processo quando houver.'},
+     {k:'eixo',rot:'Eixo',tipo:'multi',ops:['Ensino','Pesquisa','Extensão'],ob:1,dica:'Pode marcar mais de um.'},
+     {k:'just',rot:'Justificativa',tipo:'area',ob:1,
+      dica:'Que contribuição o visitante traz que o quadro atual do campus não oferece.'},
+     {k:'ativ',rot:'Atividades previstas',tipo:'area',ob:1,dica:'Uma por linha, com a carga horária semanal de cada uma.'},
+     {k:'metas',rot:'Metas e produtos esperados',tipo:'area',ob:1,
+      dica:'Servem de base ao relatório de atividades e a eventual prorrogação.'},
+     {k:'crono',rot:'Cronograma',tipo:'area',ob:1,dica:'Por mês ou por semestre.'}]},
+   {t:'Perfil e prazo',campos:[
+     {k:'tit',rot:'Titulação exigida',tipo:'sel',ob:1,
+      ops:['Doutor há pelo menos 2 anos','Exceção do art. 6º da Res. 35/2022 (somente se não houver doutor aprovado no certame)'],
+      dica:'A exceção exige mestre há 2 anos com produção nos últimos 5 anos.'},
+     {k:'area',rot:'Área de conhecimento',tipo:'texto',ob:1,dica:'Área exigida do candidato.'},
+     {k:'regime',rot:'Regime de trabalho',tipo:'sel',ops:['20 horas','40 horas'],ob:1},
+     {k:'ini',rot:'Início pretendido do contrato',tipo:'data',ob:1},
+     {k:'fim',rot:'Término pretendido do contrato',tipo:'data',ob:1,dica:'PV: até 1 ano. PVE: até 2 anos. A prorrogação é pedida depois.'},
+     {k:'contrato',rot:'Número do contrato a prorrogar',tipo:'texto',ob:ehProrr,quando:ehProrr,dica:'Como registrado no SUAP.'},
+     {k:'vig',rot:'Vigência original e aditivos',tipo:'texto',ob:ehProrr,quando:ehProrr},
+     {k:'rel',rot:'Relatório de atividades',tipo:'area',ob:ehProrr,quando:ehProrr,
+      dica:'Informe o documento do relatório aprovado pela Diretoria Acadêmica e o resultado alcançado.'},
+     {k:'obs',rot:'Observações',tipo:'area'}]}]}
+};
+
+var modelo='sub', passo=0, dados={}, conferido=false;
+// Alterar estes campos faz aparecer ou sumir outros; só então o painel é redesenhado.
+var REDESENHA=['pedido','hip','contratacao','mod'];
+var CH='ifrn_form_contratacao';
+
+function vis(c){ return !(c.quando && !c.quando(dados)) && !(c.oculto && c.oculto(dados)) }
+function obrig(c){ return typeof c.ob==='function' ? !!c.ob(dados) : !!c.ob }
+function val(k){ var v=dados[k]; return v==null?'':v }
+function preenchido(c){
+  var v=dados[c.k];
+  if(c.tipo==='multi') return !!(v && v.length);
+  return !!(v && String(v).trim());
+}
+function dias(a,b){ return Math.round((new Date(b)-new Date(a))/864e5) }
+function dataBR(d){ return d? d.split('-').reverse().join('/') : '' }
+
+function faltantes(i){
+  var r=[];
+  MODELOS[modelo].passos[i].campos.forEach(function(c){
+    if(vis(c) && obrig(c) && !preenchido(c)) r.push(c);
+  });
+  return r;
+}
+function criticas(){
+  var e=[], d=dados;
+  if(d.ini && d.fim){
+    if(dias(d.ini,d.fim)<=0) e.push('O término do contrato deve ser posterior ao início.');
+    else{
+      var max = modelo==='sub' ? 366 : (/PVE/.test(d.mod||'') ? 731 : 366);
+      if(dias(d.ini,d.fim)>max) e.push(modelo==='sub'
+        ? 'O contrato inicial de substituto é de até 1 ano (Lei 8.745/1993, art. 4º, II). A prorrogação é pedida depois.'
+        : 'Prazo inicial acima do permitido: PV até 1 ano, PVE até 2 anos (Res. 35/2022, art. 4º).');
     }
-    if (v('pedido') === 'Prorrogação de contrato') { falta('contrato', 'Número do contrato'); falta('vig', 'Vigência original'); }
-    if (e.length) erros.unshift('Preencha: ' + e.join(', ') + '.');
-    return erros;
   }
-  function gerar() {
-    const erros = validar();
-    $('erros').innerHTML = erros.map(esc).join('<br>');
-    if (erros.length) { $('saida').hidden = true; $('imprimir').hidden = true; $('erros').scrollIntoView({ block: 'center' }); return; }
-    const data = d => d ? d.split('-').reverse().join('/') : '';
-    const linha = (k, val) => val ? '<dt>' + esc(k) + '</dt><dd>' + esc(val) + '</dd>' : '';
-    const sec = (t, h) => h ? '<h3>' + esc(t) + '</h3><dl>' + h + '</dl>' : '';
-    let h = '<h2>Solicitação de contratação temporária — ' + (aba === 'a' ? 'professor substituto' : esc(v('mod'))) + '</h2><p class="dica">Campus ' + esc(v('campus')) + ' · ' + esc(v('diac')) + '</p>' +
-      sec('Identificação', linha('Responsável', v('resp')) + linha('Tipo de pedido', v('pedido')));
-    if (aba === 'a') {
-      h += sec('Motivo da vaga', linha('Hipótese legal', v('hip')) + linha('Docente efetivo', v('efetivo')) + linha('Código de vaga', v('vaga')) + linha('Ato', v('ato')) +
-        linha('Afastamento', data(v('af-ini')) + (v('af-fim') ? ' a ' + data(v('af-fim')) : ''))) +
-        sec('Necessidade', linha('Disciplinas e cursos', v('disc')) + linha('Carga horária', v('ch')) + linha('Regime', v('regime')) + linha('Período pretendido', data(v('ini')) + ' a ' + data(v('fim'))) + linha('Calendário acadêmico', v('cal'))) +
-        sec('Forma de contratação', linha('Forma sugerida', v('prov'))) + (v('prov') === PROV[3] ? sec('Processo seletivo próprio', linha('Programa e temas', v('prog')) + linha('Banca indicada', v('banca'))) : '');
+  if(modelo==='sub'){
+    if(d.afIni && d.ini && dias(d.afIni,d.ini)<0) e.push('O contrato não pode começar antes do afastamento do docente efetivo.');
+    if(!ehVac(d) && d.afFim && d.fim && dias(d.fim,d.afFim)<0) e.push('O contrato não pode ultrapassar o término do afastamento (IN 1/2021, art. 4º, § 1º).');
+  }
+  return e;
+}
+function salvar(){ try{ localStorage.setItem(CH, JSON.stringify({m:modelo,d:dados})) }catch(e){} }
+function carregar(){ try{ var j=JSON.parse(localStorage.getItem(CH)||'null');
+  if(j && j.d){ modelo=j.m||'sub'; dados=j.d } }catch(e){} }
+
+function desenhaModelos(){
+  $('modelos').innerHTML=Object.keys(MODELOS).map(function(k){
+    return '<button data-m="'+k+'" class="'+(k===modelo?'on':'')+'"><b>'+esc(MODELOS[k].nome)+'</b><span>'+esc(MODELOS[k].chamada)+'</span></button>'
+  }).join('');
+  Array.prototype.forEach.call($('modelos').querySelectorAll('button'),function(b){
+    b.onclick=function(){ if(b.dataset.m===modelo) return;
+      modelo=b.dataset.m; dados={}; passo=0; conferido=false; salvar(); tudo(); }
+  });
+}
+function desenhaEtapas(){
+  var ps=MODELOS[modelo].passos;
+  var h=ps.map(function(p,i){
+    var cls=i===passo?'on':(conferido&&faltantes(i).length?'falta':(preenchidoPasso(i)?'ok':''));
+    return '<button data-i="'+i+'" class="'+cls+'"><em>Etapa '+(i+1)+'</em><b>'+esc(p.t)+'</b></button>'
+  }).join('');
+  h+='<button data-i="'+ps.length+'" class="'+(passo===ps.length?'on':'')+'"><em>Etapa '+(ps.length+1)+'</em><b>Conferir e gerar</b></button>';
+  $('etapas').innerHTML=h;
+  Array.prototype.forEach.call($('etapas').querySelectorAll('button'),function(b){
+    b.onclick=function(){ passo=+b.dataset.i; tudo() }
+  });
+}
+function preenchidoPasso(i){
+  var cs=MODELOS[modelo].passos[i].campos.filter(function(c){return vis(c)&&obrig(c)});
+  return cs.length>0 && cs.every(preenchido);
+}
+function campoHTML(c){
+  var id='c_'+c.k, m=obrig(c)?'<span class="marca ob">obrigatório</span>':'<span class="marca op">opcional</span>';
+  var h='<div class="campo" data-k="'+c.k+'"><div class="lin"><label for="'+id+'">'+esc(c.rot)+'</label>'+m+'</div>';
+  if(c.dica) h+='<span class="dica">'+esc(c.dica)+'</span>';
+  if(c.tipo==='texto') h+='<input id="'+id+'" value="'+esc(val(c.k))+'">';
+  else if(c.tipo==='data') h+='<input type="date" id="'+id+'" value="'+esc(val(c.k))+'">';
+  else if(c.tipo==='area') h+='<textarea id="'+id+'">'+esc(val(c.k))+'</textarea>';
+  else if(c.tipo==='sel'){
+    h+='<select id="'+id+'"><option value="">Selecione</option>'+c.ops.map(function(o){
+      return '<option'+(val(c.k)===o?' selected':'')+'>'+esc(o)+'</option>'}).join('')+'</select>';
+  } else if(c.tipo==='multi'){
+    var sel=dados[c.k]||[];
+    h+='<div class="marcas">'+c.ops.map(function(o,i){
+      return '<label><input type="checkbox" data-k="'+c.k+'" value="'+esc(o)+'"'+(sel.indexOf(o)>=0?' checked':'')+'><span>'+esc(o)+'</span></label>'
+    }).join('')+'</div>';
+  }
+  h+='<span class="msg"></span></div>';
+  return h;
+}
+function desenhaPainel(){
+  var ps=MODELOS[modelo].passos;
+  if(passo>=ps.length) return desenhaConferencia();
+  $('f').hidden=false; $('doc').hidden=true; $('nav2').hidden=true;
+  var p=ps[passo];
+  $('f').innerHTML='<h2>Etapa '+(passo+1)+' · '+esc(p.t)+'</h2>'+
+    p.campos.filter(vis).map(campoHTML).join('');
+  $('f').oninput=$('f').onchange=function(ev){
+    var t=ev.target, k=t.dataset.k;
+    if(t.type==='checkbox'){
+      var arr=(dados[k]||[]).slice(), i=arr.indexOf(t.value);
+      if(t.checked){ if(i<0) arr.push(t.value) } else if(i>=0) arr.splice(i,1);
+      dados[k]=arr;
     } else {
-      h += sec('Objetivo', linha('Finalidade', v('fin')) + linha('Atuação', marcados('atu').join('; '))) +
-        sec('Plano de trabalho', linha('Vínculo', v('vinc')) + linha('Eixo', marcados('eixo').join(', ')) + linha('Justificativa', v('just')) + linha('Atividades', v('ativ')) + linha('Metas e produtos', v('metas')) + linha('Cronograma', v('crono'))) +
-        sec('Perfil e prazo', linha('Titulação', v('tit')) + linha('Área', v('area')) + linha('Regime', v('regime')) + linha('Período pretendido', data(v('ini')) + ' a ' + data(v('fim'))));
+      var cp=t.closest('.campo'); if(!cp) return;
+      dados[cp.dataset.k]=t.value;
     }
-    if (v('pedido') === 'Prorrogação de contrato') h += sec('Prorrogação', linha('Contrato', v('contrato')) + linha('Vigência original e aditivos', v('vig')) + linha('Relatório de atividades', v('rel')));
-    h += '<p class="dica" style="margin-top:16px">Assinatura eletrônica do(a) Diretor(a) Acadêmico(a). Encaminhe à COGPE para análise.</p>';
-    $('saida').innerHTML = h; $('saida').hidden = false; $('imprimir').hidden = false; $('saida').scrollIntoView({ behavior: 'smooth' });
+    salvar();
+    if(ev.type==='change' && REDESENHA.indexOf(k || (t.closest('.campo')||{dataset:{}}).dataset.k)>=0){ desenhaPainel(); return }
+    desenhaEtapas(); marcaErros();
+  };
+  marcaErros();
+  $('resumo').hidden=true;
+  $('nav').innerHTML=
+    (passo>0?'<button class="btn sec" id="volta">Voltar</button>':'')+
+    '<button class="btn" id="segue">Avançar</button>';
+  $('segue').onclick=function(){ passo++; tudo(); window.scrollTo(0,0) };
+  if($('volta')) $('volta').onclick=function(){ passo--; tudo(); window.scrollTo(0,0) };
+}
+function marcaErros(){
+  if(!conferido) return;
+  var faltam=faltantes(passo).map(function(c){return c.k});
+  Array.prototype.forEach.call($('f').querySelectorAll('.campo'),function(el){
+    var ruim=faltam.indexOf(el.dataset.k)>=0;
+    el.classList.toggle('erro',ruim);
+    el.querySelector('.msg').textContent=ruim?'Campo obrigatório.':'';
+  });
+}
+function desenhaConferencia(){
+  conferido=true;
+  $('f').hidden=true; $('nav').innerHTML='';
+  var ps=MODELOS[modelo].passos, pend=[];
+  ps.forEach(function(p,i){ faltantes(i).forEach(function(c){ pend.push('Etapa '+(i+1)+' · '+p.t+': '+c.rot) }) });
+  var crit=criticas();
+  if(pend.length||crit.length){
+    $('doc').hidden=true; $('nav2').hidden=true;
+    $('resumo').hidden=false;
+    $('resumo').innerHTML='Faltam informações para gerar o documento.'+
+      '<ul>'+pend.concat(crit).map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>';
+    $('nav').innerHTML='<button class="btn sec" id="volta">Voltar</button>';
+    $('volta').onclick=function(){ passo=ps.length-1; tudo(); window.scrollTo(0,0) };
+    desenhaEtapas();
+    return;
   }
-  $('ab-a').onclick = () => { aba = 'a'; montar(); };
-  $('ab-b').onclick = () => { aba = 'b'; montar(); };
-  $('gerar').onclick = gerar;
-  $('imprimir').onclick = () => print();
-  if (new URLSearchParams(location.search).get('m') === 'b') aba = 'b';
-  montar();
+  $('resumo').hidden=true;
+  $('doc').hidden=false; $('doc').innerHTML=documento();
+  $('nav2').hidden=false;
+  $('nav2').innerHTML='<button class="btn sec" id="voltaC">Voltar e editar</button>'+
+    '<button class="btn" id="imp">Imprimir ou salvar em PDF</button>'+
+    '<button class="btn fraco" id="limpa">Limpar formulário</button>';
+  $('voltaC').onclick=function(){ passo=ps.length-1; tudo(); window.scrollTo(0,0) };
+  $('imp').onclick=function(){ window.print() };
+  $('limpa').onclick=function(){
+    if(!confirm('Apagar tudo o que foi preenchido neste navegador?')) return;
+    dados={}; passo=0; conferido=false; salvar(); tudo(); window.scrollTo(0,0);
+  };
+}
+function documento(){
+  var M=MODELOS[modelo], d=dados;
+  function li(rot,v){ return v? '<dt>'+esc(rot)+'</dt><dd>'+esc(v)+'</dd>' : '' }
+  function sec(t,corpo){ return corpo? '<section><h3>'+esc(t)+'</h3><dl>'+corpo+'</dl></section>' : '' }
+  var h='<div class="doc-cab"><div>Ministério da Educação</div>'+
+    '<div class="org">Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte</div>'+
+    '<div>Campus '+esc(d.campus)+' · '+esc(d.diac)+'</div></div>'+
+    '<h2>'+esc(M.titulo)+(ehProrr(d)?' — prorrogação':'')+'</h2>';
+  h+=sec('Identificação', li('Campus',d.campus)+li('Diretoria Acadêmica',d.diac)+
+    li('Responsável',d.resp)+li('Tipo de pedido',d.pedido)+li('Modalidade',d.mod));
+  if(modelo==='sub'){
+    h+=sec('Motivo da vaga', li('Hipótese legal',d.hip)+li('Docente efetivo substituído',d.efetivo)+
+      li('Código de vaga',d.vaga)+li('Ato que gerou o motivo',d.ato)+
+      li('Afastamento ou vacância', dataBR(d.afIni)+(d.afFim?' a '+dataBR(d.afFim):'')));
+    h+=sec('Necessidade', li('Disciplinas e cursos',d.disc)+li('Carga horária semanal',d.ch)+
+      li('Regime de trabalho',d.regime)+li('Período pretendido',dataBR(d.ini)+' a '+dataBR(d.fim))+
+      li('Calendário acadêmico',d.cal));
+    h+=sec('Forma de contratação', li('Forma sugerida',d.contratacao)+
+      li('Programa e temas da prova',d.prog)+li('Banca indicada',d.banca));
+  } else {
+    h+=sec('Objetivo', li('Finalidade',d.fin)+li('Atuação',(d.atu||[]).join('; ')));
+    h+=sec('Plano de trabalho', li('Vínculo',d.vinc)+li('Eixo',(d.eixo||[]).join(', '))+
+      li('Justificativa',d.just)+li('Atividades previstas',d.ativ)+
+      li('Metas e produtos esperados',d.metas)+li('Cronograma',d.crono));
+    h+=sec('Perfil e prazo', li('Titulação exigida',d.tit)+li('Área de conhecimento',d.area)+
+      li('Regime de trabalho',d.regime)+li('Período pretendido',dataBR(d.ini)+' a '+dataBR(d.fim)));
+  }
+  if(ehProrr(d)) h+=sec('Prorrogação', li('Contrato',d.contrato)+li('Vigência original e aditivos',d.vig)+
+    li('Relatório de atividades',d.rel));
+  h+=sec('Observações', li('Observações',d.obs));
+  h+='<section><h3>Encaminhamento</h3><dl><dt>À</dt><dd>Coordenação de Gestão de Pessoas do campus, para análise do motivo da vaga, '+
+    'juntada do relatório de contratos vigentes e manifestação.</dd></dl></section>';
+  h+='<div class="assina"><div class="risco"></div>'+esc(d.resp)+'<br><small>Diretor(a) Acadêmico(a) · Campus '+esc(d.campus)+
+    '<br>Documento assinado eletronicamente no SUAP</small></div>';
+  return h;
+}
+function tudo(){ desenhaModelos(); desenhaEtapas(); desenhaPainel() }
+carregar(); tudo();
 })();
 </script>
 </body>
