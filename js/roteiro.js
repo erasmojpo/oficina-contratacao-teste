@@ -40,7 +40,8 @@
       S(2, 'As três constatações', tb(['Constatação', 'O que é', 'Recomendação à DIGPE'], [
         ['<b>1.</b> Falhas na instrução processual', 'Documentos e registros ausentes em várias etapas, em vários campi', 'Capacitação periódica; modelo padronizado de solicitação no SUAP'],
         ['<b>2.</b> Reserva de vagas não observada', 'Um PSS sem cota étnico-racial, por desconhecimento de alteração normativa', 'Acompanhamento da atualização dos normativos internos'],
-        ['<b>3.</b> Norma interna desatualizada', 'A IN 1/2021 ainda liga a consulta orçamentária e o CDO ao pagamento de GECC, vedado em PSS', 'Atualizar a IN 1/2021; rotina de acompanhamento da legislação federal']])),
+        ['<b>3.</b> Norma interna desatualizada', 'A IN 1/2021 ainda liga a consulta orçamentária e o CDO ao pagamento de GECC, então vedado em PSS', 'Atualizar a IN 1/2021; rotina de acompanhamento da legislação federal']]) +
+        nota('A Constatação 3 partiu da vedação de GECC em processo seletivo. Essa vedação foi revertida em 19/11/2025, depois do período auditado. Voltamos a isso no bloco 5.')),
       S(2, 'Prazos pactuados com a Auditoria', nums([['180 dias', 'capacitação periódica'], ['90 dias', 'demais recomendações']]) +
         nota('Ata 59/2026-AUDGE. Esta oficina é a primeira edição da capacitação.'))],
     A(2, 'enquete', 1),
@@ -133,10 +134,12 @@
         'Extrato do edital e homologação no <b>DOU</b>, com os comprovantes juntados.',
         'Convocação por <b>e-mail</b>, juntada aos autos.',
         'O próximo candidato só é chamado após a recusa documentada ou o silêncio por <b>5 dias úteis</b>.'])),
-      S(5, 'GECC e CDO', ul([
-        'A IN SGP/MGI 33/2023, art. 4º, <b>veda GECC</b> em PSS da Lei 8.745.',
-        'O tema terá IN ou resolução própria, a cargo da <b>DIADPE</b>.',
-        'O <b>CDO continua obrigatório</b>: toda despesa do PSS exige CDO como requisito para o empenho.']))],
+      S(5, 'GECC: a regra mudou', ul([
+        'A auditoria apontou que a IN 1/2021 ainda exigia consulta orçamentária e CDO para GECC, à época <b>vedada</b> em processo seletivo pelo art. 4º da IN SGP/MGI 33/2023.',
+        'A <b>IN CGDEP/MGI 487, de 17/11/2025</b> (DOU de 19/11/2025) alterou esse artigo: voltou a ser <b>permitido</b> pagar GECC por atividades de processo seletivo simplificado da Lei 8.745.',
+        'Condições: atividade <b>eventual</b>, fora das atribuições permanentes, e apenas para <b>servidor efetivo ou em comissão</b> — contratado temporário não recebe GECC.',
+        'A escolha dos servidores para essas atividades passa a exigir <b>edital</b>, com no mínimo 15 dias entre a divulgação e o início das inscrições (art. 18-A).']) +
+        nota('Havendo GECC, a consulta orçamentária e o CDO voltam a fazer sentido. E o CDO permanece obrigatório para qualquer despesa do certame, como requisito do empenho. A DIADPE disciplinará o procedimento.'))],
     A(5, 'vf', 8),
 
     // ----- bloco 6

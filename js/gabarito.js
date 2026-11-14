@@ -27,7 +27,7 @@ window.OFC_GABARITO = {
     { correta: 'f', tempo: 30, pontua: true, comentario: 'São 25% para pessoas negras, 3% para indígenas e 2% para quilombolas (Lei 15.142/2025).' },
     { correta: 'f', tempo: 30, pontua: true, comentario: 'A reserva étnico-racial se aplica a partir de duas vagas.' },
     { correta: 'v', tempo: 30, pontua: true, comentario: 'A lista de cotas avança para o cotista seguinte.' },
-    { correta: 'f', tempo: 30, pontua: true, comentario: 'Vedado pela IN SGP/MGI 33/2023, art. 4º.' },
+    { correta: 'v', tempo: 30, pontua: true, comentario: 'A IN CGDEP/MGI 487/2025 alterou o art. 4º da IN SGP/MGI 33/2023. A atividade deve ser eventual e o pagamento alcança apenas servidor efetivo ou em comissão.' },
     { correta: 'f', tempo: 30, pontua: true, comentario: 'Coautoria é impedimento. Sai o membro, entra o suplente.' },
     { correta: 'v', tempo: 30, pontua: true, comentario: 'Só então o membro conhece a relação nominal dos candidatos (IN 1/2021, art. 26, § 1º).' },
     { correta: 'f', tempo: 30, pontua: true, comentario: 'Sem o comprovante, os autos não demonstram a publicação.' },

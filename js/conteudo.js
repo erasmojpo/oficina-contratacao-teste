@@ -86,7 +86,7 @@
       { tipo: 'escolha', pergunta: 'A reserva para pessoas negras em PSS é de 20% das vagas.', opcoes: VF },
       { tipo: 'escolha', pergunta: 'Edital de PSS com uma única vaga precisa reservar vaga para cota étnico-racial.', opcoes: VF },
       { tipo: 'escolha', pergunta: 'Cotista aprovado dentro das vagas da ampla concorrência não é contado nas vagas reservadas.', opcoes: VF },
-      { tipo: 'escolha', pergunta: 'Membro de banca de PSS pode receber GECC se o campus tiver dotação orçamentária.', opcoes: VF },
+      { tipo: 'escolha', pergunta: 'Desde novembro de 2025, voltou a ser permitido pagar GECC por atividades de processo seletivo simplificado da Lei 8.745.', opcoes: VF },
       { tipo: 'escolha', pergunta: 'Coautor de artigo com um candidato pode permanecer na banca, desde que informe o fato.', opcoes: VF },
       { tipo: 'escolha', pergunta: 'A declaração de impedimento da banca é assinada depois da homologação das inscrições.', opcoes: VF },
       { tipo: 'escolha', pergunta: 'Se o extrato do edital saiu no DOU, o comprovante não precisa estar nos autos, porque a publicação é pública.', opcoes: VF },

@@ -18,7 +18,7 @@ insert into public.ofc_gabarito (atividade, item, tipo, correta, tempo, pontua) 
 ('vf', 0, 'escolha', '"f"'::jsonb, 30, true),
 ('vf', 1, 'escolha', '"f"'::jsonb, 30, true),
 ('vf', 2, 'escolha', '"v"'::jsonb, 30, true),
-('vf', 3, 'escolha', '"f"'::jsonb, 30, true),
+('vf', 3, 'escolha', '"v"'::jsonb, 30, true),
 ('vf', 4, 'escolha', '"f"'::jsonb, 30, true),
 ('vf', 5, 'escolha', '"v"'::jsonb, 30, true),
 ('vf', 6, 'escolha', '"f"'::jsonb, 30, true),
