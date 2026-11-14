@@ -44,6 +44,8 @@ create table if not exists public.ofc_respostas (
   resposta jsonb not null,
   correta boolean,
   pontos int not null default 0,
+  bonus int not null default 0,
+  ms int not null default 0,
   criado_em timestamptz not null default now(),
   unique (participante, atividade, item)
 );
@@ -121,7 +123,7 @@ end $$;
 
 create or replace function public.ofc_responder(p_amb text, p_pid uuid, p_atividade text, p_item int, p_resposta jsonb) returns json
 language plpgsql security definer set search_path = public, pg_temp as $$
-declare e ofc_estado; g ofc_gabarito; v_correta boolean; v_pontos int := 0; v_bonus int := 0; v_n int; v_ok int; v_ins int;
+declare e ofc_estado; g ofc_gabarito; v_correta boolean; v_pontos int := 0; v_bonus int := 0; v_dado int := 0; v_n int; v_ok int; v_ins int; v_ms int;
 begin
   if not exists (select 1 from ofc_participantes where id = p_pid and amb = p_amb) then raise exception 'participante não encontrado'; end if;
   if p_resposta is null or pg_column_size(p_resposta) > 2000 then raise exception 'resposta inválida'; end if;
@@ -131,25 +133,28 @@ begin
   end if;
   select * into g from ofc_gabarito where atividade = p_atividade and item = p_item;
   if not found then raise exception 'atividade inexistente'; end if;
+  v_ms := greatest(0, round(1000 * extract(epoch from (now() - e.aberto_em)))::int);
   v_bonus := greatest(0, round(50 * (1 - extract(epoch from (now() - e.aberto_em)) / greatest(g.tempo,1)))::int);
   if g.tipo = 'escolha' and g.correta is not null then
     v_correta := (p_resposta = g.correta);
-    if v_correta then v_pontos := 100 + v_bonus; end if;
+    if v_correta then v_pontos := 100 + v_bonus; v_dado := v_bonus; end if;
   elsif g.tipo = 'ordem' then
     v_n := jsonb_array_length(g.correta);
     select count(*) into v_ok from jsonb_array_elements(p_resposta) with ordinality a(v,i)
       join jsonb_array_elements(g.correta) with ordinality b(v,i) using (i) where a.v = b.v;
     v_correta := (v_ok = v_n);
-    v_pontos := case when v_correta then 100 + v_bonus else round(100.0 * v_ok / v_n)::int end;
+    if v_correta then v_pontos := 100 + v_bonus; v_dado := v_bonus;
+    else v_pontos := round(100.0 * v_ok / v_n)::int; end if;
   elsif g.tipo = 'campos' then
     select count(*) into v_n from jsonb_each(g.correta);
     select count(*) into v_ok from jsonb_each(g.correta) c where p_resposta -> c.key = c.value;
     v_correta := (v_ok = v_n);
     v_pontos := 25 * v_ok + case when v_correta then v_bonus else 0 end;
+    if v_correta then v_dado := v_bonus; end if;
   end if;
-  if not g.pontua then v_pontos := 0; end if;
-  insert into ofc_respostas(amb, participante, atividade, item, resposta, correta, pontos)
-    values (p_amb, p_pid, p_atividade, p_item, p_resposta, v_correta, v_pontos)
+  if not g.pontua then v_pontos := 0; v_dado := 0; end if;
+  insert into ofc_respostas(amb, participante, atividade, item, resposta, correta, pontos, bonus, ms)
+    values (p_amb, p_pid, p_atividade, p_item, p_resposta, v_correta, v_pontos, v_dado, case when g.pontua then v_ms else 0 end)
     on conflict (participante, atividade, item) do nothing;
   get diagnostics v_ins = row_count;
   return json_build_object('ok', true, 'repetida', v_ins = 0);
@@ -171,6 +176,7 @@ begin
     'respondeu', r.id is not null, 'resposta', r.resposta,
     'correta', case when e.fase = 'revelada' then r.correta end,
     'pontos_item', case when e.fase = 'revelada' then r.pontos end,
+    'bonus_item', case when e.fase = 'revelada' then r.bonus end,
     'gabarito', v_gab);
 end $$;
 
@@ -208,15 +214,15 @@ end $$;
 create or replace function public.ofc_ranking(p_amb text) returns json
 language sql stable security definer set search_path = public, pg_temp as $$
   with tot as (
-    select p.id, p.nome, p.campus, coalesce(sum(r.pontos),0)::int pontos
+    select p.id, p.nome, p.campus, coalesce(sum(r.pontos),0)::int pontos, coalesce(sum(r.ms),0)::bigint ms
     from ofc_participantes p left join ofc_respostas r on r.participante = p.id
     where p.amb = p_amb group by p.id)
   select json_build_object(
     'participantes', (select count(*) from tot),
     'por_campus', (select coalesce(json_agg(json_build_object('campus', campus, 'n', n) order by n desc, campus), '[]'::json)
                    from (select campus, count(*) n from tot group by campus) c),
-    'individual', (select coalesce(json_agg(json_build_object('nome', nome, 'campus', campus, 'pontos', pontos) order by pontos desc, nome), '[]'::json)
-                   from (select * from tot order by pontos desc, nome limit 10) i),
+    'individual', (select coalesce(json_agg(json_build_object('nome', nome, 'campus', campus, 'pontos', pontos) order by pontos desc, ms, nome), '[]'::json)
+                   from (select * from tot order by pontos desc, ms, nome limit 10) i),
     'campi', (select coalesce(json_agg(json_build_object('campus', campus, 'media', media, 'n', n) order by media desc, campus), '[]'::json)
               from (select campus, round(avg(pontos))::int media, count(*) n from tot group by campus) m));
 $$;

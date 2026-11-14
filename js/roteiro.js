@@ -29,7 +29,7 @@
         ['<b>5</b>', 'Processo seletivo sem falhas', 'Verdadeiro ou falso'],
         ['<b>6</b>', 'Formulário padrão', 'Preencher um caso e sugerir'],
         ['<b>7</b>', 'Dúvidas e compromissos', 'Mural de dúvidas e avaliação']]) +
-        nota('Duas horas e vinte. Cada atividade abre com um QR code na tela, e os blocos 3 a 6 valem pontos: há ranking individual e por campus.')),
+        nota('Duas horas e vinte. Cada atividade abre com um QR code na tela, e os blocos 3 a 6 valem pontos: há ranking individual e por campus. Cada acerto vale 100 pontos, mais até 50 pela rapidez — quem responde certo primeiro leva mais, e é isso que desempata.')),
       { tipo: 'slide', bloco: 1, titulo: 'Dúvidas: envie e vote quando quiser', qr: '?t=mural', qrRotulo: 'Abrir o mural', html: ol([
         'No celular, toque na aba <b>Dúvidas</b>, no rodapé da tela.',
         'Escreva sua pergunta e toque em <b>Enviar dúvida</b>. Ela aparece para todos, <b>sem o seu nome</b>.',
@@ -39,7 +39,8 @@
       S(1, 'Antes de começar, uma estimativa', ul([
         'A auditoria examinou os contratos de professor substituto de 2025, em todos os campi.',
         'A primeira pergunta é só para aquecer: <b>não vale pontos</b>.',
-        'Leia o QR code da próxima tela e responda no celular.']))],
+        'Leia o QR code da próxima tela e responda no celular.']) +
+        nota('Nas que valem, o acerto dá 100 pontos e a rapidez acrescenta até 50, decrescendo até o fim do tempo. Errar rápido não vale nada: o bônus só conta sobre a resposta certa.'))],
 
     A(1, 'aquec', 1),
 

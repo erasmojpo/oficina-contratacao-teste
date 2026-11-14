@@ -153,7 +153,8 @@
     let h = '<div class="cartao"><div class="rotulo">' + esc(a.titulo) + '</div><div class="pergunta">' + esc(it.tipo === 'campos' ? 'Resultado do caso' : it.pergunta) + '</div></div>';
     const g = meu.gabarito;
     if (!meu.respondeu) h += '<div class="resultado nao">Você não respondeu<small>Veja o comentário na tela.</small></div>';
-    else if (meu.correta === true) h += '<div class="resultado ok">Acertou! +' + (meu.pontos_item || 0) + ' pontos</div>';
+    else if (meu.correta === true) h += '<div class="resultado ok">Acertou! +' + (meu.pontos_item || 0) + ' pontos' +
+      (meu.bonus_item ? '<small>100 pelo acerto e ' + meu.bonus_item + ' pela rapidez</small>' : '') + '</div>';
     else if (meu.correta === false) h += '<div class="resultado nao">Não foi dessa vez' + (meu.pontos_item ? '<small>+' + meu.pontos_item + ' pontos pelos acertos parciais</small>' : '') + '</div>';
     else h += '<div class="resultado ok">Resposta registrada<small>Obrigado pela participação.</small></div>';
     if (it.tipo === 'escolha' && g != null) {
