@@ -389,21 +389,27 @@ function desenhaConferencia(){
 }
 // Documento em HTML com estilo embutido: serve para a tela, para o PDF e para colar no SUAP.
 // Identidade DIDEPE: verde institucional, filete de destaque, rótulos em caixa-alta espaçada.
-var V={esc:'#14532d',ver:'#2f9e41',tinta:'#14201a',cinza:'#5d6b63',linha:'#d9ddd4'};
+var V={esc:'#14532d',ver:'#2f9e41',cl:'#e3f3e5',palha:'#f7f6f2',tinta:'#14201a',cinza:'#5d6b63',linha:'#dcdfd8'};
 function documento(paraSuap){
   var M=MODELOS[modelo], d=dados;
   var fonte=paraSuap?'Calibri,Carlito,Arial,sans-serif':'inherit';
+  // Cada dado é uma linha; o rótulo fica numa faixa clara à esquerda.
   function li(rot,v){
     if(!v) return '';
     return '<tr>'+
-      '<td style="width:31%;padding:5px 14px 5px 0;color:'+V.cinza+';vertical-align:top">'+esc(rot)+'</td>'+
-      '<td style="padding:5px 0;vertical-align:top">'+esc(v).replace(/\n/g,'<br>')+'</td></tr>';
+      '<td style="width:30%;padding:7px 12px;color:'+V.cinza+';vertical-align:top;'+
+      'background:'+V.palha+';border-bottom:1px solid '+V.linha+';border-right:1px solid '+V.linha+'">'+esc(rot)+'</td>'+
+      '<td style="padding:7px 12px;vertical-align:top;border-bottom:1px solid '+V.linha+'">'+
+      esc(v).replace(/\n/g,'<br>')+'</td></tr>';
   }
+  // Cada bloco é uma tabela própria, aberta por uma faixa verde com o nome da seção.
   function sec(t,corpo){
     if(!corpo) return '';
-    return '<p style="margin:18px 0 6px;font-size:10pt;font-weight:bold;letter-spacing:1.2px;color:'+V.esc+';'+
-      'border-bottom:1px solid '+V.linha+';padding-bottom:4px">'+esc(t.toUpperCase())+'</p>'+
-      '<table style="width:100%;border-collapse:collapse">'+corpo+'</table>';
+    return '<table style="width:100%;border-collapse:collapse;margin:0 0 16px;'+
+      'border:1px solid '+V.linha+'"><tr><td colspan="2" style="background:'+V.cl+';'+
+      'border-left:4px solid '+V.ver+';border-bottom:1px solid '+V.linha+';padding:7px 12px;'+
+      'font-size:9.5pt;font-weight:bold;letter-spacing:1.2px;color:'+V.esc+'">'+
+      esc(t.toUpperCase())+'</td></tr>'+corpo+'</table>';
   }
   var h='<div style="font-family:'+fonte+';color:'+V.tinta+';font-size:11pt;line-height:1.45">';
   if(!paraSuap){
@@ -412,11 +418,13 @@ function documento(paraSuap){
       '<div style="font-weight:bold">Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte</div></div>'+
       '<div style="border-top:2px solid '+V.tinta+';margin:10px 0 18px"></div>';
   }
-  h+='<p style="margin:0 0 3px;font-size:9pt;font-weight:bold;letter-spacing:1.4px;color:'+V.ver+'">'+
+  h+='<div style="text-align:center">'+
+    '<p style="margin:0 0 4px;font-size:9pt;font-weight:bold;letter-spacing:1.4px;color:'+V.ver+'">'+
     esc(('Campus '+(d.campus||'')+' · '+(d.diac||'')).toUpperCase())+'</p>'+
-    '<h2 style="margin:0 0 8px;font-size:15pt;line-height:1.25;color:'+V.esc+'">'+
+    '<h2 style="margin:0 0 10px;font-size:15pt;line-height:1.25;color:'+V.esc+'">'+
     esc(M.titulo)+(ehProrr(d)?' — prorrogação':'')+'</h2>'+
-    '<hr style="border:0;border-top:3px solid '+V.ver+';width:64px;margin:0 0 4px">';
+    '<hr style="border:0;border-top:3px solid '+V.ver+';width:64px;margin:0 auto 20px">'+
+    '</div>';
   h+=sec('Identificação', li('Responsável',d.resp)+li('Tipo de pedido',d.pedido)+li('Modalidade',d.mod));
   if(modelo==='sub'){
     h+=sec('Motivo da vaga', li('Hipótese legal',d.hip)+li('Docente efetivo substituído',d.efetivo)+
@@ -446,7 +454,7 @@ function documento(paraSuap){
       esc(d.resp||'')+'<br><span style="color:'+V.cinza+'">Diretor(a) Acadêmico(a) · Campus '+esc(d.campus||'')+
       '<br>Documento assinado eletronicamente no SUAP</span></div>';
   }
-  h+='<p style="margin:22px 0 0;font-size:8pt;letter-spacing:.8px;color:'+V.cinza+'">'+
+  h+='<p style="margin:16px 0 0;font-size:8pt;letter-spacing:.8px;color:'+V.cinza+';text-align:center">'+
     'MODELO PADRÃO · DIDEPE/DIGPE/RE · IFRN</p>';
   h+='</div>';
   return h;
