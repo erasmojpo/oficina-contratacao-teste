@@ -89,6 +89,8 @@
       'Depois da Lei 15.367/2026, um <b>sim</b> ou um <b>não</b> não resolve: é preciso saber a <b>duração</b> do contrato anterior, <b>qual entidade</b> contratou e se o vínculo <b>ainda está vigente</b>.',
       'Sem esses três dados, a COGPE não consegue dizer se o caso é interstício ou acumulação.']) +
       nota('A DIDEPE substituirá o Anexo VII por um modelo que pergunte as três coisas. Enquanto isso, peça esses dados ao candidato e registre a análise nos autos.'))],
+    [{ tipo: 'ranking', bloco: 3, top: 5, titulo: 'Parcial depois do bloco 3',
+      nota: 'Ainda faltam três blocos valendo pontos. Quem acertou devagar continua no jogo; quem acertou rápido abriu vantagem.' }],
 
     // ----- bloco 4
     [S(4, 'Quatro fases, nesta ordem', tb(['Fase', 'O que se decide', 'Só começa quando'], [
@@ -122,6 +124,8 @@
         'O que foi publicado ou enviado precisa do <b>comprovante nos autos</b>.',
         'O PSS tem <b>um processo único</b>, relacionado ao da contratação.']))],
     A(4, 'ordem', 1), A(4, 'falta', 3), A(4, 'relampago', 2),
+    [{ tipo: 'ranking', bloco: 4, top: 5, titulo: 'Parcial depois do bloco 4',
+      nota: 'A ordenação do fluxo e os relâmpagos pesaram. Vêm aí oito itens de verdadeiro ou falso, em 30 segundos cada.' }],
 
     // ----- bloco 5
     [S(5, 'Quando o campus realiza um processo seletivo', ul([
@@ -160,6 +164,8 @@
         'O edital pode ser <b>por unidade</b>: cada campus e cada diretoria sistêmica abre o seu. A <b>DITIC</b>, por exemplo, cujo pessoal não está no campus quando o certame é montado, publicaria o dela para as indicações da área.']) +
         nota('Um edital por unidade formaria um cadastro de servidores habilitados, permitindo compor bancas e comissões ao longo de todo o ano, em vez de refazer a busca a cada certame. Se essa for a decisão das unidades, a DIDEPE abrirá diálogo com a DIADPE sobre a melhor forma de orientar a construção desses editais. Até lá, atenção: mesmo as indicações que vêm ocorrendo precisam estar alinhadas às diretrizes da IN.'))],
     A(5, 'vf', 8),
+    [{ tipo: 'ranking', bloco: 5, top: 5, titulo: 'Parcial depois do bloco 5',
+      nota: 'Resta o caso do formulário, que vale até 100 pontos de uma vez. O pódio ainda pode mudar.' }],
 
     // ----- bloco 6
     [S(6, 'De onde vem o formulário padrão', ul([
@@ -204,7 +210,7 @@
         'Registrar toda análise e juntar todo comprovante.',
         'Nenhum contato extraoficial com candidato.',
         'Na dúvida, consultar a DIDEPE <b>antes</b> de contratar.'])),
-      { tipo: 'ranking', bloco: 7 }],
+      { tipo: 'ranking', bloco: 7, titulo: 'Ranking final' }],
     A(7, 'aval', 3),
     [{ tipo: 'fim', bloco: 7 }]
   );

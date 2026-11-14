@@ -11,7 +11,7 @@
   function peso(p) {
     if (p.tipo === 'capa' || p.tipo === 'fim') return 0.5;
     if (p.tipo === 'cadastro' || p.tipo === 'mural') return 2.5;
-    if (p.tipo === 'ranking') return 1.5;
+    if (p.tipo === 'ranking') return p.top ? 1 : 1.5;
     if (p.tipo === 'slide') return 1;
     const t = ATV[p.atividade].itens[p.item].tipo;
     return { escolha: 1, multi: 1.3, ordem: 2, campos: 5, texto: 2 }[t] || 1;
@@ -127,7 +127,10 @@
       corpo.innerHTML = '<div class="atv"><div class="esq mural-bloco"><div class="rot">Mural de dúvidas</div><div class="perg">As mais votadas</div><div class="mural-t" id="m-lista"></div></div>' +
         '<div class="dir">' + caixaQr(BASE + '?t=mural', 'Envie e vote') + '</div></div>';
     } else if (p.tipo === 'ranking') {
-      corpo.innerHTML = '<div class="rank"><div class="col"><h3>Participantes</h3><div id="r-ind"></div></div><div class="col"><h3>Campi, pela média de pontos</h3><div id="r-cam"></div></div></div>';
+      corpo.innerHTML = (p.titulo ? '<div class="s-titulo">' + esc(p.titulo) + '</div>' : '') +
+        '<div class="rank' + (p.top ? ' curto' : '') + '"><div class="col"><h3>' + (p.top ? 'Os ' + p.top + ' primeiros' : 'Participantes') + '</h3><div id="r-ind"></div></div>' +
+        '<div class="col"><h3>Campi, pela média de pontos</h3><div id="r-cam"></div></div></div>' +
+        (p.nota ? '<div class="rank-nota">' + esc(p.nota) + '</div>' : '');
     } else if (p.tipo === 'atividade') {
       desenharAtividade(p);
     }
@@ -200,8 +203,8 @@
           $('c-total').textContent = r.participantes;
           $('c-chips').innerHTML = r.por_campus.slice(0, 24).map(c => '<div class="chip"><span>' + esc(c.campus) + '</span><b>' + c.n + '</b></div>').join('');
         } else if (p.tipo === 'ranking') {
-          $('r-ind').innerHTML = r.individual.map((x, i) => '<div class="l"><span class="p">' + (i + 1) + 'º</span><span>' + esc(x.nome) + '<small>' + esc(x.campus) + '</small></span><b>' + x.pontos + '</b></div>').join('');
-          $('r-cam').innerHTML = r.campi.slice(0, 10).map((x, i) => '<div class="l"><span class="p">' + (i + 1) + 'º</span><span>' + esc(x.campus) + '<small>' + x.n + ' part.</small></span><b>' + x.media + '</b></div>').join('');
+          $('r-ind').innerHTML = r.individual.slice(0, p.top || 10).map((x, i) => '<div class="l"><span class="p">' + (i + 1) + 'º</span><span>' + esc(x.nome) + '<small>' + esc(x.campus) + '</small></span><b>' + x.pontos + '</b></div>').join('');
+          $('r-cam').innerHTML = r.campi.slice(0, p.top || 10).map((x, i) => '<div class="l"><span class="p">' + (i + 1) + 'º</span><span>' + esc(x.campus) + '<small>' + x.n + ' part.</small></span><b>' + x.media + '</b></div>').join('');
         }
       }
       moldura();
@@ -230,7 +233,8 @@
   function menu() {
     if (sobre.innerHTML) { sobre.innerHTML = ''; return; }
     const nome = (p, i) => (i + 1) + '. ' + (p.tipo === 'slide' ? p.titulo : p.tipo === 'atividade' ? '▶ ' + ATV[p.atividade].titulo + (ATV[p.atividade].itens.length > 1 ? ' (' + (p.item + 1) + ')' : '') :
-      { capa: 'Capa', cadastro: '▶ Cadastro', mural: '▶ Mural de dúvidas', ranking: 'Ranking final', fim: 'Encerramento' }[p.tipo]);
+      p.tipo === 'ranking' ? (p.titulo || 'Ranking final') :
+      { capa: 'Capa', cadastro: '▶ Cadastro', mural: '▶ Mural de dúvidas', fim: 'Encerramento' }[p.tipo]);
     const d = decorrido(), hhmm = t => t.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     const detalhe = d === null ? '<div class="ritmo-detalhe">A contagem de tempo começa quando você sair da capa.</div>'
       : '<div class="ritmo-detalhe">Início às <b>' + hhmm(new Date(Date.parse(estado.iniciado_em) + desvio)) + '</b> · '

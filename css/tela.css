@@ -123,6 +123,9 @@ html, body { height: 100%; overflow: hidden; background: #0d1a12; }
 .rank .l .p { font-weight: 800; color: var(--verde); }
 .rank .l small { color: var(--cinza); font-size: 18px; margin-left: 8px; }
 .rank .l b { font-variant-numeric: tabular-nums; }
+/* Parcial: os dois cards ficam na altura do conteúdo, iguais entre si, centrados na tela. */
+.rank.curto { flex: 0 1 auto; margin: auto 0; }
+.rank-nota { margin-top: 18px; padding-left: 18px; border-left: 5px solid var(--verde); color: var(--cinza); font-size: 24px; line-height: 1.35; }
 
 /* sobreposições */
 .vel { position: fixed; inset: 0; background: rgba(13, 26, 18, .82); display: grid; place-items: center; z-index: 20; }
