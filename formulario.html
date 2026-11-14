@@ -91,6 +91,13 @@ padding:14px 20px;min-height:52px;flex:1}
   .nao-imp{display:none !important}
   #doc{border:0;border-radius:0;padding:0}
   #doc{font-size:11pt}
+  /* compacta o documento na impressão, sem mexer no que vai para o SUAP */
+  #doc td{padding:3px 10px !important}
+  #doc table{margin-bottom:6px !important}
+  #doc .assina{margin-top:0 !important;break-inside:avoid}
+  #doc .risco{margin:14px auto 5px !important}
+  #doc hr{margin-bottom:12px !important}
+  #doc h2{margin-bottom:7px !important}
 }
 </style>
 </head>
@@ -449,8 +456,8 @@ function documento(paraSuap){
   h+=sec('Encaminhamento', li('À','Coordenação de Gestão de Pessoas do campus, para análise do motivo da vaga, '+
     'juntada do relatório de contratos vigentes e manifestação.'));
   if(!paraSuap){
-    h+='<div style="margin-top:8px;text-align:center;font-size:10pt">'+
-      '<div style="width:280px;border-top:1px solid '+V.tinta+';margin:24px auto 6px"></div>'+
+    h+='<div class="assina" style="margin-top:8px;text-align:center;font-size:10pt">'+
+      '<div class="risco" style="width:280px;border-top:1px solid '+V.tinta+';margin:24px auto 6px"></div>'+
       esc(d.resp||'')+'<br><span style="color:'+V.cinza+'">Diretor(a) Acadêmico(a) · Campus '+esc(d.campus||'')+
       '<br>Documento assinado eletronicamente no SUAP</span></div>';
   }
