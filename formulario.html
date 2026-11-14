@@ -64,8 +64,9 @@
   const ATU = ['Programas de pós-graduação stricto sensu', 'Cursos de pós-graduação lato sensu', 'Cursos técnicos e de graduação',
     'Programas e projetos de ensino, pesquisa e extensão', 'Programas de capacitação', 'Intercâmbio científico e tecnológico e parcerias institucionais',
     'Editoração e qualificação de periódicos científicos do IFRN'];
-  const PROV = ['Lista de espera de PSS vigente no próprio campus', 'Lista de espera de PSS vigente em outro campus do IFRN',
-    'Lista de espera de outra instituição federal de educação profissional e tecnológica', 'Novo processo seletivo simplificado'];
+  // Formas de contratação: aproveitamento de lista de espera vigente ou processo seletivo próprio.
+  const PROV = ['Aproveitamento de lista de espera do próprio campus', 'Aproveitamento de lista de espera de outro campus do IFRN',
+    'Aproveitamento de lista de espera de outra instituição federal de educação profissional e tecnológica', 'Realização de processo seletivo próprio'];
 
   const cp = (id, rot, html, dica) => '<div class="campo"><label for="' + id + '">' + rot + '</label>' + html + (dica ? '<span class="dica">' + dica + '</span>' : '') + '</div>';
   const tx = (id, rot, dica, ph) => cp(id, rot, '<input id="' + id + '" placeholder="' + esc(ph || '') + '">', dica);
@@ -86,8 +87,8 @@
       '<div class="duas">' + tx('ch', 'Carga horária semanal em sala') + sl('regime', 'Regime de trabalho', ['20 horas', '40 horas']) + '</div>' +
       '<div class="duas">' + dt('ini', 'Início pretendido do contrato', 'Pode coincidir com o início do afastamento; não espere o início das aulas') + dt('fim', 'Término pretendido do contrato', 'Até 1 ano e nunca além do afastamento') + '</div>' +
       tx('cal', 'Referência ao calendário acadêmico', '', 'Ex.: 2027.1, aulas a partir de 08/03/2027')) +
-    fs('4. Forma de provimento sugerida', sl('prov', 'Provimento', PROV, 'A decisão sobre aproveitamento ou novo PSS só ocorre depois de autorizada a contratação. Não faça contato com candidatos.')) +
-    fs('5. Dados para novo PSS', ar('prog', 'Programa do processo seletivo e temas da prova didática', 'Elaborados por docentes efetivos da área') +
+    fs('4. Forma de contratação sugerida', sl('prov', 'Forma de contratação', PROV, 'A escolha entre aproveitamento e processo seletivo próprio só ocorre depois de autorizada a contratação. Não faça contato com candidatos.')) +
+    fs('5. Dados do processo seletivo próprio', ar('prog', 'Programa do processo seletivo e temas da prova didática', 'Elaborados por docentes efetivos da área') +
       ar('banca', 'Indicação de banca', 'Três titulares e suplentes, com titulação e justificativa do perfil técnico de cada um'), 'sec-pss') +
     fs('6. Dados da prorrogação', '<div class="duas">' + tx('contrato', 'Número do contrato') + tx('vig', 'Vigência original e aditivos') + '</div>', 'sec-pro');
 
@@ -126,10 +127,10 @@
     const erros = [];
     if (aba === 'a') {
       falta('hip', 'Hipótese legal'); falta('ato', 'Ato que gerou o motivo'); falta('af-ini', 'Início do afastamento');
-      falta('disc', 'Disciplinas'); falta('regime', 'Regime'); falta('ini', 'Início do contrato'); falta('fim', 'Término do contrato'); falta('cal', 'Calendário acadêmico'); falta('prov', 'Forma de provimento');
+      falta('disc', 'Disciplinas'); falta('regime', 'Regime'); falta('ini', 'Início do contrato'); falta('fim', 'Término do contrato'); falta('cal', 'Calendário acadêmico'); falta('prov', 'Forma de contratação');
       const vac = v('hip') === HIP[0];
       if (vac) falta('vaga', 'Código de vaga'); else { falta('efetivo', 'Docente efetivo substituído'); falta('af-fim', 'Término do afastamento'); }
-      if (v('prov') === PROV[3]) { falta('prog', 'Programa e temas do PSS'); falta('banca', 'Indicação de banca'); }
+      if (v('prov') === PROV[3]) { falta('prog', 'Programa e temas do processo seletivo'); falta('banca', 'Indicação de banca'); }
       if (v('ini') && v('fim')) {
         if (dias(v('ini'), v('fim')) <= 0) erros.push('O término do contrato deve ser posterior ao início.');
         if (dias(v('ini'), v('fim')) > 366) erros.push('O contrato inicial de substituto é de até 1 ano (Lei 8.745/1993, art. 4º, II). A prorrogação é pedida depois.');
@@ -165,7 +166,7 @@
       h += sec('Motivo da vaga', linha('Hipótese legal', v('hip')) + linha('Docente efetivo', v('efetivo')) + linha('Código de vaga', v('vaga')) + linha('Ato', v('ato')) +
         linha('Afastamento', data(v('af-ini')) + (v('af-fim') ? ' a ' + data(v('af-fim')) : ''))) +
         sec('Necessidade', linha('Disciplinas e cursos', v('disc')) + linha('Carga horária', v('ch')) + linha('Regime', v('regime')) + linha('Período pretendido', data(v('ini')) + ' a ' + data(v('fim'))) + linha('Calendário acadêmico', v('cal'))) +
-        sec('Provimento', linha('Forma sugerida', v('prov'))) + (v('prov') === PROV[3] ? sec('Novo PSS', linha('Programa e temas', v('prog')) + linha('Banca indicada', v('banca'))) : '');
+        sec('Forma de contratação', linha('Forma sugerida', v('prov'))) + (v('prov') === PROV[3] ? sec('Processo seletivo próprio', linha('Programa e temas', v('prog')) + linha('Banca indicada', v('banca'))) : '');
     } else {
       h += sec('Objetivo', linha('Finalidade', v('fin')) + linha('Atuação', marcados('atu').join('; '))) +
         sec('Plano de trabalho', linha('Vínculo', v('vinc')) + linha('Eixo', marcados('eixo').join(', ')) + linha('Justificativa', v('just')) + linha('Atividades', v('ativ')) + linha('Metas e produtos', v('metas')) + linha('Cronograma', v('crono'))) +

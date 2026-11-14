@@ -72,14 +72,14 @@
     [S(4, 'Quatro fases, nesta ordem', tb(['Fase', 'O que se decide', 'Só começa quando'], [
       ['<b>1. Solicitar</b>', 'A DIAC demonstra a necessidade e o motivo da vaga', 'Existe o ato que gera o motivo'],
       ['<b>2. Autorizar</b>', 'COGPE analisa; Direção-Geral autoriza. PROEN só se a vaga for extra', 'A solicitação está completa'],
-      ['<b>3. Prover</b>', 'Aproveitar lista de espera ou realizar novo PSS', 'A contratação está autorizada'],
+      ['<b>3. Definir a forma de contratação</b>', 'Aproveitar lista de espera ou realizar processo seletivo próprio', 'A contratação está autorizada'],
       ['<b>4. Convocar e contratar</b>', 'Convocação formal, documentos, contrato', 'Há candidato habilitado']]) +
       nota('Erro frequente: pedir a outro campus o aproveitamento de lista sem saber se a contratação será autorizada.')),
       S(4, 'O fluxo do substituto, passo a passo', ol([
         'A <b>DIAC</b> abre o processo com o formulário padrão.',
         'A <b>COGPE</b> analisa e junta o relatório de contratos vigentes.',
         'A <b>Direção-Geral</b> autoriza dentro da cota do campus. Vaga extra sobe à PROEN.',
-        'Decide-se o provimento: lista de espera ou novo PSS.',
+        'Define-se a forma de contratação: aproveitamento de lista ou processo seletivo próprio.',
         'A <b>COGPE</b> convoca por e-mail e junta a convocação.',
         'Documentos, declarações e análise de acumulação.',
         'Contrato assinado <b>antes</b> do exercício.',
@@ -102,7 +102,7 @@
 
     // ----- bloco 5
     [S(5, 'Quando o campus realiza um processo seletivo', ul([
-      'Sem lista de espera válida, o provimento se dá por <b>PSS</b>: prova de desempenho didático e análise de títulos.',
+      'Sem lista de espera para aproveitar, o campus realiza <b>processo seletivo próprio</b>: prova de desempenho didático e análise de títulos.',
       'É na condução do PSS que a auditoria mais encontrou falhas.',
       'Quatro pontos concentram o risco: <b>reserva de vagas</b>, <b>banca examinadora</b>, <b>publicidade e convocação</b> e <b>pagamento de banca</b>.',
       'Vamos a cada um deles.'])),
@@ -141,8 +141,8 @@
       S(6, 'Formulário A — professor substituto', tb(['Parte', 'O que a DIAC informa'], [
         ['Motivo da vaga', 'Hipótese (lista fechada), docente efetivo ou código de vaga, ato e período do afastamento'],
         ['Necessidade', 'Disciplinas, carga horária, regime, início e término, calendário acadêmico'],
-        ['Provimento', 'Lista de espera do campus, de outro campus, de outra instituição ou novo PSS'],
-        ['Novo PSS', 'Programa, temas da prova didática, indicação de banca com suplentes e perfil técnico']]) +
+        ['Forma de contratação', 'Aproveitamento de lista do próprio campus, de outro campus ou de outra instituição; ou processo seletivo próprio'],
+        ['Se for processo próprio', 'Programa, temas da prova didática, indicação de banca com suplentes e perfil técnico']]) +
         nota('O motivo é sempre a falta de um docente efetivo identificado. O contrato pode começar <b>junto com o afastamento do titular</b>: não é preciso esperar o início das aulas, porque antes delas há planejamento.')),
       { tipo: 'slide', bloco: 6, titulo: 'Formulário B — professor visitante', qr: 'formulario.html', qrRotulo: 'Veja os dois modelos', html: tb(['Parte', 'O que a DIAC informa'], [
         ['Finalidade', 'Lista fechada da Lei 8.745, art. 2º, § 5º. Falta de docente efetivo nunca aparece'],
@@ -167,7 +167,7 @@
         '<b>Calendário</b> das próximas capacitações.'])),
       S(7, 'O que cada campus leva', ol([
         'Usar o formulário padrão a partir de já.',
-        'Seguir a ordem das fases: solicitar, autorizar, prover, convocar.',
+        'Seguir a ordem das fases: solicitar, autorizar, definir a forma de contratação, convocar.',
         'Registrar toda análise e juntar todo comprovante.',
         'Nenhum contato extraoficial com candidato.',
         'Na dúvida, consultar a DIDEPE <b>antes</b> de contratar.'])),

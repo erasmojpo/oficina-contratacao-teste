@@ -71,7 +71,7 @@
     falta: { titulo: 'Ache o que falta', itens: [
       { tipo: 'escolha', pergunta: 'Aproveitamento de lista de outro campus. Nos autos há: solicitação da DIAC, análise da COGPE, autorização da contratação, pedido do Diretor-Geral requisitante, e-mail de convocação e termo de compromisso. O que falta?',
         opcoes: [{ id: 'a', t: 'Autorização do Diretor-Geral do campus cedente' }].concat(FALTA_DIST) },
-      { tipo: 'escolha', pergunta: 'Novo PSS. Nos autos há: portaria da comissão central com declarações de sigilo, CDO, edital, extrato no DOU, portaria da banca e homologação publicada no DOU. O que falta?',
+      { tipo: 'escolha', pergunta: 'Processo seletivo próprio. Nos autos há: portaria da comissão central com declarações de sigilo, CDO, edital, extrato no DOU, portaria da banca e homologação publicada no DOU. O que falta?',
         opcoes: [FALTA_DIST[0], { id: 'a', t: 'Declaração de sigilo, impedimento e suspeição dos membros da banca' }, FALTA_DIST[1], FALTA_DIST[2]] },
       { tipo: 'escolha', pergunta: 'A candidata declarou cargo de professora na rede municipal. Nos autos há: declaração de acumulação assinada, declaração de horários do outro vínculo e minuta do contrato. O que falta?',
         opcoes: [FALTA_DIST[0], FALTA_DIST[1], { id: 'a', t: 'Parecer da DIAC sobre a compatibilidade de horários e manifestação da Direção-Geral' }, FALTA_DIST[2]] }
@@ -102,7 +102,7 @@
           { k: 'ato', rotulo: 'Ato que gerou o motivo', opcoes: [{ id: 'nao', t: 'Não é preciso informar' }, { id: 'port', t: 'Portaria 100/2027 — 01/03/2027 a 28/02/2029' }, { id: 'edital', t: 'Edital de homologação do PSS de Química' }] },
           { k: 'regime', rotulo: 'Regime de trabalho', opcoes: [{ id: '20', t: '20 horas' }, { id: '40', t: '40 horas' }] },
           { k: 'periodo', rotulo: 'Período pretendido', opcoes: [{ id: 'p2', t: '01/03/2027 a 28/02/2029 (2 anos)' }, { id: 'p1', t: '01/03/2027 a 28/02/2028 (1 ano, prorrogável)' }, { id: 'p3', t: '08/03/2027 a 07/03/2029' }] },
-          { k: 'provimento', rotulo: 'Forma de provimento sugerida', opcoes: [{ id: 'novo', t: 'Novo PSS' }, { id: 'outro', t: 'Lista de espera de outro campus' }, { id: 'proprio', t: 'Lista de espera do próprio campus' }] }
+          { k: 'provimento', rotulo: 'Forma de contratação sugerida', opcoes: [{ id: 'novo', t: 'Processo seletivo próprio' }, { id: 'outro', t: 'Aproveitamento de lista de outro campus' }, { id: 'proprio', t: 'Aproveitamento de lista do próprio campus' }] }
         ] }
     ] },
 
