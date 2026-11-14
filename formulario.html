@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14532d">
+<title>Formulário padrão de solicitação · IFRN</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+  .fm { max-width: 760px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .abas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .abas button { border: 2px solid var(--linha); background: #fff; border-radius: var(--raio); padding: 14px 10px; font-weight: 700; min-height: 54px; }
+  .abas button.ativo { border-color: var(--verde); background: var(--verde-cl); color: var(--verde-esc); }
+  fieldset { border: 1px solid var(--linha); border-radius: var(--raio); background: #fff; padding: 16px; margin: 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  legend { font-weight: 800; color: var(--verde-esc); padding: 0 6px; }
+  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .duas { grid-template-columns: 1fr; } }
+  .marcas { display: flex; flex-direction: column; gap: 8px; }
+  .marcas label { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+  .marcas input { width: 20px; height: 20px; margin-top: 2px; flex: 0 0 20px; }
+  .dica { font-size: 13px; color: var(--cinza); }
+  .modelo { background: var(--ambar-cl); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+  #saida { background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px; }
+  #saida h2 { font-size: 18px; margin-bottom: 4px; } #saida h3 { font-size: 14px; color: var(--verde-esc); margin: 14px 0 4px; text-transform: uppercase; letter-spacing: .06em; }
+  #saida dl { margin: 0; display: grid; grid-template-columns: minmax(120px, 34%) 1fr; gap: 4px 12px; font-size: 14px; } #saida dt { color: var(--cinza); } #saida dd { margin: 0; white-space: pre-wrap; }
+  @media print { .nao-imp { display: none !important; } body { background: #fff; } #saida { border: 0; padding: 0; } }
+</style>
+</head>
+<body>
+<div class="fm">
+  <div class="cartao nao-imp">
+    <div class="rotulo">DIDEPE / DIGPE · IFRN</div>
+    <h1 style="font-size:22px;margin-top:6px">Solicitação de contratação temporária de professor</h1>
+    <p class="dica" style="margin-top:6px">Preenchida pela Diretoria Acadêmica. Abre todo processo de contratação ou prorrogação.</p>
+  </div>
+  <div class="modelo nao-imp"><b>Modelo em validação.</b> Esta página demonstra o formulário que será instituído como modelo de documento no SUAP. Nada do que você digitar aqui é enviado ou gravado.</div>
+  <div class="abas nao-imp"><button id="ab-a" class="ativo">A · Professor substituto</button><button id="ab-b">B · Professor visitante</button></div>
+
+  <form id="f" class="nao-imp" style="display:flex;flex-direction:column;gap:14px" novalidate></form>
+  <div class="erro nao-imp" id="erros"></div>
+  <button class="btn nao-imp" id="gerar">Conferir e gerar solicitação</button>
+  <div id="saida" hidden></div>
+  <button class="btn sec nao-imp" id="imprimir" hidden>Imprimir ou salvar em PDF</button>
+</div>
+<script src="js/conteudo.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const CAMPI = window.OFC_CAMPI.filter(c => c !== 'Outro');
+  // Hipóteses do art. 2º da IN 1/2021-DIGPE (Lei 8.745/1993, art. 2º, § 1º). Lista fechada.
+  const HIP = ['Vacância do cargo (exoneração, demissão, posse em cargo inacumulável, falecimento ou aposentadoria)',
+    'Nomeação para cargo de reitor, vice-reitor, pró-reitor ou diretor de campus',
+    'Afastamento para participação em programa de pós-graduação stricto sensu',
+    'Afastamento para tratamento da própria saúde, superior a 60 dias',
+    'Afastamento para estudo ou missão no exterior', 'Licença gestante ou adotante',
+    'Afastamento para servir a organismo internacional', 'Afastamento para exercício de mandato eletivo',
+    'Afastamento para servir a outro órgão ou entidade', 'Licença para acompanhamento de cônjuge ou companheiro',
+    'Licença para desempenho de mandato classista', 'Licença para o serviço militar', 'Licença para tratar de assuntos particulares'];
+  // Finalidades do art. 2º, § 5º, da Lei 8.745/1993. Falta de docente efetivo não é finalidade de visitante.
+  const FIN = ['Apoiar a execução de programa de pós-graduação stricto sensu', 'Contribuir para o aprimoramento de programas de ensino, pesquisa e extensão',
+    'Contribuir para a execução de programa de capacitação docente', 'Viabilizar intercâmbio científico e tecnológico'];
+  // Art. 2º da Resolução 35/2022-CONSUP: o visitante pode atuar em todas as ofertas educativas.
+  const ATU = ['Programas de pós-graduação stricto sensu', 'Cursos de pós-graduação lato sensu', 'Cursos técnicos e de graduação',
+    'Programas e projetos de ensino, pesquisa e extensão', 'Programas de capacitação', 'Intercâmbio científico e tecnológico e parcerias institucionais',
+    'Editoração e qualificação de periódicos científicos do IFRN'];
+  const PROV = ['Lista de espera de PSS vigente no próprio campus', 'Lista de espera de PSS vigente em outro campus do IFRN',
+    'Lista de espera de outra instituição federal de educação profissional e tecnológica', 'Novo processo seletivo simplificado'];
+
+  const cp = (id, rot, html, dica) => '<div class="campo"><label for="' + id + '">' + rot + '</label>' + html + (dica ? '<span class="dica">' + dica + '</span>' : '') + '</div>';
+  const tx = (id, rot, dica, ph) => cp(id, rot, '<input id="' + id + '" placeholder="' + esc(ph || '') + '">', dica);
+  const dt = (id, rot, dica) => cp(id, rot, '<input type="date" id="' + id + '">', dica);
+  const ar = (id, rot, dica) => cp(id, rot, '<textarea id="' + id + '"></textarea>', dica);
+  const sl = (id, rot, ops, dica) => cp(id, rot, '<select id="' + id + '"><option value="">Selecione</option>' + ops.map(o => '<option>' + esc(o) + '</option>').join('') + '</select>', dica);
+  const mk = (nome, ops) => '<div class="marcas">' + ops.map((o, i) => '<label><input type="checkbox" name="' + nome + '" value="' + esc(o) + '"><span>' + esc(o) + '</span></label>').join('') + '</div>';
+  const fs = (leg, html, id) => '<fieldset' + (id ? ' id="' + id + '"' : '') + '><legend>' + leg + '</legend>' + html + '</fieldset>';
+  const ident = fs('1. Identificação', '<div class="duas">' + sl('campus', 'Campus', CAMPI) + tx('diac', 'Diretoria Acadêmica', '', 'Ex.: DIAC') + '</div>' +
+    tx('resp', 'Diretor(a) Acadêmico(a) responsável') + sl('pedido', 'Tipo de pedido', ['Nova contratação', 'Prorrogação de contrato']));
+
+  const formA = () => ident +
+    fs('2. Motivo da vaga', sl('hip', 'Hipótese legal', HIP, 'Lista fechada. A contratação de substituto supre sempre a falta de um docente efetivo identificado.') +
+      '<div class="duas">' + tx('efetivo', 'Docente efetivo substituído', 'Nome e matrícula SIAPE') + tx('vaga', 'Código de vaga', 'Obrigatório em caso de vacância') + '</div>' +
+      tx('ato', 'Ato que gerou o motivo', 'Portaria ou processo. Anexe o documento ao processo.', 'Ex.: Portaria 100/2027-RE/IFRN') +
+      '<div class="duas">' + dt('af-ini', 'Início do afastamento') + dt('af-fim', 'Término do afastamento', 'Deixe em branco em caso de vacância') + '</div>') +
+    fs('3. Necessidade', ar('disc', 'Disciplinas e cursos atendidos') +
+      '<div class="duas">' + tx('ch', 'Carga horária semanal em sala') + sl('regime', 'Regime de trabalho', ['20 horas', '40 horas']) + '</div>' +
+      '<div class="duas">' + dt('ini', 'Início pretendido do contrato') + dt('fim', 'Término pretendido do contrato', 'Até 1 ano e nunca além do afastamento') + '</div>' +
+      tx('cal', 'Referência ao calendário acadêmico', '', 'Ex.: 2027.1, aulas a partir de 08/03/2027')) +
+    fs('4. Forma de provimento sugerida', sl('prov', 'Provimento', PROV, 'A decisão sobre aproveitamento ou novo PSS só ocorre depois de autorizada a contratação. Não faça contato com candidatos.')) +
+    fs('5. Dados para novo PSS', ar('prog', 'Programa do processo seletivo e temas da prova didática', 'Elaborados por docentes efetivos da área') +
+      ar('banca', 'Indicação de banca', 'Três titulares e suplentes, com titulação e justificativa do perfil técnico de cada um'), 'sec-pss') +
+    fs('6. Dados da prorrogação', '<div class="duas">' + tx('contrato', 'Número do contrato') + tx('vig', 'Vigência original e aditivos') + '</div>', 'sec-pro');
+
+  const formB = () => ident.replace('</select></div></fieldset>', '</select></div>' + sl('mod', 'Modalidade', ['Professor visitante (PV)', 'Professor visitante estrangeiro (PVE)']) + '</fieldset>') +
+    fs('2. Objetivo da contratação', sl('fin', 'Finalidade', FIN, 'Lista fechada da Lei 8.745/1993, art. 2º, § 5º. Falta de docente efetivo não é motivo para contratar visitante.') +
+      '<div class="campo"><label>Onde o visitante atuará</label>' + mk('atu', ATU) + '<span class="dica">Marque todas as ofertas previstas. Não há restrição de oferta.</span></div>') +
+    fs('3. Plano de trabalho', tx('vinc', 'Programa, curso ou projeto a que se vincula') +
+      '<div class="campo"><label>Eixo</label>' + mk('eixo', ['Ensino', 'Pesquisa', 'Extensão']) + '</div>' +
+      ar('just', 'Justificativa', 'Que contribuição o visitante traz que o quadro atual não oferece') +
+      ar('ativ', 'Atividades previstas', 'Uma por linha, com a carga horária semanal de cada uma') +
+      ar('metas', 'Metas e produtos esperados', 'Servem de base ao relatório de atividades e à eventual prorrogação') +
+      ar('crono', 'Cronograma', 'Por mês ou por semestre')) +
+    fs('4. Perfil e prazo', sl('tit', 'Titulação exigida', ['Doutor há pelo menos 2 anos', 'Exceção do art. 6º da Res. 35/2022 (somente se não houver doutor aprovado no certame)']) +
+      tx('area', 'Área de conhecimento') + '<div class="duas">' + sl('regime', 'Regime de trabalho', ['20 horas', '40 horas']) + '<span></span></div>' +
+      '<div class="duas">' + dt('ini', 'Início pretendido do contrato') + dt('fim', 'Término pretendido do contrato', 'PV: até 1 ano. PVE: até 2 anos') + '</div>') +
+    fs('5. Dados da prorrogação', '<div class="duas">' + tx('contrato', 'Número do contrato') + tx('vig', 'Vigência original e aditivos') + '</div>' +
+      ar('rel', 'Relatório de atividades', 'Informe o documento do relatório aprovado pela Diretoria Acadêmica'), 'sec-pro');
+
+  let aba = 'a';
+  const v = id => ($(id) ? $(id).value.trim() : '');
+  const marcados = n => Array.from(document.querySelectorAll('input[name="' + n + '"]:checked')).map(i => i.value);
+  const dias = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5);
+  function condicionais() {
+    if ($('sec-pss')) $('sec-pss').hidden = v('prov') !== PROV[3];
+    if ($('sec-pro')) $('sec-pro').hidden = v('pedido') !== 'Prorrogação de contrato';
+  }
+  function montar() {
+    $('f').innerHTML = aba === 'a' ? formA() : formB();
+    $('ab-a').className = aba === 'a' ? 'ativo' : ''; $('ab-b').className = aba === 'b' ? 'ativo' : '';
+    $('saida').hidden = true; $('imprimir').hidden = true; $('erros').textContent = '';
+    $('f').onchange = condicionais; condicionais();
+  }
+  function validar() {
+    const e = [], falta = (id, nome) => { if (!v(id)) e.push(nome); };
+    falta('campus', 'Campus'); falta('diac', 'Diretoria Acadêmica'); falta('resp', 'Responsável'); falta('pedido', 'Tipo de pedido');
+    const erros = [];
+    if (aba === 'a') {
+      falta('hip', 'Hipótese legal'); falta('ato', 'Ato que gerou o motivo'); falta('af-ini', 'Início do afastamento');
+      falta('disc', 'Disciplinas'); falta('regime', 'Regime'); falta('ini', 'Início do contrato'); falta('fim', 'Término do contrato'); falta('cal', 'Calendário acadêmico'); falta('prov', 'Forma de provimento');
+      const vac = v('hip') === HIP[0];
+      if (vac) falta('vaga', 'Código de vaga'); else { falta('efetivo', 'Docente efetivo substituído'); falta('af-fim', 'Término do afastamento'); }
+      if (v('prov') === PROV[3]) { falta('prog', 'Programa e temas do PSS'); falta('banca', 'Indicação de banca'); }
+      if (v('ini') && v('fim')) {
+        if (dias(v('ini'), v('fim')) <= 0) erros.push('O término do contrato deve ser posterior ao início.');
+        if (dias(v('ini'), v('fim')) > 366) erros.push('O contrato inicial de substituto é de até 1 ano (Lei 8.745/1993, art. 4º, II). A prorrogação é pedida depois.');
+        if (v('af-ini') && dias(v('af-ini'), v('ini')) < 0) erros.push('O contrato não pode começar antes do afastamento do docente efetivo.');
+        if (!vac && v('af-fim') && dias(v('fim'), v('af-fim')) < 0) erros.push('O contrato não pode ultrapassar o término do afastamento (IN 1/2021, art. 4º, § 1º).');
+      }
+    } else {
+      falta('mod', 'Modalidade'); falta('fin', 'Finalidade'); falta('vinc', 'Vínculo do plano de trabalho'); falta('just', 'Justificativa');
+      falta('ativ', 'Atividades previstas'); falta('metas', 'Metas e produtos'); falta('crono', 'Cronograma'); falta('tit', 'Titulação exigida'); falta('area', 'Área');
+      falta('regime', 'Regime'); falta('ini', 'Início do contrato'); falta('fim', 'Término do contrato');
+      if (!marcados('atu').length) e.push('Onde o visitante atuará'); if (!marcados('eixo').length) e.push('Eixo');
+      if (v('ini') && v('fim')) {
+        const max = /PVE/.test(v('mod')) ? 731 : 366;
+        if (dias(v('ini'), v('fim')) <= 0) erros.push('O término do contrato deve ser posterior ao início.');
+        if (dias(v('ini'), v('fim')) > max) erros.push('Prazo inicial acima do permitido: PV até 1 ano, PVE até 2 anos (Res. 35/2022, art. 4º).');
+      }
+      if (v('pedido') === 'Prorrogação de contrato') falta('rel', 'Relatório de atividades');
+    }
+    if (v('pedido') === 'Prorrogação de contrato') { falta('contrato', 'Número do contrato'); falta('vig', 'Vigência original'); }
+    if (e.length) erros.unshift('Preencha: ' + e.join(', ') + '.');
+    return erros;
+  }
+  function gerar() {
+    const erros = validar();
+    $('erros').innerHTML = erros.map(esc).join('<br>');
+    if (erros.length) { $('saida').hidden = true; $('imprimir').hidden = true; $('erros').scrollIntoView({ block: 'center' }); return; }
+    const data = d => d ? d.split('-').reverse().join('/') : '';
+    const linha = (k, val) => val ? '<dt>' + esc(k) + '</dt><dd>' + esc(val) + '</dd>' : '';
+    const sec = (t, h) => h ? '<h3>' + esc(t) + '</h3><dl>' + h + '</dl>' : '';
+    let h = '<h2>Solicitação de contratação temporária — ' + (aba === 'a' ? 'professor substituto' : esc(v('mod'))) + '</h2><p class="dica">Campus ' + esc(v('campus')) + ' · ' + esc(v('diac')) + '</p>' +
+      sec('Identificação', linha('Responsável', v('resp')) + linha('Tipo de pedido', v('pedido')));
+    if (aba === 'a') {
+      h += sec('Motivo da vaga', linha('Hipótese legal', v('hip')) + linha('Docente efetivo', v('efetivo')) + linha('Código de vaga', v('vaga')) + linha('Ato', v('ato')) +
+        linha('Afastamento', data(v('af-ini')) + (v('af-fim') ? ' a ' + data(v('af-fim')) : ''))) +
+        sec('Necessidade', linha('Disciplinas e cursos', v('disc')) + linha('Carga horária', v('ch')) + linha('Regime', v('regime')) + linha('Período pretendido', data(v('ini')) + ' a ' + data(v('fim'))) + linha('Calendário acadêmico', v('cal'))) +
+        sec('Provimento', linha('Forma sugerida', v('prov'))) + (v('prov') === PROV[3] ? sec('Novo PSS', linha('Programa e temas', v('prog')) + linha('Banca indicada', v('banca'))) : '');
+    } else {
+      h += sec('Objetivo', linha('Finalidade', v('fin')) + linha('Atuação', marcados('atu').join('; '))) +
+        sec('Plano de trabalho', linha('Vínculo', v('vinc')) + linha('Eixo', marcados('eixo').join(', ')) + linha('Justificativa', v('just')) + linha('Atividades', v('ativ')) + linha('Metas e produtos', v('metas')) + linha('Cronograma', v('crono'))) +
+        sec('Perfil e prazo', linha('Titulação', v('tit')) + linha('Área', v('area')) + linha('Regime', v('regime')) + linha('Período pretendido', data(v('ini')) + ' a ' + data(v('fim'))));
+    }
+    if (v('pedido') === 'Prorrogação de contrato') h += sec('Prorrogação', linha('Contrato', v('contrato')) + linha('Vigência original e aditivos', v('vig')) + linha('Relatório de atividades', v('rel')));
+    h += '<p class="dica" style="margin-top:16px">Assinatura eletrônica do(a) Diretor(a) Acadêmico(a). Encaminhe à COGPE para análise.</p>';
+    $('saida').innerHTML = h; $('saida').hidden = false; $('imprimir').hidden = false; $('saida').scrollIntoView({ behavior: 'smooth' });
+  }
+  $('ab-a').onclick = () => { aba = 'a'; montar(); };
+  $('ab-b').onclick = () => { aba = 'b'; montar(); };
+  $('gerar').onclick = gerar;
+  $('imprimir').onclick = () => print();
+  if (new URLSearchParams(location.search).get('m') === 'b') aba = 'b';
+  montar();
+})();
+</script>
+</body>
+</html>

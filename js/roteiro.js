@@ -1,0 +1,158 @@
+// Roteiro da apresentação: sequência de passos exibidos na tela. Carregado apenas por tela.html.
+// tipos: capa, cadastro, slide, atividade, mural, ranking, fim
+(function () {
+  const B = ['', 'Abertura', 'O que a auditoria encontrou', 'Pode ou não pode contratar?', 'Instrução processual', 'PSS sem falhas', 'Formulário padrão', 'Dúvidas e compromissos'];
+  const S = (b, titulo, html) => ({ tipo: 'slide', bloco: b, titulo, html });
+  const A = (b, atividade, n) => Array.from({ length: n }, (_, i) => ({ tipo: 'atividade', bloco: b, atividade, item: i }));
+  const ul = itens => '<ul class="pontos">' + itens.map(i => '<li>' + i + '</li>').join('') + '</ul>';
+  const ol = itens => '<ol class="pontos num">' + itens.map(i => '<li>' + i + '</li>').join('') + '</ol>';
+  const tb = (cab, linhas) => '<table class="tb"><thead><tr>' + cab.map(c => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>' +
+    linhas.map(l => '<tr>' + l.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+  const nums = itens => '<div class="numeros">' + itens.map(i => '<div class="numero"><b>' + i[0] + '</b><span>' + i[1] + '</span></div>').join('') + '</div>';
+  const nota = t => '<p class="nota">' + t + '</p>';
+
+  window.OFC_BLOCOS = B;
+  window.OFC_ROTEIRO = [].concat(
+    [{ tipo: 'capa', bloco: 1 }, { tipo: 'cadastro', bloco: 1 }],
+    A(1, 'aquec', 1),
+    [S(1, 'Por que estamos aqui', ul([
+      'A oficina nasce do <b>Relatório de Auditoria 8/2026</b> e do compromisso de capacitação periódica firmado com a Auditoria Interna.',
+      'A auditoria <b>não encontrou contratação fora das hipóteses legais</b>. O problema está na instrução dos processos.',
+      'Ao final, todos terão testado o <b>formulário padrão</b> que passará a iniciar os processos.']))],
+
+    // ----- bloco 2
+    [S(2, 'A auditoria em números', nums([['226', 'contratos no universo'], ['113', 'processos examinados'], ['22', 'campi na amostra'], ['0', 'contratações fora da lei']]) +
+        nota('Exercício de 2025. As contratações são legais; os autos nem sempre provam isso.')),
+      S(2, 'As três constatações', tb(['Constatação', 'O que é', 'Recomendação à DIGPE'], [
+        ['<b>1.</b> Falhas na instrução processual', 'Documentos e registros ausentes em várias etapas, em vários campi', 'Capacitação periódica; modelo padronizado de solicitação no SUAP'],
+        ['<b>2.</b> Reserva de vagas não observada', 'Um PSS sem cota étnico-racial, por desconhecimento de alteração normativa', 'Acompanhamento da atualização dos normativos internos'],
+        ['<b>3.</b> Norma interna desatualizada', 'A IN 1/2021 ainda liga a consulta orçamentária e o CDO ao pagamento de GECC, vedado em PSS', 'Atualizar a IN 1/2021; rotina de acompanhamento da legislação federal']])),
+      S(2, 'Prazos pactuados com a Auditoria', nums([['180 dias', 'capacitação periódica'], ['90 dias', 'demais recomendações']]) +
+        nota('Ata 59/2026-AUDGE. Esta oficina é a primeira edição da capacitação.'))],
+    A(2, 'enquete', 1),
+
+    // ----- bloco 3
+    [S(3, 'Quando cabe professor substituto', ul([
+      '<b>Vacância</b> do cargo efetivo.',
+      '<b>Afastamento ou licença</b> do efetivo. Tratamento da própria saúde: só quando superior a 60 dias.',
+      '<b>Nomeação</b> para reitor, vice-reitor, pró-reitor ou diretor de campus.',
+      'Não cabe substituto de substituto.']) + nota('Lei 8.745/1993, art. 2º, § 1º · IN 1/2021, arts. 2º e 6º')),
+      S(3, 'Limites', tb(['', 'Substituto', 'Visitante'], [
+        ['Quantitativo', 'Somados, até 20% dos docentes efetivos em exercício', 'O mesmo teto'],
+        ['Regime', '20h ou 40h', '20h ou 40h'],
+        ['Prazo', '1 ano, até o total de 2 anos; nunca além do afastamento', 'PV: 1 ano, até 2. PVE: 2 anos, até 4'],
+        ['Requisito próprio', 'Motivo de vaga válido', 'Doutor há 2 anos (exceção do art. 6º da Res. 35/2022); plano de trabalho; autorização da PROEN']])),
+      S(3, 'Recontratação depois de contrato encerrado', tb(['Contrato anterior', 'Nova contratação no IFRN'], [
+        ['No IFRN (qualquer campus), com menos de 24 meses', 'Só após prazo <b>igual à duração do contrato anterior</b>, nunca inferior a <b>6 meses</b>'],
+        ['No IFRN, com 24 meses', 'Só após <b>24 meses</b>'],
+        ['Em outra entidade federal, com PSS de provas ou de provas e títulos no IFRN', '<b>Sem interstício</b>']]) +
+        nota('Lei 8.745, art. 9º, III, com a Lei 15.367/2026 · Parecer 229/2026/PF-IFRN. Campi do IFRN são a mesma pessoa jurídica: CNPJ próprio não abre a exceção.')),
+      S(3, 'Contrato ainda vigente não é interstício: é acumulação', ul([
+        'No máximo <b>dois vínculos de magistério</b>.',
+        '<b>Compatibilidade de horários</b> comprovada antes do contrato.',
+        'O candidato <b>não ocupa cargo efetivo de magistério federal</b>.',
+        'Respeito ao <b>teto remuneratório</b>.']) +
+        nota('Parecer 233/2026/PF-IFRN. Contratos simultâneos dentro do IFRN e situações não previstas: consulte sempre a DIDEPE antes de contratar.')),
+      S(3, 'Alerta do SIAPE', ul([
+        'O alerta de contrato anterior ou de acúmulo <b>não é impedimento automático</b>.',
+        'Identifique a situação: contrato encerrado (interstício) ou contrato vigente (acumulação).',
+        '<b>Registre a análise nos autos.</b>']))],
+    A(3, 'quiz', 8),
+    [S(3, 'O que muda na prática', ul([
+      'A declaração do Anexo VII da IN 1/2021 pergunta apenas se houve contrato nos últimos 24 meses.',
+      'Ela não capta a <b>duração</b> do contrato anterior, a <b>entidade</b> contratante nem <b>vínculo vigente</b>.',
+      'Será substituída por modelo novo.']))],
+
+    // ----- bloco 4
+    [S(4, 'Quatro fases, nesta ordem', tb(['Fase', 'O que se decide', 'Só começa quando'], [
+      ['<b>1. Solicitar</b>', 'A DIAC demonstra a necessidade e o motivo da vaga', 'Existe o ato que gera o motivo'],
+      ['<b>2. Autorizar</b>', 'COGPE analisa; Direção-Geral autoriza. PROEN só se a vaga for extra', 'A solicitação está completa'],
+      ['<b>3. Prover</b>', 'Aproveitar lista de espera ou realizar novo PSS', 'A contratação está autorizada'],
+      ['<b>4. Convocar e contratar</b>', 'Convocação formal, documentos, contrato', 'Há candidato habilitado']]) +
+      nota('Erro frequente: pedir a outro campus o aproveitamento de lista sem saber se a contratação será autorizada.')),
+      S(4, 'O fluxo do substituto, passo a passo', ol([
+        'A <b>DIAC</b> abre o processo com o formulário padrão.',
+        'A <b>COGPE</b> analisa e junta o relatório de contratos vigentes.',
+        'A <b>Direção-Geral</b> autoriza dentro da cota do campus. Vaga extra sobe à PROEN.',
+        'Decide-se o provimento: lista de espera ou novo PSS.',
+        'A <b>COGPE</b> convoca por e-mail e junta a convocação.',
+        'Documentos, declarações e análise de acumulação.',
+        'Contrato assinado <b>antes</b> do exercício.',
+        'DOU, SIAPE, e-Pessoal e módulo do SUAP.'])),
+      S(4, 'Nenhum contato extraoficial com candidato', ul([
+        'Ninguém da DIAC, da Direção-Geral ou da COGPE telefona, manda mensagem ou sonda candidato.',
+        'O contato informal cria <b>expectativa</b> que pode não se confirmar.',
+        'Depois, o candidato leva essa expectativa ao <b>Judiciário</b>.',
+        'O único canal é a <b>convocação formal da COGPE</b>, por e-mail, juntada aos autos.'])),
+      S(4, 'O que muda no professor visitante', ul([
+        'A solicitação da DIAC já vem com o <b>plano de trabalho</b>.',
+        'O processo passa pela Direção-Geral e pela <b>PROEN</b>, que autoriza.',
+        'A <b>DIDEPE</b> registra a vaga no SUAP antes de a COGPE iniciar a contratação.',
+        'Prorrogação: pedido com 60 dias de antecedência, relatório aprovado e novo plano.']) + nota('Res. 35/2022-CONSUP, arts. 9º, 32, 38 e 39')),
+      S(4, 'Três regras de ouro', ol([
+        'Análise feita e não registrada é análise que <b>não existe</b> para o controle.',
+        'O que foi publicado ou enviado precisa do <b>comprovante nos autos</b>.',
+        'O PSS tem <b>um processo único</b>, relacionado ao da contratação.']))],
+    A(4, 'ordem', 1), A(4, 'falta', 3), A(4, 'relampago', 2),
+
+    // ----- bloco 5
+    [S(5, 'Reserva de vagas hoje', nums([['25%', 'pessoas negras'], ['3%', 'indígenas'], ['2%', 'quilombolas'], ['5%+', 'pessoas com deficiência']]) +
+        nota('Editais com duas ou mais vagas · Lei 15.142/2025 e Decreto 12.536/2025. O art. 22 da IN 1/2021 ainda fala em 20% e está superado. A DIDEPE enviará ofício circular a todos os campi.')),
+      S(5, 'Cotas na prática', ul([
+        'O cotista concorre <b>também</b> na ampla concorrência.',
+        'Aprovado na ampla <b>não consome</b> vaga reservada: a lista de cotas avança.',
+        'Quem falta à heteroidentificação segue na ampla, se tiver pontuação.',
+        'É vedado fracionar vagas em vários editais para fugir da reserva.'])),
+      S(5, 'Banca examinadora', ul([
+        'Três titulares e até três suplentes, com titulação igual ou superior à exigida.',
+        'Registre nos autos a <b>análise do perfil técnico</b>.',
+        'Depois da homologação das inscrições, cada membro assina a <b>declaração de sigilo, impedimento e suspeição</b>.',
+        'Impedido sai; entra o suplente.']) + nota('IN 1/2021, arts. 25 e 26 · Res. 35/2022, art. 23')),
+      S(5, 'Publicidade e convocação', ul([
+        'Extrato do edital e homologação no <b>DOU</b>, com os comprovantes juntados.',
+        'Convocação por <b>e-mail</b>, juntada aos autos.',
+        'O próximo candidato só é chamado após a recusa documentada ou o silêncio por <b>5 dias úteis</b>.'])),
+      S(5, 'GECC e CDO', ul([
+        'A IN SGP/MGI 33/2023, art. 4º, <b>veda GECC</b> em PSS da Lei 8.745.',
+        'O tema terá IN ou resolução própria, a cargo da <b>DIADPE</b>.',
+        'O <b>CDO continua obrigatório</b>: toda despesa do PSS exige CDO como requisito para o empenho.']))],
+    A(5, 'vf', 8),
+
+    // ----- bloco 6
+    [S(6, 'Dois formulários, um para cada modalidade', ul([
+      'A auditoria encontrou solicitações sem disciplina, motivo da vaga, prazo ou calendário acadêmico.',
+      'Cada formulário só oferece as situações que a <b>lei autoriza</b>. Não há campo "outros".',
+      'A <b>DIAC</b> preenche; o formulário abre todo processo de contratação ou prorrogação.'])),
+      S(6, 'Formulário A — professor substituto', tb(['Parte', 'O que a DIAC informa'], [
+        ['Motivo da vaga', 'Hipótese (lista fechada), docente efetivo ou código de vaga, ato e período do afastamento'],
+        ['Necessidade', 'Disciplinas, carga horária, regime, início e término, calendário acadêmico'],
+        ['Provimento', 'Lista de espera do campus, de outro campus, de outra instituição ou novo PSS'],
+        ['Novo PSS', 'Programa, temas da prova didática, indicação de banca com suplentes e perfil técnico']]) +
+        nota('O motivo é sempre a falta de um docente efetivo identificado.')),
+      { tipo: 'slide', bloco: 6, titulo: 'Formulário B — professor visitante', qr: 'formulario.html', qrRotulo: 'Veja os dois modelos', html: tb(['Parte', 'O que a DIAC informa'], [
+        ['Finalidade', 'Lista fechada da Lei 8.745, art. 2º, § 5º. Falta de docente efetivo nunca aparece'],
+        ['Atuação', 'Qualquer oferta educativa do campus (Res. 35/2022, art. 2º)'],
+        ['Plano de trabalho', 'Vínculo a programa ou projeto, eixo, justificativa, atividades, metas e cronograma'],
+        ['Perfil e prazo', 'Titulação exigida, regime e período']]) +
+        nota('O plano de trabalho faz parte do formulário.') }],
+    A(6, 'caso', 1), A(6, 'sugestao', 1),
+
+    // ----- bloco 7
+    [{ tipo: 'mural', bloco: 7 },
+      S(7, 'O que a DIGPE e a DIDEPE entregam', ul([
+        '<b>Formulários padrão</b> como modelo de documento no SUAP, com as sugestões de hoje.',
+        '<b>Checklist</b> de instrução processual por etapa.',
+        '<b>Nova IN</b>: fluxo de autorização mais claro, cotas, interstício e nova declaração de vínculos.',
+        '<b>Autodeclaração eletrônica</b> de ausência de impedimento para comissões e bancas.',
+        '<b>Calendário</b> das próximas capacitações.'])),
+      S(7, 'O que cada campus leva', ol([
+        'Usar o formulário padrão a partir de já.',
+        'Seguir a ordem das fases: solicitar, autorizar, prover, convocar.',
+        'Registrar toda análise e juntar todo comprovante.',
+        'Nenhum contato extraoficial com candidato.',
+        'Na dúvida, consultar a DIDEPE <b>antes</b> de contratar.'])),
+      { tipo: 'ranking', bloco: 7 }],
+    A(7, 'aval', 3),
+    [{ tipo: 'fim', bloco: 7 }]
+  );
+})();
