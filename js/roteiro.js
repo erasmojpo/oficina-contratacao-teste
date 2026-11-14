@@ -19,6 +19,15 @@
         'A auditoria <b>não encontrou contratação fora das hipóteses legais</b>. O problema está na instrução dos processos.',
         'Ao longo da manhã vocês vão responder pelo celular: cada atividade abre com um QR code na tela.',
         'Ao final, todos terão testado os <b>formulários padrão</b> que vão passar a iniciar os processos.'])),
+      S(1, 'O roteiro da manhã', tb(['', 'Bloco', 'No celular'], [
+        ['<b>1</b>', 'Abertura e cadastro', 'Entrar e aquecer'],
+        ['<b>2</b>', 'O que a auditoria encontrou', 'Enquete anônima'],
+        ['<b>3</b>', 'Pode ou não pode contratar?', 'Quiz de 8 casos'],
+        ['<b>4</b>', 'Instrução processual', 'Ordenar o fluxo e achar o que falta'],
+        ['<b>5</b>', 'Processo seletivo sem falhas', 'Verdadeiro ou falso'],
+        ['<b>6</b>', 'Formulário padrão', 'Preencher um caso e sugerir'],
+        ['<b>7</b>', 'Dúvidas e compromissos', 'Mural de dúvidas e avaliação']]) +
+        nota('Duas horas e vinte. Cada atividade abre com um QR code na tela, e os blocos 3 a 6 valem pontos: há ranking individual e por campus.')),
       S(1, 'Antes de começar, uma estimativa', ul([
         'A auditoria examinou os contratos de professor substituto de 2025, em todos os campi.',
         'A primeira pergunta é só para aquecer: <b>não vale pontos</b>.',
